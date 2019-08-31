@@ -1,92 +1,26 @@
 package org.ttrzcinski.utils;
 
-
-import java.nio.file.InvalidPathException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.nio.file.Paths;
-import java.util.Set;
 
 /**
- * Checks given parameters.
- *
- * @author <a href="mailto:trzcinski.tomasz.1988@gmail.com">Tomasz T.</a>
+ * Parameter (and argument) validation methods.
  */
 public final class ParamCheck {
 
   /**
-   * Known unix paths, which are OK.
-   */
-  private static final Set<String> FIXED_PATHS = Set.of("~", ".");
-
-  /**
-   * File path pattern to match given string paths.
-   */
-  private static Pattern filePathPattern;
-
-  /**
-   * Hidden constructor - there is no point to initialize an instance.
+   * Hidden constructor - there is no point of initialization.
    */
   private ParamCheck() {
   }
 
   /**
-   * Initializes a file path's pattern.
+   * Pattern for file paths.
    */
-  private static void initFilePathPattern() {
-    if (filePathPattern == null) {
-      String pattern;
-      if (OSInfo.isWindows()) {
-        pattern = "([A-Z|a-z]:\\\\[^*|\"<>?\\n]*)|(\\\\\\\\.*?\\\\.*)";
-      } else {
-        pattern = "^/|(/[a-zA-Z0-9_-]+)+$";
-      }
-      filePathPattern = Pattern.compile(pattern);
-    }
-  }
-
-  /**
-   * Validates, if given path is a right directory path with regex.
-   *
-   * @param path given path
-   * @return true means, if is a right path, false otherwise
-   */
-  public static boolean isPath(final String path) {
-    // Check, if entered param has value
-    if (!isSet(path)) {
-      return false;
-    }
-    final String fixedPath = path.trim();
-    // Initialize pattern matcher
-    initFilePathPattern();
-    // Check if 2nd check as instance
-    return filePathPattern.matcher(fixedPath).matches()
-        && isPathWithTry(fixedPath);
-  }
-
-  /**
-   * Checks, if given path is a valid file path with instance.
-   *
-   * @param path given path
-   * @return true means it's valid, false otherwise
-   */
-  public static boolean isPathWithTry(final String path) {
-    if (!isSet(path)) {
-      return false;
-    }
-    final String fixedPath = path.trim().toLowerCase();
-    // Check, if it is a home or root
-    if (!FIXED_PATHS.contains(fixedPath)) {
-      var result = true;
-      try {
-        Paths.get(fixedPath);
-      } catch (InvalidPathException | NullPointerException ex) {
-        result = false;
-      }
-      return result;
-    } else {
-      return false;
-    }
-  }
+  private static Pattern filePathPattern;
 
   /**
    * Checks, if given param array contains any value.
@@ -95,22 +29,14 @@ public final class ParamCheck {
    * @return true means is is set, false otherwise
    */
   public static boolean isSet(final Object[] params) {
-    boolean res = true;
     // If there is nothing outside to check
     if (params == null || params.length == 0) {
-      res = false;
-    } else if (params instanceof String[]) {
-      res = isSet((String[]) params);
-    } else {
-      // If there is inside at least one empty item
-      for (Object param : params) {
-        if (!isSet(param)) {
-          res = false;
-          break;
-        }
-      }
+      return false;
     }
-    return res;
+    // If there is inside at least one empty item, else it's ok
+    return (!(params instanceof String[])) ?
+        Arrays.stream(params).allMatch(param -> isSet(param)) :
+        isSet((String[]) params);
   }
 
   /**
@@ -120,20 +46,10 @@ public final class ParamCheck {
    * @return true means is is set, false otherwise
    */
   public static boolean isSet(final String[] params) {
-    boolean result = true;
-    // If there is nothing outside to check
-    if (params == null || params.length == 0) {
-      result = false;
-    } else {
-      // If there is inside at least one empty item
-      for (String param : params) {
-        if (!isSet(param)) {
-          result = false;
-          break;
-        }
-      }
-    }
-    return result;
+    // If there is inside at least one empty item, else it's ok
+    return (params != null && params.length != 0) ?
+        Arrays.stream(params).allMatch(param -> isSet(param)) :
+        false;
   }
 
   /**
@@ -143,10 +59,9 @@ public final class ParamCheck {
    * @return true means is is set, false otherwise
    */
   public static boolean isSet(final String param) {
-    if (param != null) {
-      return param.trim().length() > 0;
-    }
-    return false;
+    return (param != null) ?
+        ((String) param).trim().length() > 0 :
+        false;
   }
 
   /**
@@ -156,7 +71,11 @@ public final class ParamCheck {
    * @return true means is is set, false otherwise
    */
   public static boolean isSet(final Object param) {
-    return param != null;
+    if (param == null) {
+      return false;
+    }
+
+    return true;
   }
 
   /**
@@ -170,16 +89,14 @@ public final class ParamCheck {
   }
 
   /**
-   * Checks, if given value is in between given limits.
+   * Checks, if given value is in between given limits
    *
    * @param given given value to check
    * @param leftLimit left side limit
    * @param rightLimit right side limit
    * @return true means, if is between those two, false otherwise
    */
-  public static boolean inBetween(final int given,
-      final int leftLimit,
-      final int rightLimit) {
+  public static boolean inBetween(final int given, final int leftLimit, final int rightLimit) {
     return leftLimit <= given && given <= rightLimit;
   }
 
@@ -190,13 +107,68 @@ public final class ParamCheck {
    * @return true means it is, false otherwise
    */
   public static boolean isArgument(final String given) {
-    boolean result = false;
-    if (isSet(given)) {
-      final String passedValue = given.trim();
-      if (passedValue.startsWith("-")) {
-        result = !passedValue.startsWith("---");
+    if (!isSet(given)) {
+      return false;
+    }
+    String passedValue = given.trim();
+    if (passedValue.startsWith("-")) {
+      if (passedValue.startsWith("---")) {
+        return false;
+      } else if (passedValue.startsWith("--")) {
+        return true;
+      }
+      return true;
+    }
+    return false;
+  }
+
+  /**
+   * Validates, if given path is a right directory path.
+   *
+   * @param path given path
+   * @return true means, if is a right path, false otherwise
+   */
+  public static boolean isPath(String path) {
+    // Check, if entered param has value
+    if (!isSet(path)) {
+      return false;
+    }
+    // Initialize pattern matcher
+    if (filePathPattern == null) {
+      filePathPattern = Pattern.compile("([A-Z|a-z]:\\\\[^*|\"<>?\\n]*)|(\\\\\\\\.*?\\\\.*)");
+    }
+    Matcher matcher = filePathPattern.matcher(path);
+    return matcher.matches();
+  }
+
+  /**
+   * Filters given arguments with known set of filters.
+   *
+   * @param arguments given arguments
+   * @param patterns known list of patterns
+   * @return filtered list of arguments
+   */
+  public static List<String> filterWithPatterns(List<String> arguments, List<String> patterns) {
+    return filterWithPatterns((String[]) arguments.toArray(), patterns);
+  }
+
+  /**
+   * Filters given arguments with known set of filters.
+   *
+   * @param arguments given arguments
+   * @param patterns known list of patterns
+   * @return filtered list of arguments
+   */
+  public static List<String> filterWithPatterns(String[] arguments, List<String> patterns) {
+    // TODO Compare given list of arguments and check, if every one of those matches at least one pattern
+    List<String> resultArguments = new ArrayList<>();
+    for (String argument : arguments) {
+      // TODO Add support not only for UNARY ARGUMENTS
+      if (patterns.contains(argument)) {
+        resultArguments.add(argument);
       }
     }
-    return result;
+    return resultArguments;
   }
+
 }
