@@ -1,5 +1,6 @@
 package org.ttrzcinski.utils;
 
+
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -48,9 +49,7 @@ public final class StringFix {
    */
   public static String padRight(@NotNull final String given,
       final int wantedLength) {
-    return wantedLength >= 1 ?
-        String.format(String.format("%%-%ds", wantedLength), given) :
-        given;
+    return String.format(String.format("%%-%ds", wantedLength), given);
   }
 
   /**
@@ -62,8 +61,6 @@ public final class StringFix {
    */
   public static String padLeft(@NotNull final String given,
       final int wantedLength) {
-    return wantedLength >= 1 ?
-        String.format(String.format("%%%ds", wantedLength), given) :
-        given;
+    return String.format(String.format("%%%ds", wantedLength), given);
   }
 }
