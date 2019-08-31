@@ -16,7 +16,9 @@ import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
 /**
- * Obtains HTTP response of URL call.
+ * Obtains HTTP response of URL call.<br/>
+ * <br/>
+ * Created 31.08.19 as a part of Project DukesHiddenStash.
  *
  * @author Tomasz Trzciński <trzcinski.tomasz.1988@gmail.com>
  * @version 1.0
