@@ -1,10 +1,6 @@
 package org.ttrzcinski.utils;
 
 import static org.junit.jupiter.api.Assertions.*;
-
-import java.util.ArrayList;
-import java.util.List;
-import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 
 class ParamCheckTest {
@@ -18,7 +14,7 @@ class ParamCheckTest {
     boolean result = ParamCheck.isSet(testObjectArray);
 
     // Assert
-    Assert.assertFalse(result);
+    assertFalse(result);
   }
 
   @Test
@@ -30,7 +26,7 @@ class ParamCheckTest {
     boolean result = ParamCheck.isSet(testObjectArray);
 
     // Assert
-    Assert.assertFalse(result);
+    assertFalse(result);
   }
 
   @Test
@@ -42,7 +38,7 @@ class ParamCheckTest {
     boolean result = ParamCheck.isSet(testObjectArray);
 
     // Assert
-    Assert.assertFalse(result);
+    assertFalse(result);
   }
 
   @Test
@@ -54,7 +50,7 @@ class ParamCheckTest {
     boolean result = ParamCheck.isSet(testObjectArray);
 
     // Assert
-    Assert.assertFalse(result);
+    assertFalse(result);
   }
 
   @Test
@@ -66,7 +62,7 @@ class ParamCheckTest {
     boolean result = ParamCheck.isSet(testObjectArray);
 
     // Assert
-    Assert.assertTrue(result);
+    assertTrue(result);
   }
 
   @Test
@@ -78,7 +74,7 @@ class ParamCheckTest {
     boolean result = ParamCheck.isSet(testObjectArray);
 
     // Assert
-    Assert.assertFalse(result);
+    assertFalse(result);
   }
 
   @Test
@@ -90,7 +86,7 @@ class ParamCheckTest {
     boolean result = ParamCheck.isSet(testObjectArray);
 
     // Assert
-    Assert.assertFalse(result);
+    assertFalse(result);
   }
 
   @Test
@@ -102,7 +98,7 @@ class ParamCheckTest {
     boolean result = ParamCheck.isSet(testObjectArray);
 
     // Assert
-    Assert.assertFalse(result);
+    assertFalse(result);
   }
 
   @Test
@@ -114,7 +110,7 @@ class ParamCheckTest {
     boolean result = ParamCheck.isSet(testObjectArray);
 
     // Assert
-    Assert.assertFalse(result);
+    assertFalse(result);
   }
 
   @Test
@@ -126,7 +122,7 @@ class ParamCheckTest {
     boolean result = ParamCheck.isSet(testObjectArray);
 
     // Assert
-    Assert.assertTrue(result);
+    assertTrue(result);
   }
 
   @Test
@@ -138,7 +134,7 @@ class ParamCheckTest {
     boolean result = ParamCheck.isSet(testObject);
 
     // Assert
-    Assert.assertFalse(result);
+    assertFalse(result);
   }
 
   @Test
@@ -150,7 +146,7 @@ class ParamCheckTest {
     boolean result = ParamCheck.isSet(testObject);
 
     // Assert
-    Assert.assertTrue(result);
+    assertTrue(result);
   }
 
   @Test
@@ -162,7 +158,7 @@ class ParamCheckTest {
     boolean result = ParamCheck.isSet(testObject);
 
     // Assert
-    Assert.assertFalse(result);
+    assertFalse(result);
   }
 
   @Test
@@ -174,7 +170,7 @@ class ParamCheckTest {
     boolean result = ParamCheck.isSet(testObject);
 
     // Assert
-    Assert.assertFalse(result);
+    assertFalse(result);
   }
 
   @Test
@@ -186,7 +182,7 @@ class ParamCheckTest {
     boolean result = ParamCheck.isSet(testObject);
 
     // Assert
-    Assert.assertFalse(result);
+    assertFalse(result);
   }
 
   @Test
@@ -198,7 +194,7 @@ class ParamCheckTest {
     boolean result = ParamCheck.isSet(testObject);
 
     // Assert
-    Assert.assertTrue(result);
+    assertTrue(result);
   }
 
   @Test
@@ -210,7 +206,7 @@ class ParamCheckTest {
     boolean result = ParamCheck.isSet(testObject);
 
     // Assert
-    Assert.assertTrue(result);
+    assertTrue(result);
   }
 
   // TODO isSet List null
@@ -227,7 +223,7 @@ class ParamCheckTest {
     boolean result = ParamCheck.isPositive(testObject);
 
     // Assert
-    Assert.assertFalse(result);
+    assertFalse(result);
   }
 
   @Test
@@ -239,7 +235,7 @@ class ParamCheckTest {
     boolean result = ParamCheck.isPositive(testObject);
 
     // Assert
-    Assert.assertTrue(result);
+    assertTrue(result);
   }
 
   @Test
@@ -251,7 +247,7 @@ class ParamCheckTest {
     boolean result = ParamCheck.isPositive(testObject);
 
     // Assert
-    Assert.assertTrue(result);
+    assertTrue(result);
   }
 
   @Test
@@ -265,7 +261,7 @@ class ParamCheckTest {
     boolean result = ParamCheck.inBetween(testObject, left, right);
 
     // Assert
-    Assert.assertFalse(result);
+    assertFalse(result);
   }
 
   @Test
@@ -279,7 +275,7 @@ class ParamCheckTest {
     boolean result = ParamCheck.inBetween(testObject, left, right);
 
     // Assert
-    Assert.assertFalse(result);
+    assertFalse(result);
   }
 
   @Test
@@ -293,7 +289,7 @@ class ParamCheckTest {
     boolean result = ParamCheck.inBetween(testObject, left, right);
 
     // Assert
-    Assert.assertTrue(result);
+    assertTrue(result);
   }
 
   @Test
@@ -307,7 +303,7 @@ class ParamCheckTest {
     boolean result = ParamCheck.inBetween(testObject, left, right);
 
     // Assert
-    Assert.assertTrue(result);
+    assertTrue(result);
   }
 
   @Test
@@ -319,7 +315,7 @@ class ParamCheckTest {
     boolean result = ParamCheck.isArgument(testObject);
 
     // Assert
-    Assert.assertFalse(result);
+    assertFalse(result);
   }
 
   @Test
@@ -331,7 +327,7 @@ class ParamCheckTest {
     boolean result = ParamCheck.isArgument(testObject);
 
     // Assert
-    Assert.assertFalse(result);
+    assertFalse(result);
   }
 
   @Test
@@ -343,7 +339,7 @@ class ParamCheckTest {
     boolean result = ParamCheck.isArgument(testObject);
 
     // Assert
-    Assert.assertTrue(result);
+    assertTrue(result);
   }
 
   @Test
@@ -355,7 +351,7 @@ class ParamCheckTest {
     boolean result = ParamCheck.isArgument(testObject);
 
     // Assert
-    Assert.assertTrue(result);
+    assertTrue(result);
   }
 
   @Test
@@ -367,7 +363,7 @@ class ParamCheckTest {
     boolean result = ParamCheck.isArgument(testObject);
 
     // Assert
-    Assert.assertFalse(result);
+    assertFalse(result);
   }
 
   @Test
@@ -379,7 +375,7 @@ class ParamCheckTest {
     boolean result = ParamCheck.isArgument(testObject);
 
     // Assert
-    Assert.assertFalse(result);
+    assertFalse(result);
   }
 
   @Test
@@ -391,7 +387,7 @@ class ParamCheckTest {
     boolean result = ParamCheck.isArgument(testObject);
 
     // Assert
-    Assert.assertTrue(result);
+    assertTrue(result);
   }
 
   @Test
@@ -403,7 +399,7 @@ class ParamCheckTest {
     boolean result = ParamCheck.isArgument(testObject);
 
     // Assert
-    Assert.assertFalse(result);
+    assertFalse(result);
   }
 
   @Test
@@ -415,7 +411,7 @@ class ParamCheckTest {
     boolean result = ParamCheck.isArgument(testObject);
 
     // Assert
-    Assert.assertFalse(result);
+    assertFalse(result);
   }
 
   @Test
@@ -427,7 +423,7 @@ class ParamCheckTest {
     boolean result = ParamCheck.isArgument(testObject);
 
     // Assert
-    Assert.assertFalse(result);
+    assertFalse(result);
   }
 
   @Test
@@ -439,7 +435,7 @@ class ParamCheckTest {
     boolean result = ParamCheck.isPath(testObject);
 
     // Assert
-    Assert.assertFalse(result);
+    assertFalse(result);
   }
 
   @Test
@@ -451,7 +447,7 @@ class ParamCheckTest {
     boolean result = ParamCheck.isPath(testObject);
 
     // Assert
-    Assert.assertFalse(result);
+    assertFalse(result);
   }
 
   @Test
@@ -463,7 +459,7 @@ class ParamCheckTest {
     boolean result = ParamCheck.isPath(testObject);
 
     // Assert
-    Assert.assertFalse(result);
+    assertFalse(result);
   }
 
   @Test
@@ -475,7 +471,7 @@ class ParamCheckTest {
     boolean result = ParamCheck.isPath(testObject);
 
     // Assert
-    Assert.assertFalse(result);
+    assertFalse(result);
   }
 
   @Test
@@ -487,7 +483,7 @@ class ParamCheckTest {
     boolean result = ParamCheck.isPath(testObject);
 
     // Assert
-    Assert.assertFalse(result);
+    assertFalse(result);
   }
 
   @Test
@@ -499,7 +495,7 @@ class ParamCheckTest {
     boolean result = ParamCheck.isPath(testObject);
 
     // Assert
-    Assert.assertFalse(result);
+    assertFalse(result);
   }
 
   @Test
@@ -511,7 +507,7 @@ class ParamCheckTest {
     boolean result = ParamCheck.isPath(testObject);
 
     // Assert
-    Assert.assertTrue(result);
+    assertTrue(result);
   }
 
   @Test
@@ -523,7 +519,7 @@ class ParamCheckTest {
     boolean result = ParamCheck.isPath(testObject);
 
     // Assert
-    Assert.assertTrue(result);
+    assertTrue(result);
   }
 
   // TODO UPDATE THOSE TWO METHODS COVERAGE
