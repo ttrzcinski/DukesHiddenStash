@@ -1,9 +1,11 @@
 package org.ttrzcinski.utils;
 
+import java.nio.file.InvalidPathException;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.regex.Matcher;
+import java.util.Set;
 import java.util.regex.Pattern;
 
 /**
@@ -12,15 +14,76 @@ import java.util.regex.Pattern;
 public final class ParamCheck {
 
   /**
-   * Hidden constructor - there is no point of initialization.
+   * Known *nix paths, which are OK by default.
+   */
+  private static final Set<String> KNOWN_NIX_PATHS = Set.of("~", ".");
+
+  /**
+   * File path pattern to match given string paths.
+   */
+  private static Pattern filePathPattern;
+
+  /**
+   * Hidden constructor - there is no point to initialize an instance.
    */
   private ParamCheck() {
   }
 
   /**
-   * Pattern for file paths.
+   * Initializes a file path's pattern.
    */
-  private static Pattern filePathPattern;
+  private static void initFilePathPattern() {
+    if (filePathPattern == null) {
+      filePathPattern = Pattern.compile(
+          OSInfo.isWindows() ?
+              "([A-Z|a-z]:\\\\[^*|\"<>?\\n]*)|(\\\\\\\\.*?\\\\.*)" :
+              "^/|(/[a-zA-Z0-9_-]+)+$"
+      );
+    }
+  }
+
+  /**
+   * Validates, if given path is a right directory path with regex.
+   *
+   * @param path given path
+   * @return true means, if is a right path, false otherwise
+   */
+  public static boolean isPath(final String path) {
+    // Check, if entered param has value
+    if (!isSet(path)) {
+      return false;
+    }
+    final var fixedPath = path.trim();
+    // Initialize pattern matcher
+    initFilePathPattern();
+    // Check if 2nd check as instance
+    return filePathPattern.matcher(fixedPath).matches()
+        && isPathWithTry(fixedPath);
+  }
+
+  /**
+   * Checks, if given path is a valid file path with instance.
+   *
+   * @param path given path
+   * @return true means it's valid, false otherwise
+   */
+  public static boolean isPathWithTry(final String path) {
+    var result = false;
+    if (!isSet(path)) {
+      return result;
+    }
+    final var fixedPath = path.trim();
+    // Check, if it is a home or root
+    if (!KNOWN_NIX_PATHS.contains(fixedPath)) {
+      try {
+        Paths.get(fixedPath);
+        result = true;
+      } catch (InvalidPathException | NullPointerException ex) {
+        result = false;
+      }
+    }
+    return result;
+  }
 
   /**
    * Checks, if given param array contains any value.
@@ -74,7 +137,6 @@ public final class ParamCheck {
     if (param == null) {
       return false;
     }
-
     return true;
   }
 
@@ -107,38 +169,15 @@ public final class ParamCheck {
    * @return true means it is, false otherwise
    */
   public static boolean isArgument(final String given) {
+    var result = false;
     if (!isSet(given)) {
-      return false;
+      return result;
     }
-    String passedValue = given.trim();
+    final var passedValue = given.trim();
     if (passedValue.startsWith("-")) {
-      if (passedValue.startsWith("---")) {
-        return false;
-      } else if (passedValue.startsWith("--")) {
-        return true;
-      }
-      return true;
+      result = !passedValue.startsWith("---");
     }
-    return false;
-  }
-
-  /**
-   * Validates, if given path is a right directory path.
-   *
-   * @param path given path
-   * @return true means, if is a right path, false otherwise
-   */
-  public static boolean isPath(String path) {
-    // Check, if entered param has value
-    if (!isSet(path)) {
-      return false;
-    }
-    // Initialize pattern matcher
-    if (filePathPattern == null) {
-      filePathPattern = Pattern.compile("([A-Z|a-z]:\\\\[^*|\"<>?\\n]*)|(\\\\\\\\.*?\\\\.*)");
-    }
-    Matcher matcher = filePathPattern.matcher(path);
-    return matcher.matches();
+    return result;
   }
 
   /**
@@ -162,7 +201,7 @@ public final class ParamCheck {
   public static List<String> filterWithPatterns(String[] arguments, List<String> patterns) {
     // TODO Compare given list of arguments and check, if every one of those matches at least one pattern
     List<String> resultArguments = new ArrayList<>();
-    for (String argument : arguments) {
+    for (var argument : arguments) {
       // TODO Add support not only for UNARY ARGUMENTS
       if (patterns.contains(argument)) {
         resultArguments.add(argument);
