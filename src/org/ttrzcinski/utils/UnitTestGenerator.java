@@ -36,6 +36,19 @@ public class UnitTestGenerator {
   }
 
   /**
+   * Reads given IML project file and reads from the definition marked directories.
+   *
+   * @return prepared instance of unit test generator
+   */
+  public final UnitTestGenerator fromIML(String imlPath) {
+    IMLParser imlParser = new IMLParser().of(imlPath);
+    if (imlParser.isReady()) {
+      System.out.println("IML parser is ready.");
+    }
+    return this;
+  }
+
+  /**
    * Adds tests directory path with given directory.
    *
    * @param directory given directory
@@ -54,7 +67,7 @@ public class UnitTestGenerator {
    * @param directory given directory
    * @return prepared instance of unit test generator
    */
-  public final UnitTestGenerator pointTests(String directory) {
+  public final UnitTestGenerator withTests(String directory) {
     if (ParamCheck.isPath(directory)) {
       this.testPath = directory;
     }
@@ -129,6 +142,16 @@ public class UnitTestGenerator {
       }
     }
     System.out.println("..finished making the unit test files.");
+  }
+
+  /**
+   * Shows on console all set inside variables.
+   */
+  public void console() {
+    System.out.println("Source directories:");
+    for (String directory : this.srcPath) {
+      System.out.println(directory);
+    }
   }
 
 }
