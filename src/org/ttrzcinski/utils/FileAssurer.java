@@ -19,44 +19,44 @@ public class FileAssurer extends ConsoleOutput {
   public void assurePresenceOfRepo(String path, boolean showOutput) {
     //Check, if path has some content to process
     if (path != null && path.trim().length() > 0) {
-      File file = new File(path);
+      final File file = new File(path);
       //Check, if file exists
       if (!file.exists()) {
         if (path.contains(".")) {
           FileOutputStream fileOutputStream = null;
           try {
             fileOutputStream = new FileOutputStream(path);
-              if (showOutput) {
-                  out("Created a file: " + path);
-              }
+            if (showOutput) {
+              out("Created a file: " + path);
+            }
           } catch (FileNotFoundException fnfe) {
-              if (showOutput) {
-                  err("Couldn't create a file: " + fnfe.getMessage());
-              }
+            if (showOutput) {
+              err("Couldn't create a file: " + fnfe.getMessage());
+            }
             fnfe.printStackTrace();
           } finally {
             SafeClose.close(fileOutputStream);
           }
         } else {
           if (file.mkdir()) {
-              if (showOutput) {
-                  out("Created directory: " + path);
-              }
+            if (showOutput) {
+              out("Created directory: " + path);
+            }
           } else {
-              if (showOutput) {
-                  err("Couldn't create directory: " + path);
-              }
+            if (showOutput) {
+              err("Couldn't create directory: " + path);
+            }
           }
         }
       } else {
-          if (showOutput) {
-              out("There is already: " + path);
-          }
+        if (showOutput) {
+          out("There is already: " + path);
+        }
       }
     } else {
-        if (showOutput) {
-            err("Given path has no content.");
-        }
+      if (showOutput) {
+        err("Given path has no content.");
+      }
     }
   }
 

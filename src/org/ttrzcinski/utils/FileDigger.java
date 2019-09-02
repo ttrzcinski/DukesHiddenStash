@@ -19,23 +19,23 @@ public class FileDigger extends ConsoleOutput {
     if (new StringHasValue().hasValue(path)) {
       //if (path != null && path.trim().length() > 0) {
       //Check existence of given path
-      File file = new File(path);
+      final File file = new File(path);
       if (file.exists()) {
         File[] files = null;
         if (file.isFile()) {
           files = new File[]{new File(file.getName())};
         } else {
-          out("There is a directory: " + file.getName() + "..");
+          out(String.format("There is a directory: %s..", file.getName()));
           //TODO LIMIT TO ONE TYPE ONLY
-          File listOfFiles[] = file.listFiles();
-          List<File> results = new ArrayList<File>();
-          for (File processedfile : listOfFiles) {
-            out("with: " + processedfile.getName());
-            File[] foundone = this.digFile(processedfile.getName());
-            if (foundone != null && foundone.length > 0) {
-              results.addAll(Arrays.asList(foundone));
+          final File[] listOfFiles = file.listFiles();
+          final var results = new ArrayList<File>();
+          Arrays.stream(listOfFiles).forEach(processed -> {
+            out("with: " + processed.getName());
+            final File[] foundOnes = this.digFile(processed.getName());
+            if (foundOnes != null && foundOnes.length > 0) {
+              results.addAll(Arrays.asList(foundOnes));
             }
-          }
+          });
           files = results.toArray(new File[results.size()]);
         }
         return files;

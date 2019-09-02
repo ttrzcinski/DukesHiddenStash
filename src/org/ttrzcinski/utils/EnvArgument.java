@@ -5,7 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 /**
- * Environment argument works as a structure with<br/> acronym, full name and help description.
+ * Environment argument works as a structure with<br/> acronym,
+ * full name and help description.
  */
 @Getter
 @NoArgsConstructor
