@@ -57,4 +57,21 @@ public final class OSInfo {
   public static Dimension readResolution() {
     return Toolkit.getDefaultToolkit().getScreenSize();
   }
+
+  /**
+   * Fixed direction of slashes in given path to current OS.
+   *
+   * @param path given path
+   * @return fixed path
+   */
+  public static String fixPath(String path) {
+    // Check given parameter
+    if (!ParamCheck.isSet(path)) {
+      return path;
+    }
+    // Process given parameter
+    return isWindows()
+        ? path.replaceAll("/", "\\\\")
+        : path.replaceAll("\\\\", "/");
+  }
 }

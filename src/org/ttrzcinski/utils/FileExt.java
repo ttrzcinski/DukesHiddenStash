@@ -3,7 +3,9 @@ package org.ttrzcinski.utils;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -92,16 +94,49 @@ public class FileExt {
   /**
    * Creates file on pointed path.
    *
-   * @param path given path
+   * @param path pointed path
    * @return handle to the file
    */
   public static File create(Path path) {
+    // Checked entered parameters
+    if (!ParamCheck.isSet(path)) {
+      System.err.println("Failed as creating file: null name provided.");
+      return null;
+    }
+    // Create that file
     var file = new File(path.toString());
     var result = false;
     if (!file.exists()) {
       try {
         result = file.createNewFile();
-      } catch (IOException e) {
+      } catch (IOException ioe) {
+        result = false;
+        file = null;
+      }
+    }
+    return result ? file : null;
+  }
+
+  /**
+   * Creates file on pointed path with given content.
+   *
+   * @param path pointed path
+   * @param content given content
+   * @return handle to the file
+   */
+  public static File create(Path path, String content) {
+    // Check entered parameter
+    if (!ParamCheck.isSet(content)) {
+      return create(path);
+    }
+    // Process file further
+    var file = new File(path.toString());
+    var result = false;
+    if (!file.exists()) {
+      try {
+        result = file.createNewFile();
+        Files.writeString(path, content, StandardOpenOption.APPEND);
+      } catch (IOException ioe) {
         result = false;
         file = null;
       }
@@ -116,13 +151,32 @@ public class FileExt {
    * @return handle to the directory
    */
   public static File makeDirectory(Path path) {
-    //mkdir
     var file = new File(path.toString());
     var result = false;
     if (!file.exists()) {
       result = file.mkdir();
     }
     return result ? file : null;
+  }
+
+  /**
+   * Creates all directories from given list.
+   *
+   * @param directories given list of directories
+   * @return handle to created directories
+   */
+  public static File[] makeDirectories(List<String> directories) {
+    File[] result = new File[directories.size()];
+    // If this is a directory
+    int bound = directories.size();
+    for (int i = 0; i < bound; i++) {
+      Path directoryPath = Path.of(directories.get(i));
+      // Check, if directory exists
+      result[i] = !Files.exists(directoryPath) ?
+          makeDirectory(directoryPath) :
+          directoryPath.toFile();
+    }
+    return result;
   }
 
   /**

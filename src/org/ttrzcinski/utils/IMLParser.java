@@ -6,7 +6,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.stream.IntStream;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPath;
@@ -46,10 +48,10 @@ public class IMLParser {
    * @return handle of IML parser instance
    */
   public IMLParser of(String imlPath) {
-    var fixedIMLPath = imlPath != null ? imlPath.trim() : "";
+    final var fixedIMLPath = imlPath != null ? imlPath.trim() : "";
     if (ParamCheck.isPath(fixedIMLPath) || fixedIMLPath.endsWith(".iml")) {
       this.imlPath = imlPath;
-      Document document = this.readXMLDocument(this.imlPath);
+      final Document document = this.readXMLDocument(this.imlPath);
     }
     return this;
   }
@@ -63,32 +65,28 @@ public class IMLParser {
       return null;
     }
     // Start processing XML
-    Document document = parseXML(path);
+    final Document document = parseXML(path);
     if (document != null) {
-      String projectsPath = Path.of(path).toFile().getParent();
-      HashMap gotten = this.parseXPath(
+      final String projectsPath = Path.of(path).toFile().getParent();
+      final Map gotten = this.parseXPath(
           document,
           "/module/component/content/sourceFolder",
-          List.of("url", "isTestSource"));
-      for (int i = 0; i < 2; i++) {
-        if (gotten.containsKey(String.valueOf(i))) {
-          String gottenValue = gotten.get(String.valueOf(i)).toString().replace("file://$MODULE_DIR$", projectsPath);
-          if (gottenValue.endsWith("|true")) {
-            this.testPath = gottenValue.substring(0, gottenValue.length() - 5);
-          } else if (gottenValue.endsWith("|false")) {
-            this.sourcePath = gottenValue.substring(0, gottenValue.length() - 6);
-          }
+          List.of("url", "isTestSource")
+      );
+      IntStream.range(0, 2)
+          .filter(i -> gotten.containsKey(String.valueOf(i)))
+          .mapToObj(i -> gotten.get(String.valueOf(i))
+              .toString().replace("file://$MODULE_DIR$", projectsPath))
+          .forEach(theValue -> {
+            if (theValue.endsWith("|true")) {
+              this.testPath = theValue.substring(0, theValue.length() - 5);
+            } else if (theValue.endsWith("|false")) {
+              this.sourcePath = theValue.substring(0, theValue.length() - 6);
         }
-      }
-      // Fix paths for Windows
-      if (OSInfo.isWindows()) {
-        if (this.testPath != null) {
-          this.testPath = this.testPath.replaceAll("/", "\\\\");
-        }
-        if (this.sourcePath != null) {
-          this.sourcePath = this.sourcePath.replaceAll("/", "\\\\");
-        }
-      }
+          });
+      // Fix paths for Windows, if necessary
+      this.testPath = OSInfo.fixPath(this.testPath);
+      this.sourcePath = OSInfo.fixPath(this.sourcePath);
     }
     return document;
   }
@@ -101,10 +99,9 @@ public class IMLParser {
    * @param attributes set of attributes
    * @return list of requested values
    */
-  private HashMap<String, String> parseXPath(Document document,
+  private Map<String, String> parseXPath(Document document,
       String expression, String[] attributes) {
-    List<String> list = Arrays.asList(attributes);
-    return this.parseXPath(document, expression, list);
+    return this.parseXPath(document, expression, Arrays.asList(attributes));
   }
 
   /**
@@ -115,10 +112,9 @@ public class IMLParser {
    * @param attributes list of attributes
    * @return list of requested values
    */
-  private HashMap<String, String> parseXPath(Document document,
+  private Map<String, String> parseXPath(Document document,
       String expression, Set<String> attributes) {
-    List<String> list = new ArrayList<String>(attributes);
-    return this.parseXPath(document, expression, list);
+    return this.parseXPath(document, expression, new ArrayList<String>(attributes));
   }
 
   /**
@@ -129,17 +125,17 @@ public class IMLParser {
    * @param attributes list of attributes
    * @return list of requested values
    */
-  private HashMap<String, String> parseXPath(Document document,
+  private Map<String, String> parseXPath(Document document,
       String expression, List<String> attributes) {
     // Prepare list as response
-    var response = new HashMap<String, String>();
+    final var response = new HashMap<String, String>();
     // Check entered parameters
     if (document == null || !ParamCheck.isSet(expression)
         || !ParamCheck.isSet(attributes)) {
       return response;
     }
     // Create new instance of XPath
-    XPath xPath = XPathFactory.newInstance().newXPath();
+    final XPath xPath = XPathFactory.newInstance().newXPath();
     // Prepare list of nodes from XML
     NodeList nodeList = null;
     try {
@@ -153,13 +149,19 @@ public class IMLParser {
       return response;
     }
     // Start processing those attributes
-    for (int i = 0; i < nodeList.getLength(); i++) {
-      Node nNode = nodeList.item(i);
+    int i = 0;
+    while (i < nodeList.getLength()) {
+      final Node nNode = nodeList.item(i);
       if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-        String url = this.parseXMLAttribute_asString(nNode, "url");
-        boolean test = this.parseXMLAttribute_asBool(nNode, "isTestSource");
+        final String url = this.parseXMLAttribute_asString(
+            nNode, "url"
+        );
+        final boolean test = this.parseXMLAttribute_asBool(
+            nNode, "isTestSource"
+        );
         response.put(String.valueOf(i), String.format("%s|%s", url, test));
       }
+      i++;
     }
     return response;
   }
@@ -189,8 +191,15 @@ public class IMLParser {
    * @return boolean value
    */
   private boolean parseXMLAttribute_asBool(Node node, String attributeName) {
-    return ((Element) node).getAttribute(attributeName)
-        .trim().toLowerCase().equals("true");
+    // Check entered params
+    if (!ParamCheck.isSet(node) || !ParamCheck.isSet(attributeName)) {
+      return false;
+    }
+    // Process attribute
+    final Element element = ((Element) node);
+    return element.hasAttribute(attributeName)
+        ? StringFix.simple(element.getAttribute(attributeName)).equals("true")
+        : false;
   }
 
   /**

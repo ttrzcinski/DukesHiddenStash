@@ -49,7 +49,13 @@ public final class StringFix {
    */
   public static String padRight(@NotNull final String given,
       final int wantedLength) {
-    return String.format(String.format("%%-%ds", wantedLength), given);
+    int wantedCount = wantedLength - given.length();
+    return wantedLength < 0 || wantedCount < 0
+        ? given
+        : String.format("%s%s",
+            given,
+            " ".repeat(wantedCount)
+        );
   }
 
   /**
@@ -61,6 +67,12 @@ public final class StringFix {
    */
   public static String padLeft(@NotNull final String given,
       final int wantedLength) {
-    return String.format(String.format("%%%ds", wantedLength), given);
+    int wantedCount = wantedLength - given.length();
+    return wantedLength < 0 || wantedCount < 0
+        ? given
+        : String.format("%s%s",
+            " ".repeat(wantedCount),
+            given
+        );
   }
 }
