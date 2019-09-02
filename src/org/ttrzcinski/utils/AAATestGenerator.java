@@ -4,6 +4,8 @@ import java.io.File;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.jetbrains.annotations.NotNull;
@@ -14,6 +16,29 @@ public class AAATestGenerator {
    * Kept path to sources.
    */
   private static String sourcesPath;
+
+  /**
+   * Kept class name without extension.
+   */
+  private static String className;
+
+  /**
+   * Dictionary of variants based on type.
+   */
+  private static HashMap<String, List<String>> variants = new HashMap<>();
+  {
+    variants.put("Object", Arrays.asList(new String[]{"null", "Object"}));
+    variants.put("bool", Arrays.asList(new String[]{"true", "false"}));
+    variants.put("int", Arrays.asList(new String[]{"zero", "one", "negative", "maxInt", "minInt"}));
+    variants.put("String",
+        Arrays.asList(new String[]{"null",
+            "empty", "emptyToTrim",
+            "some", "someToTrim",
+            "justDigits", "justLetters", "justSpecialChars"
+        })
+    );
+
+  }
 
   /**
    * Returns handle to file, if given path points to source file.
@@ -32,7 +57,7 @@ public class AAATestGenerator {
       return null;
     }
     // Process content of the file
-    File sourceFile = new File(filePath);
+    var sourceFile = new File(filePath);
     if (sourceFile.isDirectory()) {
       System.err.printf("Pointed %s is a directory.%n", filePath);
       return null;
@@ -61,10 +86,8 @@ public class AAATestGenerator {
    * @return class line
    */
   private static String prepareClassLine(final @NotNull File sourceFile) {
-    return String.format("class %s_AAATest {",
-        StringFix.cutLast(sourceFile.getName(),
-            5)
-    );
+    className = StringFix.cutLast(sourceFile.getName(),5 );
+    return String.format("class %s_AAATest {", className);
   }
 
   /**
@@ -89,6 +112,37 @@ public class AAATestGenerator {
   }
 
   /**
+   * Prepares a single unit test variant of wanted method.
+   *
+   * @param methodName method's name
+   * @param variant unit test's variant
+   * @return full body of unit test method
+   */
+  private static String prepareMethod(String methodName, String variant) {
+    var result = new ArrayList<String>();
+
+    result.add("  @Test\n");
+    result.add(String.format("  void %s_%s() {\n", methodName, variant));
+
+    result.add("    // Arrange\n");
+    result.add("    Object testObject = new Object();\n");
+    result.add("    var expected = \"\";\n");
+    result.add("\n");
+
+    result.add("    // Act\n");
+    result.add(String.format("    var result = %s.%s(newMap);\n",
+        className, methodName)
+    );
+    result.add("\n");
+
+    result.add("    // Assert\n");
+    result.add("    assertEquals(expected, result);\n");
+    result.add("  }");
+
+    return result.stream().collect(Collectors.joining());
+  }
+
+  /**
    * Parses pointed source file and prepares template for unit test file.
    *
    * @param sourceFilePath path to source file
@@ -96,12 +150,12 @@ public class AAATestGenerator {
    */
   public static List<String> generate(String sourceFilePath) {
     // Check entered param
-    File sourceFile = prepareSourceFile(sourceFilePath);
+    var sourceFile = prepareSourceFile(sourceFilePath);
     if (sourceFile == null) {
       return null;
     }
     // Start preparing the content
-    List<String> content = new ArrayList<>();
+    var content = new ArrayList<String>();
     content.add(preparePackageLine(sourceFile));
     content.add("\n\n");
     content.add("import static org.junit.jupiter.api.Assertions.*;\n");
@@ -113,6 +167,9 @@ public class AAATestGenerator {
     // TODO Prepare list of methods
 
     // TODO Prepare list of coverage unit tests
+
+    // Prepare full body of this method and variant
+    var methodBody = prepareMethod("method1", "withNull");
 
     content.add("}");
     return content;
