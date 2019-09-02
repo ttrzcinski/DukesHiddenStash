@@ -75,4 +75,18 @@ public final class StringFix {
             given
         );
   }
+
+  /**
+   * Cuts wanted number of chars from the end of string.
+   *
+   * @param given given string
+   * @param count number of characters to remove
+   * @return cut-off string
+   */
+  public static String cutLast(@NotNull final String given, int count) {
+    int finalCount = given.length() - count;
+    return finalCount >= 0
+        ? given.substring(0, finalCount)
+        : "";
+  }
 }

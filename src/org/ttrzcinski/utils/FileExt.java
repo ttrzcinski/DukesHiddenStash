@@ -196,7 +196,17 @@ public class FileExt {
    * @return true means it exists, false otherwise
    */
   public static boolean exists(Path path) {
-    return new File(path.toString()).exists();
+    return path != null ? exists(path.toFile()) : false;
+  }
+
+  /**
+   * Checks, if file exists under given path.
+   *
+   * @param path given path
+   * @return true means it exists, false otherwise
+   */
+  public static boolean exists(String path) {
+    return (ParamCheck.isSet(path)) ? exists(Path.of(path)) : false;
   }
 
   /**
@@ -206,7 +216,7 @@ public class FileExt {
    * @return true means it exists, false otherwise
    */
   public static boolean exists(File file) {
-    return file.exists();
+    return file != null ? file.exists() : false;
   }
 
   /**

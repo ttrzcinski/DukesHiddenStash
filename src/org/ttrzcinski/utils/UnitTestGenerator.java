@@ -43,6 +43,8 @@ public class UnitTestGenerator {
     if (imlParser.isReady()) {
       this.srcPath.add(imlParser.getSourcePath());
       this.testPath = imlParser.getTestPath();
+      // Pass location to AAA test generator
+      AAATestGenerator.setSources(imlParser.getSourcePath());
     }
     return this;
   }
@@ -222,10 +224,15 @@ public class UnitTestGenerator {
       if (file.toFile().exists()) {
         FileExt.remove(file);
       }
+      // Prepare content for unit test file
+      List<String> content = AAATestGenerator.generate(change.getKey());
       // Create unit test file
-      File result = FileExt.create(file.toAbsolutePath());
+      String fullContent = content.stream().collect(Collectors.joining());
+      File result = FileExt.create(file.toAbsolutePath(), fullContent);
       if (result == null) {
-        System.out.println("Failed at creating file " + file.toFile().getName());
+        System.out.printf("Failed at creating file %s%n",
+            file.toFile().getName()
+        );
       }
     }
     System.out.println("..finished making the unit test files.");
