@@ -1,6 +1,7 @@
 package org.ttrzcinski.utils;
 
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -53,10 +54,6 @@ public class IMLParser {
     return this;
   }
 
-  private void parse() {
-
-  }
-
   /**
    * Reads XML Document form given path.
    */
@@ -68,8 +65,30 @@ public class IMLParser {
     // Start processing XML
     Document document = parseXML(path);
     if (document != null) {
-      this.parseXPath(document, "/module/component/content/sourceFolder",
+      String projectsPath = Path.of(path).toFile().getParent();
+      HashMap gotten = this.parseXPath(
+          document,
+          "/module/component/content/sourceFolder",
           List.of("url", "isTestSource"));
+      for (int i = 0; i < 2; i++) {
+        if (gotten.containsKey(String.valueOf(i))) {
+          String gottenValue = gotten.get(String.valueOf(i)).toString().replace("file://$MODULE_DIR$", projectsPath);
+          if (gottenValue.endsWith("|true")) {
+            this.testPath = gottenValue.substring(0, gottenValue.length() - 5);
+          } else if (gottenValue.endsWith("|false")) {
+            this.sourcePath = gottenValue.substring(0, gottenValue.length() - 6);
+          }
+        }
+      }
+      // Fix paths for Windows
+      if (OSInfo.isWindows()) {
+        if (this.testPath != null) {
+          this.testPath = this.testPath.replaceAll("/", "\\\\");
+        }
+        if (this.sourcePath != null) {
+          this.sourcePath = this.sourcePath.replaceAll("/", "\\\\");
+        }
+      }
     }
     return document;
   }
@@ -82,7 +101,7 @@ public class IMLParser {
    * @param attributes set of attributes
    * @return list of requested values
    */
-  private HashMap<String, Object> parseXPath(Document document,
+  private HashMap<String, String> parseXPath(Document document,
       String expression, String[] attributes) {
     List<String> list = Arrays.asList(attributes);
     return this.parseXPath(document, expression, list);
@@ -96,7 +115,7 @@ public class IMLParser {
    * @param attributes list of attributes
    * @return list of requested values
    */
-  private HashMap<String, Object> parseXPath(Document document,
+  private HashMap<String, String> parseXPath(Document document,
       String expression, Set<String> attributes) {
     List<String> list = new ArrayList<String>(attributes);
     return this.parseXPath(document, expression, list);
@@ -110,10 +129,10 @@ public class IMLParser {
    * @param attributes list of attributes
    * @return list of requested values
    */
-  private HashMap<String, Object> parseXPath(Document document,
+  private HashMap<String, String> parseXPath(Document document,
       String expression, List<String> attributes) {
     // Prepare list as response
-    HashMap<String, Object> response = new HashMap<>();
+    var response = new HashMap<String, String>();
     // Check entered parameters
     if (document == null || !ParamCheck.isSet(expression)
         || !ParamCheck.isSet(attributes)) {
@@ -136,21 +155,17 @@ public class IMLParser {
     // Start processing those attributes
     for (int i = 0; i < nodeList.getLength(); i++) {
       Node nNode = nodeList.item(i);
-      System.out.println("\nsource element :" + nNode.getNodeName());
       if (nNode.getNodeType() == Node.ELEMENT_NODE) {
         String url = this.parseXMLAttribute_asString(nNode, "url");
         boolean test = this.parseXMLAttribute_asBool(nNode, "isTestSource");
-        response.put("url", url);
-        response.put("isTestSource", test);
+        response.put(String.valueOf(i), String.format("%s|%s", url, test));
       }
     }
     return response;
   }
 
   private String parseXMLAttribute_asString(Node node, String attributeName) {
-    String response = ((Element) node).getAttribute(attributeName);
-    System.out.printf("%s : %s%n", attributeName, response);
-    return response;
+    return ((Element) node).getAttribute(attributeName);
   }
 
   /**
@@ -161,11 +176,9 @@ public class IMLParser {
    * @return boolean value
    */
   private int parseXMLAttribute_asInt(Node node, String attributeName) {
-    int response = Integer.valueOf(
+    return Integer.valueOf(
         ((Element) node).getAttribute(attributeName)
     );
-    System.out.printf("%s : %s%n", attributeName, response);
-    return response;
   }
 
   /**
@@ -176,10 +189,8 @@ public class IMLParser {
    * @return boolean value
    */
   private boolean parseXMLAttribute_asBool(Node node, String attributeName) {
-    boolean response = ((Element) node).getAttribute(attributeName)
+    return ((Element) node).getAttribute(attributeName)
         .trim().toLowerCase().equals("true");
-    System.out.printf("%s : %s%n", attributeName, response);
-    return response;
   }
 
   /**

@@ -110,6 +110,22 @@ public class FileExt {
   }
 
   /**
+   * Creates directory on pointed path.
+   *
+   * @param path given path
+   * @return handle to the directory
+   */
+  public static File makeDirectory(Path path) {
+    //mkdir
+    var file = new File(path.toString());
+    var result = false;
+    if (!file.exists()) {
+      result = file.mkdir();
+    }
+    return result ? file : null;
+  }
+
+  /**
    * Passed handle to the file.
    *
    * @param keptPath given path

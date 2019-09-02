@@ -1,13 +1,24 @@
 package org.ttrzcinski.utils;
 
 import java.io.File;
+import java.io.FilenameFilter;
 import java.io.IOException;
+import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.PathMatcher;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Generated unit test in pointed project.
@@ -36,16 +47,33 @@ public class UnitTestGenerator {
   }
 
   /**
-   * Reads given IML project file and reads from the definition marked directories.
+   * Reads from pointed IML file marked directories.
    *
    * @return prepared instance of unit test generator
    */
   public final UnitTestGenerator fromIML(String imlPath) {
     IMLParser imlParser = new IMLParser().of(imlPath);
     if (imlParser.isReady()) {
-      System.out.println("IML parser is ready.");
+      this.srcPath.add(imlParser.getSourcePath());
+      this.testPath = imlParser.getTestPath();
     }
     return this;
+  }
+
+  /**
+   * Reads from current project's IML file marked directories.
+   *
+   * @return prepared instance of unit test generator
+   */
+  public final UnitTestGenerator fromCurrentProject() {
+    String projectPath = System.getProperty("user.dir");
+    List<String> imls = FileExt.
+        listFilesOf(Path.of(projectPath), "*.iml")
+        .stream()
+        .map(File::getAbsolutePath)
+        .collect(Collectors.toList());
+    // If found, use iml file
+    return imls.size() > 0 ? this.fromIML(imls.get(0)) : this;
   }
 
   /**
@@ -110,36 +138,54 @@ public class UnitTestGenerator {
   public final void generate() {
     boolean debug = true;
     System.out.println("Starting to generate unit tests..");
-    Set<String> sourcePaths = new HashSet<>();
-    this.srcPath.stream()
-        .map(FilesExt::allFileNamesOf)
-        .forEach(sourcePaths::addAll);
+    var sourcePaths = new HashMap<String, String>();
+    List<String> innerFiles = FilesExt.allFileNamesOf(this.srcPath.get(0));
+    for (String innerFile : innerFiles) {
+      String preparedTestPath = innerFile;
+      for (String src : this.srcPath) {
+        if (innerFile.contains(src)) {
+          preparedTestPath = innerFile.replace(src, testPath);
+          break;
+        }
+      }
+      sourcePaths.put(innerFile, preparedTestPath);
+    }
     // Generate unit test classes one by one
-    for (String fullFilePath : sourcePaths) {
+    for (Entry<String, String> change : sourcePaths.entrySet()) {
+      // If this is a directory
+      if (!change.getValue().endsWith(".java")) {
+        // Check, if directory exists
+        Path directory = Path.of(change.getValue());
+        if (!directory.toFile().exists()) {
+          FileExt.makeDirectory(directory);
+          System.out.printf("Directory %s existence: %s%n", directory.toFile().getPath(), directory.toFile().exists());
+        }
+      }
       // Prepare unit test file path
-      fullFilePath = fullFilePath.replaceFirst("src", "test");
+      //System.out.println(change.getValue());
+      /*fullFilePath = fullFilePath.replaceFirst("src", "test");
       // If unit test file already exists, omit it
       final File tempFile = new File(fullFilePath);
       // Prepare path
       final Path path = Path.of(fullFilePath);
-      try {
+      //try {
         // Remove file, if overriding
         if (this.overrideFlag) {
           System.out.printf("Deleting file %s%n", path);
           if (!debug) {
-            Files.deleteIfExists(path);
+            ;//Files.deleteIfExists(path);
           }
         }
         // Create field
         if (this.overrideFlag || !tempFile.exists()) {
           System.out.printf("Creating file %s%n", path);
           if (!debug) {
-            Files.createFile(path);
+            ;//Files.createFile(path);
           }
-        }
-      } catch (IOException e) {
-        e.printStackTrace();
-      }
+        }*/
+      //} catch (IOException e) {
+      //  e.printStackTrace();
+      //}
     }
     System.out.println("..finished making the unit test files.");
   }
@@ -152,6 +198,7 @@ public class UnitTestGenerator {
     for (String directory : this.srcPath) {
       System.out.println(directory);
     }
+    System.out.println(this.testPath);
   }
 
 }

@@ -29,7 +29,7 @@ public class FilesExt {
     resultList.addAll(Arrays.asList(fList));
     for (File file : fList) {
       if (file.isFile()) {
-        System.out.println(file.getAbsolutePath());
+        resultList.add(file);
       } else if (file.isDirectory()) {
         resultList.addAll(allFilesOf(file.getAbsolutePath()));
       }
