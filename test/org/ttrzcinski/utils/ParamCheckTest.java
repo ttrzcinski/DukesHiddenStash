@@ -483,7 +483,7 @@ class ParamCheckTest {
     boolean result = ParamCheck.isPath(testObject);
 
     // Assert
-    assertFalse(result);
+    assertTrue(result);
   }
 
   @Test
