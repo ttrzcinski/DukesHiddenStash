@@ -26,7 +26,8 @@ public interface IPath {
   List<File> getFiles();
 
   /**
-   * Returns filtered list of files and subdirectories from mount's directory filtered by given filter.
+   * Returns filtered list of files and subdirectories from mount's directory
+   * filtered by given filter.
    *
    * @param filter given filter criteria
    * @return list of files and subdirectories
@@ -41,7 +42,8 @@ public interface IPath {
   List<File> getSubdirectories();
 
   /**
-   * Returns filtered list of subdirectories from mount's directory filtered by given filter.
+   * Returns filtered list of subdirectories from mount's directory
+   * filtered by given filter.
    *
    * @param filter given filter criteria
    * @return list of subdirectories

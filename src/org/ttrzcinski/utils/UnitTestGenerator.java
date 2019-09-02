@@ -4,6 +4,7 @@ import java.io.File;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
@@ -104,14 +105,15 @@ public class UnitTestGenerator {
    */
   private final HashMap<String, String> prepareProcessingList() {
     var sourcePaths = new HashMap<String, String>();
-    List<String> innerFiles = FilesExt.allFileNamesOf(this.srcPath.get(0));
-    for (String innerFile : innerFiles) {
+    this.srcPath.stream()
+        .map(FilesExt::allFileNamesOf)
+        .flatMap(Collection::stream).forEach(innerFile -> {
       String preparedTestPath = this.srcPath.stream()
           .filter(innerFile::contains)
           .findFirst().map(src -> innerFile.replace(src, testPath))
           .orElse(innerFile);
       sourcePaths.put(innerFile, preparedTestPath);
-    }
+    });
     return sourcePaths;
   }
 

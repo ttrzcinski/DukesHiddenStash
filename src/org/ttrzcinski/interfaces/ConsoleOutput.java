@@ -5,15 +5,15 @@ package org.ttrzcinski.interfaces;
  */
 public abstract class ConsoleOutput {
 
-  public void out(String given) {
+  public final void out(final String given) {
     System.out.println("[INFO] " + given);
   }
 
-  public void err(String given) {
+  public final void err(final String given) {
     System.err.println("[ERR] " + given);
   }
 
-  public void warn(String given) {
+  public final void warn(final String given) {
     System.out.println("[WARN]" + given);
   }
 }
