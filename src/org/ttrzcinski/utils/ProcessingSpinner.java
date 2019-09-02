@@ -17,17 +17,14 @@ public class ProcessingSpinner {
    */
   private void print(String line) {
     // Stop, if finished
-    if (keptLine.length() > line.length()) {
-      String temp = "";
-      for (int i = 0; i < keptLine.length(); i++) {
-        temp += " ";
-      }
+    if (this.keptLine.length() > line.length()) {
+      String temp = " ".repeat(this.keptLine.length());
       if (temp.length() > 1) {
-        System.out.print("\r" + temp);
+        System.out.printf("\r%s", temp);
       }
     }
-    System.out.print("\r" + line);
-    keptLine = line;
+    System.out.printf("\r%s", line);
+    this.keptLine = line;
   }
 
   /**
@@ -37,19 +34,14 @@ public class ProcessingSpinner {
    * @param line line to present
    */
   private void spin(int iterator, String line) {
-    switch (iterator % 4) {
-      case 0:
-        print(String.format("< - > %s", line));
-        break;
-      case 1:
-        print(String.format("< \\ > %s", line));
-        break;
-      case 2:
-        print(String.format("< | > %s", line));
-        break;
-      case 3:
-        print(String.format("< / > %s", line));
-        break;
+    if (iterator % 4 == 0) {
+      this.print(String.format("< - > %s", line));
+    } else if (iterator % 4 == 1) {
+      this.print(String.format("< \\ > %s", line));
+    } else if (iterator % 4 == 2) {
+      this.print(String.format("< | > %s", line));
+    } else if (iterator % 4 == 3) {
+      this.print(String.format("< / > %s", line));
     }
   }
 
@@ -62,14 +54,14 @@ public class ProcessingSpinner {
    * @throws InterruptedException if thread pool exploded
    */
   public boolean runProcess(int limit, String message) throws InterruptedException {
-    ProcessingSpinner processingSpinner = new ProcessingSpinner();
+    final ProcessingSpinner processingSpinner = new ProcessingSpinner();
     int i = 0;
     if (i <= limit) {
       do {
         processingSpinner.spin(i, String.format("%d/%d - %s", i, limit, message));
         // TODO HERE ADD CALL THROUGH REFLECTION TO ACTUAL PROCESSING
         Thread.sleep(200);
-        i++;
+        i += 1;
       } while (i <= limit);
       return true;
     }
@@ -84,7 +76,7 @@ public class ProcessingSpinner {
    * @throws InterruptedException if thread pool exploded
    */
   public static void process(int limit, String message) throws InterruptedException {
-    ProcessingSpinner processingSpinner = new ProcessingSpinner();
+    final ProcessingSpinner processingSpinner = new ProcessingSpinner();
     processingSpinner.runProcess(limit, message);
   }
 }
