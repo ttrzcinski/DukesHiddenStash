@@ -3,10 +3,8 @@ package org.ttrzcinski.utils;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.DirectoryStream;
-import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.jetbrains.annotations.NotNull;
@@ -26,15 +24,8 @@ public class FileExt {
    * @return list of files
    */
   public static List<File> listFilesOf(Path path) {
-    var files = new ArrayList<File>();
-    try (DirectoryStream<Path> directoryStream = Files.newDirectoryStream(path)) {
-      for (Path dirPath : directoryStream) {
-        files.add(new File(dirPath.toString()));
-      }
-    } catch (IOException ex) {
-      files = null;
-    }
-    return files;
+    // Find iml file in current project directory
+    return Arrays.asList(path.toFile().listFiles(file -> file.exists()));
   }
 
   /**
@@ -44,18 +35,7 @@ public class FileExt {
    * @return list of subdirectories
    */
   public static List<File> listSubdirectoriesOf(Path path) {
-    List<File> subdirectories = new ArrayList<>();
-    try (DirectoryStream<Path> directoryStream = Files.newDirectoryStream(path)) {
-      for (Path dirPath : directoryStream) {
-        var file = new File(dirPath.toString());
-          if (file.isDirectory()) {
-              subdirectories.add(file);
-          }
-      }
-    } catch (IOException ex) {
-      subdirectories = null;
-    }
-    return subdirectories;
+    return Arrays.asList(path.toFile().listFiles(File::isDirectory));
   }
 
   /**
@@ -65,18 +45,7 @@ public class FileExt {
    * @return list of only files
    */
   public static List<File> listOnlyFilesOf(Path path) {
-    List<File> onlyFiles = new ArrayList<>();
-    try (DirectoryStream<Path> directoryStream = Files.newDirectoryStream(path)) {
-      for (Path dirPath : directoryStream) {
-        var file = new File(dirPath.toString());
-          if (file.isFile()) {
-              onlyFiles.add(file);
-          }
-      }
-    } catch (IOException ex) {
-      onlyFiles = null;
-    }
-    return onlyFiles;
+    return Arrays.asList(path.toFile().listFiles(File::isFile));
   }
 
   /**
@@ -88,33 +57,23 @@ public class FileExt {
    */
   public static List<File> listFilesOf(@NotNull final Path path,
       @NotNull final String filter) {
-    String simpleFilter = StringFix.simple(filter);
-    List<File> results;
-    if (simpleFilter.length() == 0 || simpleFilter.equals("*.*")) {
-      // no filter given or given for all
-      results = listFilesOf(path);
-    } else if (simpleFilter.startsWith("*.")
-        && simpleFilter.length() > 2) {
+    String phrase = StringFix.simple(filter);
+    File[] files;
+    if (phrase.length() == 0 || phrase.equals("*.*")) {
+      files = path.toFile().listFiles(x -> x.exists());
+    } else if (phrase.startsWith("*.") && phrase.length() > 2) {
       // filter by extension
-      String ending = simpleFilter.substring(2);
-      results = listFilesOf(path).stream()
-          .filter(file -> file.getName().endsWith(ending))
-          .collect(Collectors.toList());
-    } else if (simpleFilter.endsWith(".*")
-        && simpleFilter.length() > 2) {
+      String end = phrase.substring(2);
+      files = path.toFile().listFiles(x -> x.getName().endsWith(end));
+    } else if (phrase.endsWith(".*") && phrase.length() > 2) {
       // filter by name starting
-      String beginning = simpleFilter.
-          substring(0, simpleFilter.length() - 2);
-      results = listFilesOf(path).stream()
-          .filter(file -> file.getName().startsWith(beginning))
-          .collect(Collectors.toList());
+      String start = phrase.substring(0, phrase.length() - 2);
+      files = path.toFile().listFiles(x -> x.getName().startsWith(start));
     } else {
       // contains
-      results = listFilesOf(path).stream()
-          .filter(file -> file.getName().contains(simpleFilter))
-          .collect(Collectors.toList());
+      files = path.toFile().listFiles(x -> x.getName().contains(phrase));
     }
-    return results;
+    return Arrays.stream(files).collect(Collectors.toList());
   }
 
   /**
@@ -124,38 +83,10 @@ public class FileExt {
    * @param filter given filter
    * @return filtered list of subdirectories
    */
-  public static List<File> listSubdirectoriesOf(final Path path,
-      final String filter) {
-    if (!ParamCheck.isSet(filter)) {
-      return listSubdirectoriesOf(path);
-    }
-    String simpleFilter = StringFix.simple(filter);
-
-    final List<File> results;
-    if (simpleFilter.equals("*.*")) {
-      // no filter at all
-      results = listSubdirectoriesOf(path);
-    } else if (simpleFilter.startsWith("*.")
-        && simpleFilter.length() > 2) {
-      // filter by extension
-      String ending = simpleFilter.substring(2);
-      results = listSubdirectoriesOf(path).stream()
-          .filter(file -> file.getName().endsWith(ending))
-          .collect(Collectors.toList());
-    } else if (simpleFilter.endsWith(".*") && simpleFilter.length() > 2) {
-      // filter by name starting
-      String beginning = simpleFilter
-          .substring(0, simpleFilter.length() - 2);
-      results = listSubdirectoriesOf(path).stream()
-          .filter(file -> file.getName().startsWith(beginning))
-          .collect(Collectors.toList());
-    } else {
-      // contains
-      results = listSubdirectoriesOf(path).stream()
-          .filter(file -> file.getName().contains(simpleFilter))
-          .collect(Collectors.toList());
-    }
-    return results;
+  public static List<File> listSubdirectoriesOf(@NotNull final Path path,
+      @NotNull final String filter) {
+    return listFilesOf(path, filter).stream().filter(File::isDirectory)
+        .collect(Collectors.toList());
   }
 
   /**
