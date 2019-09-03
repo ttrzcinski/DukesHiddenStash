@@ -1,6 +1,7 @@
 package org.ttrzcinski.utils;
 
 import java.io.File;
+import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
@@ -153,6 +154,27 @@ public class AAATestGenerator {
     } catch (MalformedURLException | ClassNotFoundException e) {
       e.printStackTrace();
     }
+  }
+
+  /**
+   * Should prepare list of methods from pointed class.
+   *
+   * @param className pointed class name
+   * @return list of methods
+   */
+  private static List<String> prepareListOfMethods(String className) {
+    List<String> methodsList = new ArrayList<>();
+    try {
+      // TODO Take the right one to process
+      Class theClass = AAATestGenerator.class;
+      methodsList = Arrays
+          .stream(theClass.getDeclaredMethods())
+          .map(Method::toString)
+          .collect(Collectors.toList());
+    } catch (Throwable e) {
+      System.err.println(e);
+    }
+    return methodsList;
   }
 
   /**
