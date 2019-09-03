@@ -1,11 +1,12 @@
 package org.ttrzcinski.utils;
 
 import java.io.File;
-import java.lang.reflect.Method;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.jetbrains.annotations.NotNull;
@@ -15,17 +16,36 @@ public class AAATestGenerator {
   /**
    * Kept path to sources.
    */
-  private static String sourcesPath;
+  private String sourcesPath;
+
+  /**
+   * Kept package name.
+   */
+  private String packagePath;
 
   /**
    * Kept class name without extension.
    */
-  private static String className;
+  private String className;
+
+  /**
+   * Utils to process classes.
+   */
+  private ClassParser classParser;
+
+  /**
+   * Initializes class parser, if it was not initialized.
+   */
+  private void initClassParser() {
+    if (classParser == null) {
+      classParser = new ClassParser();
+    }
+  }
 
   /**
    * Dictionary of variants based on type.
    */
-  private static HashMap<String, List<String>> variants = new HashMap<>();
+  private HashMap<String, List<String>> variants = new HashMap<>();
   {
     variants.put("Object", Arrays.asList(new String[]{"null", "Object"}));
     variants.put("bool", Arrays.asList(new String[]{"true", "false"}));
@@ -37,7 +57,6 @@ public class AAATestGenerator {
             "justDigits", "justLetters", "justSpecialChars"
         })
     );
-
   }
 
   /**
@@ -46,7 +65,7 @@ public class AAATestGenerator {
    * @param filePath pointed file path
    * @return handle to file, if found, null otherwise
    */
-  private static File prepareSourceFile(String filePath) {
+  private File prepareSourceFile(String filePath) {
     if (!FileExt.exists(filePath)) {
       System.err.printf("Missing file %s.%n", filePath);
       return null;
@@ -71,23 +90,14 @@ public class AAATestGenerator {
    * @param sourceFile given file
    * @return package line
    */
-  private static String preparePackageLine(final @NotNull File sourceFile) {
-    return String.format("package %s;", sourceFile.getParent()
+  private String preparePackageLine(final @NotNull File sourceFile) {
+    className = StringFix.cutLast(sourceFile.getName(), 5);
+    packagePath = sourceFile.getParent()
         .replace(sourcesPath, "")
         .replace("/", ".")
         .replace("\\", ".")
-        .substring(1));
-  }
-
-  /**
-   * Prepares line with class opening.
-   *
-   * @param sourceFile processed source file
-   * @return class line
-   */
-  private static String prepareClassLine(final @NotNull File sourceFile) {
-    className = StringFix.cutLast(sourceFile.getName(),5 );
-    return String.format("class %s_AAATest {", className);
+        .substring(1);
+    return String.format("package %s;", packagePath);
   }
 
   /**
@@ -96,15 +106,27 @@ public class AAATestGenerator {
    * @param className pointed class name
    * @return list of methods
    */
-  private static List<String> prepareListOfMethods(String className) {
+  private List<String> prepareListOfMethods(String packageName,
+      String className) {
+    Class<?> theClass = classParser.returnClassFile(packageName, className);
+    // Check, if class exists
     List<String> methodsList = new ArrayList<>();
+    if (theClass == null) {
+      return methodsList;
+    }
+    // Process methods of the class
+    String fullPackageAndClass = String.format("%s.%s.",
+        packageName, className);
     try {
-      // TODO Take the right one to process
-      Class theClass = AAATestGenerator.class;
-      methodsList = Arrays
-          .stream(theClass.getDeclaredMethods())
-          .map(Method::toString)
+      List<String> list = Arrays.stream(theClass.getDeclaredMethods())
+          .map(
+              method -> method.toString()
+                  .replace(fullPackageAndClass, "")
+                  .replace("java.lang.", "")
+                  .replace("java.util.", "")
+          )
           .collect(Collectors.toList());
+      methodsList = list;
     } catch (Throwable e) {
       System.err.println(e);
     }
@@ -112,33 +134,85 @@ public class AAATestGenerator {
   }
 
   /**
+   * Should parse classes out of java files.
+   *
+   * @param directoryPath directory of classes
+   * @param parentPackage parent's package
+   */
+  private void readClassesFrom(String directoryPath, String parentPackage) {
+    // Create a File of the root directory containing the class file
+    var directory = new File(directoryPath);
+
+    try {
+      URL url = directory.toURI().toURL();  // file:/c:/Projects/out/
+      URL[] urls = new URL[]{url};
+      // Loads classes from the directory
+      ClassLoader classLoader = new URLClassLoader(urls);
+      Class theClass = classLoader.loadClass(parentPackage);
+      System.out.println(theClass.getDeclaredMethods().toString());
+    } catch (MalformedURLException | ClassNotFoundException e) {
+      e.printStackTrace();
+    }
+  }
+
+  /**
    * Prepares a single unit test variant of wanted method.
    *
+   * @param className class name
    * @param methodName method's name
    * @param variant unit test's variant
+   * @param voidType marks, if method is void or returns a value
    * @return full body of unit test method
    */
-  private static String prepareMethod(String methodName, String variant) {
+  private String prepareMethod(String className, String methodName,
+      String variant, boolean voidType) {
+    // TODO CHANGE VOIDTYPE TO RETURNTYPE as ENUM OF TYPES
+    // Fix passed parameters
+    int firstBracket = methodName.indexOf("(");
+    String justMethodName;
+    String parameters;
+    if (firstBracket > -1) {
+      justMethodName = methodName.substring(0, firstBracket);
+      parameters = methodName.substring(firstBracket + 1, methodName.indexOf(")"));
+    } else {
+      justMethodName = methodName;
+      parameters = "";
+    }
+    // Prepare test method header
     var result = new ArrayList<String>();
-
-    result.add("  @Test\n");
-    result.add(String.format("  void %s_%s() {\n", methodName, variant));
-
+    result.add("\n\n  @Test\n");
+    result.add(
+        String.format("  void %s_%s(%s) {\n", justMethodName, variant,
+            parameters)
+    );
+    // Prepare arrange section
     result.add("    // Arrange\n");
+    result.add("    ClassName testInstance = new ClassName();\n"
+        .replace("ClassName", className)
+    );
     result.add("    Object testObject = new Object();\n");
-    result.add("    var expected = \"\";\n");
+    if (!voidType) {
+      result.add("    var expected = \"\";\n");
+    }
     result.add("\n");
-
+    // Prepare act section
     result.add("    // Act\n");
-    result.add(String.format("    var result = %s.%s(newMap);\n",
-        className, methodName)
+    result.add(
+        String.format("    %stestInstance.%s(testObject);\n",
+            (voidType ? "" : "var result = "),
+            justMethodName
+        )
     );
     result.add("\n");
-
+    // Prepare assert section
     result.add("    // Assert\n");
-    result.add("    assertEquals(expected, result);\n");
+    if (voidType) {
+      result.add("    assertEquals(true, false);\n");
+    } else {
+      result.add("    assertEquals(expected, result);\n");
+    }
     result.add("  }");
-
+    // Convert list to one String var
     return result.stream().collect(Collectors.joining());
   }
 
@@ -148,7 +222,9 @@ public class AAATestGenerator {
    * @param sourceFilePath path to source file
    * @return content of unit test file
    */
-  public static List<String> generate(String sourceFilePath) {
+  public List<String> generate(String sourceFilePath) {
+    // Initialize the class parser
+    initClassParser();
     // Check entered param
     var sourceFile = prepareSourceFile(sourceFilePath);
     if (sourceFile == null) {
@@ -157,28 +233,28 @@ public class AAATestGenerator {
     // Start preparing the content
     var content = new ArrayList<String>();
     content.add(preparePackageLine(sourceFile));
-    content.add("\n\n");
-    content.add("import static org.junit.jupiter.api.Assertions.*;\n");
-    content.add("import org.junit.jupiter.api.Test;\n");
-    content.add("\n");
-    content.add(prepareClassLine(sourceFile));
-    content.add("\n");
+    content.add("\n\nimport static org.junit.jupiter.api.Assertions.*;\n");
+    content.add("import org.junit.jupiter.api.Test;\n\n");
+    content.add(String.format("class %s_AAATest {\n", className));
 
     // TODO Prepare list of methods
+    List<String> classMethods = prepareListOfMethods(packagePath, className);
+    for (var classMethod : classMethods) {
+      // Prepare full body of this method and variant
+      var justClassMethod = classMethod.substring(classMethod.lastIndexOf(" ") + 1);
+      var voidType = classMethod.contains("void");
+      var methodBody = prepareMethod(className, justClassMethod, "withNull", voidType);
+      content.add(methodBody);
+    }
 
-    // TODO Prepare list of coverage unit tests
-
-    // Prepare full body of this method and variant
-    var methodBody = prepareMethod("method1", "withNull");
-
-    content.add("}");
+    content.add("\n}\n");
     return content;
   }
 
   /**
    * Sets sources directory to given.
    */
-  public static void setSources(String sources) {
+  public void setSources(String sources) {
     if (ParamCheck.isPath(sources)) {
       sourcesPath = sources;
     }

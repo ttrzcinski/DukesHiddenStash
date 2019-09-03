@@ -15,29 +15,45 @@ public class ClassParser {
    *
    * @param classFullName pointed class
    * @return instance of that class
-   * @throws ClassNotFoundException if pointed class doesn't exist
-   * @throws InstantiationException if class has blocked constructors or none
-   * @throws IllegalAccessException if class suppose not to be reflected
    */
-  public Object createInstanceOfClass(String classFullName)
-      throws ClassNotFoundException, InstantiationException,
-      IllegalAccessException {
-    Class classTemp = Class.forName(classFullName);
+  public Object createInstanceOfClass(String classFullName) {
     Object obj = null;
     try {
-      obj = classTemp.getDeclaredConstructor().newInstance();
-    } catch (InvocationTargetException ite) {
-      ite.printStackTrace();
-    } catch (NoSuchMethodException nsme) {
-      nsme.printStackTrace();
+      obj = Class.forName(classFullName)
+          .getDeclaredConstructor()
+          .newInstance();
+    } catch (Exception e) {
+      e.printStackTrace();
+      obj = null;
     }
     return obj;
   }
 
   /**
+   * Loads class from wanted package with given class name.
+   *
+   * @param packageName wanted package
+   * @param className given class name
+   * @return class handle, if found, null otherwise
+   */
+  public Class<?> returnClassFile(String packageName, String className) {
+    Class<?> classHandle = null;
+    try {
+      classHandle = Class.forName(String.format("%s.%s",
+          packageName, className)
+      );
+    } catch (ClassNotFoundException e) {
+      e.printStackTrace();
+      classHandle = null;
+    }
+    return classHandle;
+  }
+
+  /**
    * Lists methods of pointed class.
    *
-   * It looks like:<br/> public static java.lang.String org.ttrzcinski.utils.StringFix.simple(java.lang.String)
+   * It looks like:<br/>
+   * public static java.lang.String org.ttrzcinski.utils.StringFix.simple(java.lang.String)
    *
    * @param classFullName given class name
    */
@@ -54,15 +70,18 @@ public class ClassParser {
     }
   }
 
+  /**
+   * Lists variables of pointed class.
+   *
+   * @param classFullName given class name
+   */
   public void listVariables(String classFullName) {
     Field[] fields = new Field[1];
     try {
       Class classTemp = Class.forName(classFullName);
       fields = classTemp.getClass().getDeclaredFields();
-    } catch (SecurityException iae) {
-      iae.printStackTrace();
-      System.err.println(iae);
-    } catch (Throwable e) {
+    } catch (Exception e) {
+      e.printStackTrace();
       System.err.println(e);
     }
     //

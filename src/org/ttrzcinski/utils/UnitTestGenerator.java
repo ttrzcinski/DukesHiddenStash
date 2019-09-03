@@ -27,9 +27,15 @@ public class UnitTestGenerator {
   private String testPath;
 
   /**
+   * Kept utils to generate AAA Test classes.
+   */
+  private AAATestGenerator atg;
+
+  /**
    * Creates new instance of unit test generator.
    */
   public UnitTestGenerator() {
+    this.atg = new AAATestGenerator();
     this.srcPath = new ArrayList<>();
   }
 
@@ -39,12 +45,12 @@ public class UnitTestGenerator {
    * @return prepared instance of unit test generator
    */
   public final UnitTestGenerator fromIML(String imlPath) {
-    IMLParser imlParser = new IMLParser().of(imlPath);
+    var imlParser = new IMLParser().of(imlPath);
     if (imlParser.isReady()) {
       this.srcPath.add(imlParser.getSourcePath());
       this.testPath = imlParser.getTestPath();
       // Pass location to AAA test generator
-      AAATestGenerator.setSources(imlParser.getSourcePath());
+      this.atg.setSources(imlParser.getSourcePath());
     }
     return this;
   }
@@ -55,8 +61,8 @@ public class UnitTestGenerator {
    * @return prepared instance of unit test generator
    */
   public final UnitTestGenerator fromCurrentProject() {
-    String projectPath = System.getProperty("user.dir");
-    List<String> imls = FileExt.
+    var projectPath = System.getProperty("user.dir");
+    var imls = FileExt.
         listFilesOf(Path.of(projectPath), "*.iml")
         .stream()
         .map(File::getAbsolutePath)
@@ -105,17 +111,39 @@ public class UnitTestGenerator {
    *
    * @return key-value map with source files and unit test files
    */
-  private final HashMap<String, String> prepareProcessingList() {
+  private final HashMap<String, String> prepareSourcesList() {
     var sourcePaths = new HashMap<String, String>();
     this.srcPath.stream()
         .map(FilesExt::allFileNamesOf)
         .flatMap(Collection::stream).forEach(innerFile -> {
-      String preparedTestPath = this.srcPath.stream()
+      var preparedTestPath = this.srcPath.stream()
           .filter(innerFile::contains)
           .findFirst().map(src -> innerFile.replace(src, testPath))
           .orElse(innerFile);
       sourcePaths.put(innerFile, preparedTestPath);
     });
+    return sourcePaths;
+  }
+
+  /**
+   * Prepares processed files list, where key is 'from' and value is 'to'.
+   *
+   * @param omitInfo marks, if package-info should be skipped
+   * @return list of files without package-info
+   */
+  private final HashMap<String, String> prepareSourcesList(boolean omitInfo) {
+    var sourcePaths = this.prepareSourcesList();
+    if (!omitInfo) {
+      return sourcePaths;
+    }
+    // Remove package-info files
+    var keys = sourcePaths.keySet().stream()
+        .collect(Collectors.toList());
+    for (var key : keys) {
+      if (key.endsWith("package-info.java")) {
+        sourcePaths.remove(key);
+      }
+    }
     return sourcePaths;
   }
 
@@ -162,7 +190,7 @@ public class UnitTestGenerator {
       return new HashMap<>();
     }
     // Process given map
-    HashMap<String, String> files = given.entrySet().stream()
+    var files = given.entrySet().stream()
         .filter(file -> file.getKey().endsWith(".java"))
         .collect(
             Collectors.toMap(
@@ -190,7 +218,7 @@ public class UnitTestGenerator {
       return new ArrayList<>();
     }
     // Process given map
-    String fixedExtension = String.format(".%s", extension);
+    var fixedExtension = String.format(".%s", extension);
     return given.values().stream()
         .filter(value -> !value.endsWith(fixedExtension))
         .collect(Collectors.toList());
@@ -201,11 +229,11 @@ public class UnitTestGenerator {
    */
   public final void generate() {
     System.out.println("Starting to generate unit tests..");
-    var sourcePaths = this.prepareProcessingList();
+    var sourcePaths = this.prepareSourcesList(true);
     // Generate unit test directories
-    File[] results = FileExt.makeDirectories(onlyDirectories(sourcePaths));
+    var results = FileExt.makeDirectories(onlyDirectories(sourcePaths));
     // Check, if all directories were created
-    int failedDirectories = (int) Arrays.stream(results)
+    var failedDirectories = (int) Arrays.stream(results)
         .filter(Objects::isNull).count();
     if (failedDirectories > 0) {
       System.err.printf("Failed at creating directories: %d%n",
@@ -213,22 +241,22 @@ public class UnitTestGenerator {
       );
       return;
     }
-    // Start processing unit test files
-    HashMap<String, String> testFiles = onlySourceFiles(sourcePaths);
+    // Start Sources unit test files
+    var testFiles = onlySourceFiles(sourcePaths);
     // Generate unit test classes one by one
-    for (Entry<String, String> change : testFiles.entrySet()) {
-      String val = change.getValue();
-      String fixedPath = val.replaceFirst(".java", "_AAATest.java");
-      Path file = Path.of(fixedPath);
+    for (var change : testFiles.entrySet()) {
+      var fixedPath = change.getValue()
+          .replaceFirst(".java", "_AAATest.java");
+      var file = Path.of(fixedPath);
       // Remove, if unit test exists
       if (file.toFile().exists()) {
         FileExt.remove(file);
       }
       // Prepare content for unit test file
-      List<String> content = AAATestGenerator.generate(change.getKey());
+      var content = this.atg.generate(change.getKey());
       // Create unit test file
-      String fullContent = content.stream().collect(Collectors.joining());
-      File result = FileExt.create(file.toAbsolutePath(), fullContent);
+      var fullContent = content.stream().collect(Collectors.joining());
+      var result = FileExt.create(file.toAbsolutePath(), fullContent);
       if (result == null) {
         System.out.printf("Failed at creating file %s%n",
             file.toFile().getName()
