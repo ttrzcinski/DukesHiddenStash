@@ -89,6 +89,28 @@ public class AAATestGenerator {
     className = StringFix.cutLast(sourceFile.getName(),5 );
     return String.format("class %s_AAATest {", className);
   }
+  
+  /**
+   * Should parse classes out of java files.
+   *
+   * @param directoryPath directory of classes
+   * @param parentPackage parent's package
+   */
+  private static void readClassesFromDirectory(String directoryPath,
+      String parentPackage) {
+    // Create a File object on the root of the directory containing the class file
+    File directory = new File(directoryPath);
+
+    try {
+      URL url = directory.toURI().toURL();  // file:/c:/Projects/out/
+      URL[] urls = new URL[]{url};
+      // Loads classes from the directory
+      ClassLoader classLoader = new URLClassLoader(urls);
+      Class theClass = classLoader.loadClass(parentPackage);
+    } catch (MalformedURLException | ClassNotFoundException e) {
+      e.printStackTrace();
+    }
+  }
 
   /**
    * Should prepare list of methods from pointed class.
