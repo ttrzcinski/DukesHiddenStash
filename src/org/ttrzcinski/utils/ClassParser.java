@@ -1,9 +1,9 @@
 package org.ttrzcinski.utils;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
+import java.util.Objects;
 
 /**
  * Parses other classes.
@@ -52,8 +52,7 @@ public class ClassParser {
   /**
    * Lists methods of pointed class.
    *
-   * It looks like:<br/>
-   * public static java.lang.String org.ttrzcinski.utils.StringFix.simple(java.lang.String)
+   * It looks like:<br/> public static java.lang.String org.ttrzcinski.utils.StringFix.simple(java.lang.String)
    *
    * @param classFullName given class name
    */
@@ -62,34 +61,40 @@ public class ClassParser {
       Class thisClass = Class.forName(classFullName);
       Method[] methods = thisClass.getDeclaredMethods();
 
-      for (Method method : methods) {
-        System.out.println(method.toString());
-      }
+      Arrays.stream(methods)
+          .map(Method::toString)
+          .forEach(System.out::println);
     } catch (Throwable e) {
       System.err.println(e);
     }
   }
 
   /**
-   * Lists variables of pointed class.
+   * Lists variables of the class.
    *
-   * @param classFullName given class name
+   * @param classFullName class full name
    */
   public void listVariables(String classFullName) {
     Field[] fields = new Field[1];
     try {
-      Class classTemp = Class.forName(classFullName);
-      fields = classTemp.getClass().getDeclaredFields();
+      fields = Class
+          .forName(classFullName)
+          .getClass()
+          .getFields();
     } catch (Exception e) {
       e.printStackTrace();
       System.err.println(e);
     }
-    //
-    if (fields.length > 0) {
-      System.out.printf("Fields found in %s:%n", classFullName);
-      Arrays.stream(fields).map(Field::toString).forEach(System.out::println);
-    } else {
+    // Only, if there are some fields
+    if (fields.length <= 0) {
       System.out.printf("No fields found in %s:%n", classFullName);
+      return;
     }
+    // Show found fields.
+    System.out.printf("Fields found in %s:%n", classFullName);
+    Arrays.stream(fields)
+        .filter(Objects::nonNull)
+        .map(Field::toString)
+        .forEach(System.out::println);
   }
 }
