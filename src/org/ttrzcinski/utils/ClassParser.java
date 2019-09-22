@@ -39,8 +39,8 @@ public class ClassParser {
   public Class<?> returnClassFile(String packageName, String className) {
     Class<?> classHandle = null;
     try {
-      classHandle = Class.forName(String.format("%s.%s",
-          packageName, className)
+      classHandle = Class.forName(
+          String.format("%s.%s", packageName, className)
       );
     } catch (ClassNotFoundException e) {
       e.printStackTrace();
@@ -64,8 +64,8 @@ public class ClassParser {
       Arrays.stream(methods)
           .map(Method::toString)
           .forEach(System.out::println);
-    } catch (Throwable e) {
-      System.err.println(e);
+    } catch (ClassNotFoundException e) {
+      e.printStackTrace();
     }
   }
 
