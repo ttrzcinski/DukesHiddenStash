@@ -14,12 +14,14 @@ public class SafeClose {
    * @param resource closeable resource
    */
   public static void close(Closeable resource) {
-    if (resource != null) {
-      try {
-        resource.close();
-      } catch (IOException ioex) {
-        System.err.println(ioex);
-      }
+    if (resource == null) {
+      return;
+    }
+    try {
+      resource.close();
+    } catch (IOException ioex) {
+      System.err.println("Couldn't close passed resource.");
+      ioex.printStackTrace();
     }
   }
 }
