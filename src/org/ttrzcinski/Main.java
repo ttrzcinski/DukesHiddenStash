@@ -1,8 +1,5 @@
 package org.ttrzcinski;
 
-import java.io.IOException;
-import org.ttrzcinski.utils.HTTPObtainer;
-import org.ttrzcinski.utils.ProcessingSpinner;
 import org.ttrzcinski.utils.UnitTestGenerator;
 
 /**
@@ -26,6 +23,7 @@ public class Main {
         }*/
         /*String content = String.valueOf(HTTPObtainer.obtainAsListInFuture("http://www.bash.org"));
         System.out.println(content);*/
+
         new UnitTestGenerator()
             //.fromIML("C:\\\\Projects\\\\DukesHiddenStash\\\\DukesHiddenStash.iml")
             .fromCurrentProject()
