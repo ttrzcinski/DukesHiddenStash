@@ -39,8 +39,8 @@ public class ClassParser {
   public Class<?> returnClassFile(String packageName, String className) {
     Class<?> classHandle;
     try {
-      classHandle = Class.forName(String.format("%s.%s",
-          packageName, className)
+      classHandle = Class.forName(
+          String.format("%s.%s", packageName, className)
       );
     } catch (ClassNotFoundException e) {
       e.printStackTrace();
@@ -52,8 +52,7 @@ public class ClassParser {
   /**
    * Lists methods of pointed class.
    *
-   * It looks like:<br/>
-   * public static java.lang.String org.ttrzcinski.utils.StringFix.simple(java.lang.String)
+   * It looks like:<br/> public static java.lang.String org.ttrzcinski.utils.StringFix.simple(java.lang.String)
    *
    * @param classFullName given class name
    */
@@ -62,41 +61,42 @@ public class ClassParser {
       Class thisClass = Class.forName(classFullName);
       Method[] methods = thisClass.getDeclaredMethods();
 
-      for (Method method : methods) {
-        System.out.println(method.toString());
-      }
+      Arrays.stream(methods)
+          .map(Method::toString)
+          .forEach(System.out::println);
     } catch (ClassNotFoundException e) {
-      System.err.println("Couldn't list methods due class doesn't exist.");
-      e.printStackTrace();
-    } catch (SecurityException e) {
-      System.err.println("Couldn't list methods due security veto.");
       e.printStackTrace();
     }
   }
 
   /**
-   * Lists variables of pointed class.
+   * Lists variables of the class.
    *
-   * @param classFullName given class name
+   * @param classFullName class full name
    */
   public void listVariables(String classFullName) {
     Field[] fields = new Field[1];
     try {
       Class classTemp = Class.forName(classFullName);
       fields = classTemp.getDeclaredFields();
+      fields = Class
+          .forName(classFullName)
+          .getClass()
+          .getFields();
     } catch (Exception e) {
       System.err.println("Couldn't list variables.");
       e.printStackTrace();
     }
-    //
-    if (fields.length > 0) {
-      System.out.printf("Fields found in %s:%n", classFullName);
-      Arrays.stream(fields)
-          .filter(Objects::nonNull)
-          .map(Field::toString)
-          .forEach(System.out::println);
-    } else {
+    // Only, if there are some fields
+    if (fields.length <= 0) {
       System.out.printf("No fields found in %s:%n", classFullName);
+      return;
     }
+    // Show found fields.
+    System.out.printf("Fields found in %s:%n", classFullName);
+    Arrays.stream(fields)
+        .filter(Objects::nonNull)
+        .map(Field::toString)
+        .forEach(System.out::println);
   }
 }
