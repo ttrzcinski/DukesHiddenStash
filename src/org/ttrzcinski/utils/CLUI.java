@@ -117,21 +117,16 @@ public class CLUI {
    * @return list of those arguments
    */
   private List<EnvArgument> prepareArguments() {
-    List<EnvArgument> envArguments = new ArrayList<>();
     // TODO Change it to use plain text file
-    envArguments.addAll(
-        Arrays.asList(new EnvArgument[]{
-            new EnvArgument().withAcronym("h").withName("help")
-                .withDescription("Present help with possible arguments to use."),
-            new EnvArgument().withAcronym("a").withName("author")
-                .withDescription("List of authors, who created the application."),
-            new EnvArgument().withAcronym("src").withName("source")
-                .withDescription("Path to src catalog within the project."),
-            new EnvArgument().withAcronym("t").withName("test")
-                .withDescription("Path to test catalog within the project.")
-        })
-    );
-    return envArguments;
+    return new ArrayList<>(Arrays.asList(
+        new EnvArgument().withAcronym("h").withName("help")
+            .withDescription("Present help with possible arguments to use."),
+        new EnvArgument().withAcronym("a").withName("author")
+            .withDescription("List of authors, who created the application."),
+        new EnvArgument().withAcronym("src").withName("source")
+            .withDescription("Path to src catalog within the project."),
+        new EnvArgument().withAcronym("t").withName("test")
+            .withDescription("Path to test catalog within the project.")));
   }
 
   /**
@@ -141,7 +136,7 @@ public class CLUI {
     this.multiOut.pass("Possible arguments:");
     this.getKnown().stream()
         .map(EnvArgument::asHelp)
-        .forEach(asHelp -> this.pass(asHelp));
+        .forEach(this::pass);
   }
 
   /**

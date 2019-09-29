@@ -16,17 +16,16 @@ public class FilesExt {
    * @param path path to the directory, f.e.: C:\\Projects
    * @return List with all files in
    */
-  public final static List<File> allFilesOf(String path) {
+  public static List<File> allFilesOf(String path) {
     // Check entered param
     if (!ParamCheck.isPath(path)) {
       return new ArrayList<>();
     }
     // Prepare result list
     File directory = new File(path);
-    List<File> resultList = new ArrayList<File>();
     // get all the files from a directory
     File[] fList = directory.listFiles();
-    resultList.addAll(Arrays.asList(fList));
+    List<File> resultList = new ArrayList<>(Arrays.asList(fList));
     for (File file : fList) {
       if (file.isFile()) {
         resultList.add(file);
@@ -43,9 +42,9 @@ public class FilesExt {
    * @param names file names
    * @return file array
    */
-  public final static File[] asFileArray(String[] names) {
+  public static File[] asFileArray(String[] names) {
     return Arrays.stream(names)
-        .map(s -> new File(s))
+        .map(File::new)
         .toArray(size -> new File[names.length]);
   }
 
@@ -55,9 +54,9 @@ public class FilesExt {
    * @param files files array
    * @return array of absolute file paths
    */
-  public final static String[] asFileAbsolutePaths(File[] files) {
+  public static String[] asFileAbsolutePaths(File[] files) {
     return Arrays.stream(files)
-        .map(f -> f.getAbsolutePath())
+        .map(File::getAbsolutePath)
         .toArray(size -> new String[files.length]);
   }
 
@@ -67,9 +66,9 @@ public class FilesExt {
    * @param files files array
    * @return array of file paths
    */
-  public final static String[] asFilesPaths(File[] files) {
+  public static String[] asFilesPaths(File[] files) {
     return Arrays.stream(files)
-        .map(f -> f.getPath())
+        .map(File::getPath)
         .toArray(size -> new String[files.length]);
   }
 
@@ -79,7 +78,7 @@ public class FilesExt {
    * @param path path to the directory, f.e.: C:\\Projects
    * @return List with all file names in
    */
-  public final static List<String> allFileNamesOf(String path) {
+  public static List<String> allFileNamesOf(String path) {
     // Check entered path
     if (!ParamCheck.isPath(path)) {
       return new ArrayList<>();

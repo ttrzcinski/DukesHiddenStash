@@ -3,7 +3,6 @@ package org.ttrzcinski.utils;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import org.ttrzcinski.interfaces.ConsoleOutput;
 
 public class FileDigger extends ConsoleOutput {
@@ -21,7 +20,7 @@ public class FileDigger extends ConsoleOutput {
       //Check existence of given path
       final File file = new File(path);
       if (file.exists()) {
-        File[] files = null;
+        File[] files;
         if (file.isFile()) {
           files = new File[]{new File(file.getName())};
         } else {
@@ -36,7 +35,7 @@ public class FileDigger extends ConsoleOutput {
               results.addAll(Arrays.asList(foundOnes));
             }
           });
-          files = results.toArray(new File[results.size()]);
+          files = results.toArray(new File[0]);
         }
         return files;
       }

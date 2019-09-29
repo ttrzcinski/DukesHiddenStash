@@ -27,7 +27,7 @@ public class FileExt {
    */
   public static List<File> listFilesOf(Path path) {
     // Find iml file in current project directory
-    return Arrays.asList(path.toFile().listFiles(file -> file.exists()));
+    return Arrays.asList(path.toFile().listFiles(File::exists));
   }
 
   /**
@@ -62,7 +62,7 @@ public class FileExt {
     String phrase = StringFix.simple(filter);
     File[] files;
     if (phrase.length() == 0 || phrase.equals("*.*")) {
-      files = path.toFile().listFiles(x -> x.exists());
+      files = path.toFile().listFiles(File::exists);
     } else if (phrase.startsWith("*.") && phrase.length() > 2) {
       // filter by extension
       String end = phrase.substring(2);
@@ -196,7 +196,7 @@ public class FileExt {
    * @return true means it exists, false otherwise
    */
   public static boolean exists(Path path) {
-    return path != null ? exists(path.toFile()) : false;
+    return path != null && exists(path.toFile());
   }
 
   /**
@@ -206,7 +206,7 @@ public class FileExt {
    * @return true means it exists, false otherwise
    */
   public static boolean exists(String path) {
-    return (ParamCheck.isSet(path)) ? exists(Path.of(path)) : false;
+    return ParamCheck.isSet(path) && exists(Path.of(path));
   }
 
   /**
@@ -216,7 +216,7 @@ public class FileExt {
    * @return true means it exists, false otherwise
    */
   public static boolean exists(File file) {
-    return file != null ? file.exists() : false;
+    return file != null && file.exists();
   }
 
   /**

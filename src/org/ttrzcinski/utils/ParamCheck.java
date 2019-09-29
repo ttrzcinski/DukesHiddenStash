@@ -98,7 +98,7 @@ public final class ParamCheck {
     }
     // If there is inside at least one empty item, else it's ok
     return (!(params instanceof String[])) ?
-        Arrays.stream(params).allMatch(param -> isSet(param)) :
+        Arrays.stream(params).allMatch(ParamCheck::isSet) :
         isSet((String[]) params);
   }
 
@@ -110,9 +110,8 @@ public final class ParamCheck {
    */
   public static boolean isSet(final String[] params) {
     // If there is inside at least one empty item, else it's ok
-    return (params != null && params.length != 0) ?
-        Arrays.stream(params).allMatch(param -> isSet(param)) :
-        false;
+    return (params != null && params.length != 0)
+        && Arrays.stream(params).allMatch(ParamCheck::isSet);
   }
 
   /**
@@ -122,9 +121,7 @@ public final class ParamCheck {
    * @return true means is is set, false otherwise
    */
   public static boolean isSet(final String param) {
-    return (param != null) ?
-        ((String) param).trim().length() > 0 :
-        false;
+    return param != null && param.trim().length() > 0;
   }
 
   /**
@@ -134,10 +131,7 @@ public final class ParamCheck {
    * @return true means is is set, false otherwise
    */
   public static boolean isSet(final Object param) {
-    if (param == null) {
-      return false;
-    }
-    return true;
+    return param != null;
   }
 
   /**

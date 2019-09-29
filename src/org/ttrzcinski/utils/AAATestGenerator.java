@@ -47,16 +47,16 @@ public class AAATestGenerator {
    * Dictionary of variants based on type.
    */
   private HashMap<String, List<String>> variants = new HashMap<>();
+
   {
-    variants.put("Object", Arrays.asList(new String[]{"null", "Object"}));
-    variants.put("bool", Arrays.asList(new String[]{"true", "false"}));
-    variants.put("int", Arrays.asList(new String[]{"zero", "one", "negative", "maxInt", "minInt"}));
+    variants.put("Object", Arrays.asList("null", "Object"));
+    variants.put("bool", Arrays.asList("true", "false"));
+    variants.put("int", Arrays.asList("zero", "one", "negative", "maxInt", "minInt"));
     variants.put("String",
-        Arrays.asList(new String[]{"null",
+        Arrays.asList("null",
             "empty", "emptyToTrim",
             "some", "someToTrim",
-            "justDigits", "justLetters", "justSpecialChars"
-        })
+            "justDigits", "justLetters", "justSpecialChars")
     );
   }
 
@@ -119,7 +119,7 @@ public class AAATestGenerator {
     String fullPackageAndClass = String.format("%s.%s.",
         packageName, className);
     try {
-      List<String> list = Arrays.stream(theClass.getDeclaredMethods())
+      methodsList = Arrays.stream(theClass.getDeclaredMethods())
           .map(
               method -> method.toString()
                   .replace(fullPackageAndClass, "")
@@ -127,9 +127,9 @@ public class AAATestGenerator {
                   .replace("java.util.", "")
           )
           .collect(Collectors.toList());
-      methodsList = list;
     } catch (Throwable e) {
-      System.err.println(e);
+      System.err.println("Couldn't prepare list of methods, because:");
+      e.printStackTrace();
     }
     return methodsList;
   }
@@ -150,7 +150,7 @@ public class AAATestGenerator {
       // Loads classes from the directory
       ClassLoader classLoader = new URLClassLoader(urls);
       Class theClass = classLoader.loadClass(parentPackage);
-      System.out.println(theClass.getDeclaredMethods().toString());
+      System.out.println(Arrays.toString(theClass.getDeclaredMethods()));
     } catch (MalformedURLException | ClassNotFoundException e) {
       e.printStackTrace();
     }
@@ -171,8 +171,9 @@ public class AAATestGenerator {
           .stream(theClass.getDeclaredMethods())
           .map(Method::toString)
           .collect(Collectors.toList());
-    } catch (Throwable e) {
-      System.err.println(e);
+    } catch (SecurityException e) {
+      System.out.println("Couldn't prepare list of methods.");
+      e.printStackTrace();
     }
     return methodsList;
   }
@@ -188,7 +189,7 @@ public class AAATestGenerator {
    */
   private String prepareMethod(String className, String methodName,
       String variant, boolean voidType) {
-    // TODO CHANGE VOIDTYPE TO RETURNTYPE as ENUM OF TYPES
+    // TODO CHANGE VOID TYPE TO RETURN TYPE as ENUM OF TYPES
     // Fix passed parameters
     int firstBracket = methodName.indexOf("(");
     String justMethodName;

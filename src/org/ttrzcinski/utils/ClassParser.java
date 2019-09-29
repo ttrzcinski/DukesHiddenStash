@@ -1,9 +1,9 @@
 package org.ttrzcinski.utils;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
+import java.util.Objects;
 
 /**
  * Parses other classes.
@@ -17,7 +17,7 @@ public class ClassParser {
    * @return instance of that class
    */
   public Object createInstanceOfClass(String classFullName) {
-    Object obj = null;
+    Object obj;
     try {
       obj = Class.forName(classFullName)
           .getDeclaredConstructor()
@@ -37,7 +37,7 @@ public class ClassParser {
    * @return class handle, if found, null otherwise
    */
   public Class<?> returnClassFile(String packageName, String className) {
-    Class<?> classHandle = null;
+    Class<?> classHandle;
     try {
       classHandle = Class.forName(String.format("%s.%s",
           packageName, className)
@@ -65,8 +65,12 @@ public class ClassParser {
       for (Method method : methods) {
         System.out.println(method.toString());
       }
-    } catch (Throwable e) {
-      System.err.println(e);
+    } catch (ClassNotFoundException e) {
+      System.err.println("Couldn't list methods due class doesn't exist.");
+      e.printStackTrace();
+    } catch (SecurityException e) {
+      System.err.println("Couldn't list methods due security veto.");
+      e.printStackTrace();
     }
   }
 
@@ -79,15 +83,18 @@ public class ClassParser {
     Field[] fields = new Field[1];
     try {
       Class classTemp = Class.forName(classFullName);
-      fields = classTemp.getClass().getDeclaredFields();
+      fields = classTemp.getDeclaredFields();
     } catch (Exception e) {
+      System.err.println("Couldn't list variables.");
       e.printStackTrace();
-      System.err.println(e);
     }
     //
     if (fields.length > 0) {
       System.out.printf("Fields found in %s:%n", classFullName);
-      Arrays.stream(fields).map(Field::toString).forEach(System.out::println);
+      Arrays.stream(fields)
+          .filter(Objects::nonNull)
+          .map(Field::toString)
+          .forEach(System.out::println);
     } else {
       System.out.printf("No fields found in %s:%n", classFullName);
     }

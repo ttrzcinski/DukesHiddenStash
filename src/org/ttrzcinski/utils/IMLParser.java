@@ -114,7 +114,7 @@ public class IMLParser {
    */
   private Map<String, String> parseXPath(Document document,
       String expression, Set<String> attributes) {
-    return this.parseXPath(document, expression, new ArrayList<String>(attributes));
+    return this.parseXPath(document, expression, new ArrayList<>(attributes));
   }
 
   /**
@@ -137,7 +137,7 @@ public class IMLParser {
     // Create new instance of XPath
     final XPath xPath = XPathFactory.newInstance().newXPath();
     // Prepare list of nodes from XML
-    NodeList nodeList = null;
+    NodeList nodeList;
     try {
       nodeList = (NodeList) xPath.compile(expression).evaluate(
           document, XPathConstants.NODESET);
@@ -178,7 +178,7 @@ public class IMLParser {
    * @return boolean value
    */
   private int parseXMLAttribute_asInt(Node node, String attributeName) {
-    return Integer.valueOf(
+    return Integer.parseInt(
         ((Element) node).getAttribute(attributeName)
     );
   }
@@ -198,8 +198,7 @@ public class IMLParser {
     // Process attribute
     final Element element = ((Element) node);
     return element.hasAttribute(attributeName)
-        ? StringFix.simple(element.getAttribute(attributeName)).equals("true")
-        : false;
+        && StringFix.simple(element.getAttribute(attributeName)).equals("true");
   }
 
   /**

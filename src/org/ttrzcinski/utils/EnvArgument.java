@@ -85,6 +85,6 @@ public class EnvArgument {
         )
     );
     // Final formatting
-    return new StringBuilder(legend).append(" : ").append(this.help).toString();
+    return String.format("%s : %s", legend, this.help);
   }
 }

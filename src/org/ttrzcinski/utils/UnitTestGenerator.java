@@ -111,7 +111,7 @@ public class UnitTestGenerator {
    *
    * @return key-value map with source files and unit test files
    */
-  private final HashMap<String, String> prepareSourcesList() {
+  private HashMap<String, String> prepareSourcesList() {
     var sourcePaths = new HashMap<String, String>();
     this.srcPath.stream()
         .map(FilesExt::allFileNamesOf)
@@ -131,7 +131,7 @@ public class UnitTestGenerator {
    * @param omitInfo marks, if package-info should be skipped
    * @return list of files without package-info
    */
-  private final HashMap<String, String> prepareSourcesList(boolean omitInfo) {
+  private HashMap<String, String> prepareSourcesList(boolean omitInfo) {
     var sourcePaths = this.prepareSourcesList();
     if (!omitInfo) {
       return sourcePaths;
@@ -153,7 +153,7 @@ public class UnitTestGenerator {
    * @param given given map with sources and test paths
    * @return list with only directories
    */
-  private final List<String> onlyDirectories(HashMap<String, String> given) {
+  private List<String> onlyDirectories(HashMap<String, String> given) {
     return given.values().stream()
         .filter(value -> !value.endsWith(".java"))
         .collect(Collectors.toList());
@@ -165,7 +165,7 @@ public class UnitTestGenerator {
    * @param given given map with sources and test paths
    * @return list with only files
    */
-  private final List<String> onlyFiles(HashMap<String, String> given) {
+  private List<String> onlyFiles(HashMap<String, String> given) {
     // Check entered map
     if (!ParamCheck.isSet(given)) {
       return new ArrayList<>();
@@ -184,20 +184,19 @@ public class UnitTestGenerator {
    * @param given given map with sources and test paths
    * @return map with only directories
    */
-  private final HashMap<String, String> onlySourceFiles(final HashMap<String, String> given) {
+  private HashMap<String, String> onlySourceFiles(final HashMap<String, String> given) {
     // Check entered map
     if (!ParamCheck.isSet(given)) {
       return new HashMap<>();
     }
     // Process given map
-    var files = given.entrySet().stream()
+    return given.entrySet().stream()
         .filter(file -> file.getKey().endsWith(".java"))
         .collect(
             Collectors.toMap(
                 Entry::getKey, Entry::getValue, (a, b) -> b, HashMap::new
             )
         );
-    return files;
   }
 
   /**
@@ -207,7 +206,7 @@ public class UnitTestGenerator {
    * @param extension pointed file's extension to filter files
    * @return list with only files
    */
-  private final List<String> onlyFilesWithExtension(HashMap<String, String> given,
+  private List<String> onlyFilesWithExtension(HashMap<String, String> given,
       String extension) {
     // Check entered params
     if (!ParamCheck.isSet(extension)) {
@@ -253,9 +252,11 @@ public class UnitTestGenerator {
         FileExt.remove(file);
       }
       // Prepare content for unit test file
-      var content = this.atg.generate(change.getKey());
       // Create unit test file
-      var fullContent = content.stream().collect(Collectors.joining());
+      var fullContent = this.atg.
+          generate(change.getKey())
+          .stream()
+          .collect(Collectors.joining());
       var result = FileExt.create(file.toAbsolutePath(), fullContent);
       if (result == null) {
         System.out.printf("Failed at creating file %s%n",
