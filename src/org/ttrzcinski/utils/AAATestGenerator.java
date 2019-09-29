@@ -236,7 +236,7 @@ public class AAATestGenerator {
     }
     result.add("  }");
     // Convert list to one String var
-    return result.stream().collect(Collectors.joining());
+    return String.join("", result);
   }
 
   /**

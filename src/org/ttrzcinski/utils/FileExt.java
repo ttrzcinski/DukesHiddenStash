@@ -8,6 +8,7 @@ import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 import org.jetbrains.annotations.NotNull;
 
@@ -27,7 +28,9 @@ public class FileExt {
    */
   public static List<File> listFilesOf(Path path) {
     // Find iml file in current project directory
-    return Arrays.asList(path.toFile().listFiles(File::exists));
+    return Arrays.asList(
+        Objects.requireNonNull(path.toFile().listFiles(File::exists))
+    );
   }
 
   /**
@@ -37,7 +40,9 @@ public class FileExt {
    * @return list of subdirectories
    */
   public static List<File> listSubdirectoriesOf(Path path) {
-    return Arrays.asList(path.toFile().listFiles(File::isDirectory));
+    return Arrays.asList(
+        Objects.requireNonNull(path.toFile().listFiles(File::isDirectory))
+    );
   }
 
   /**
@@ -47,7 +52,9 @@ public class FileExt {
    * @return list of only files
    */
   public static List<File> listOnlyFilesOf(Path path) {
-    return Arrays.asList(path.toFile().listFiles(File::isFile));
+    return Arrays.asList(
+        Objects.requireNonNull(path.toFile().listFiles(File::isFile))
+    );
   }
 
   /**
@@ -75,7 +82,9 @@ public class FileExt {
       // contains
       files = path.toFile().listFiles(x -> x.getName().contains(phrase));
     }
-    return Arrays.stream(files).collect(Collectors.toList());
+    return Arrays
+        .stream(Objects.requireNonNull(files))
+        .collect(Collectors.toList());
   }
 
   /**
@@ -110,7 +119,6 @@ public class FileExt {
       try {
         result = file.createNewFile();
       } catch (IOException ioe) {
-        result = false;
         file = null;
       }
     }

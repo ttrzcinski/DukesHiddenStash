@@ -208,11 +208,11 @@ public class IMLParser {
    * @return handle to the XML document
    */
   private Document parseXML(String filePath) {
-    Document document = null;
     // Checks entered file path
     if (!ParamCheck.isPath(filePath)) {
-      return document;
+      return null;
     }
+    Document document;
     // Start processing document
     try {
       document = DocumentBuilderFactory.newInstance()

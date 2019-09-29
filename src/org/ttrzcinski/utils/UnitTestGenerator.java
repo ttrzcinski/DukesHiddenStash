@@ -137,8 +137,7 @@ public class UnitTestGenerator {
       return sourcePaths;
     }
     // Remove package-info files
-    var keys = sourcePaths.keySet().stream()
-        .collect(Collectors.toList());
+    var keys = new ArrayList<>(sourcePaths.keySet());
     for (var key : keys) {
       if (key.endsWith("package-info.java")) {
         sourcePaths.remove(key);
@@ -253,10 +252,8 @@ public class UnitTestGenerator {
       }
       // Prepare content for unit test file
       // Create unit test file
-      var fullContent = this.atg.
-          generate(change.getKey())
-          .stream()
-          .collect(Collectors.joining());
+      var fullContent = String.join("", this.atg.
+          generate(change.getKey()));
       var result = FileExt.create(file.toAbsolutePath(), fullContent);
       if (result == null) {
         System.out.printf("Failed at creating file %s%n",

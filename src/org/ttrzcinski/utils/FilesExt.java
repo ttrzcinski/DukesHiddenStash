@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * File processing methods wrapped for simpler use of them.
@@ -25,7 +26,9 @@ public class FilesExt {
     File directory = new File(path);
     // get all the files from a directory
     File[] fList = directory.listFiles();
-    List<File> resultList = new ArrayList<>(Arrays.asList(fList));
+    List<File> resultList = new ArrayList<>(
+        Arrays.asList(Objects.requireNonNull(fList))
+    );
     for (File file : fList) {
       if (file.isFile()) {
         resultList.add(file);

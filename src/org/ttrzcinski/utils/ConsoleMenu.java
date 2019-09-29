@@ -27,7 +27,7 @@ public class ConsoleMenu {
   /**
    * Used for input of chosen option from console.
    */
-  private Scanner scanner;
+  private final Scanner scanner;
 
   /**
    * Creates new instance of console menu.

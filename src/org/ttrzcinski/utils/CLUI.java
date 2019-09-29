@@ -3,7 +3,6 @@ package org.ttrzcinski.utils;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 import org.ttrzcinski.utils.MultiOut.Output;
 
 /**
@@ -154,7 +153,7 @@ public class CLUI {
    */
   public List<EnvArgument> getKnown() {
     this.initKnownArguments();
-    return this.known.stream().collect(Collectors.toList());
+    return new ArrayList<>(this.known);
   }
 
   /**

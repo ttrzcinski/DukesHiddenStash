@@ -55,7 +55,7 @@ public class HTTPObtainer {
    * @return String content of the page
    */
   public static String obtainAsString(String uri) {
-    return obtainAsList(uri).stream().collect(Collectors.joining());
+    return String.join("", obtainAsList(uri));
   }
 
   /**
@@ -91,7 +91,7 @@ public class HTTPObtainer {
    * @return String content of the page
    */
   public static String obtainAsStringInFuture(String uri) {
-    return obtainAsListInFuture(uri).stream().collect(Collectors.joining());
+    return String.join("", obtainAsListInFuture(uri));
   }
 
 }

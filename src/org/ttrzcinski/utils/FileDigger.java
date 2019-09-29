@@ -3,6 +3,7 @@ package org.ttrzcinski.utils;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Objects;
 import org.ttrzcinski.interfaces.ConsoleOutput;
 
 public class FileDigger extends ConsoleOutput {
@@ -28,7 +29,8 @@ public class FileDigger extends ConsoleOutput {
           //TODO LIMIT TO ONE TYPE ONLY
           final File[] listOfFiles = file.listFiles();
           final var results = new ArrayList<File>();
-          Arrays.stream(listOfFiles).forEach(processed -> {
+          Arrays.stream(Objects.requireNonNull(listOfFiles))
+              .forEach(processed -> {
             out("with: " + processed.getName());
             final File[] foundOnes = this.digFile(processed.getName());
             if (foundOnes != null && foundOnes.length > 0) {

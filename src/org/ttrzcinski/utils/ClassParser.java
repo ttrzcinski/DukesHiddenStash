@@ -81,7 +81,6 @@ public class ClassParser {
       fields = classTemp.getDeclaredFields();
       fields = Class
           .forName(classFullName)
-          .getClass()
           .getFields();
     } catch (Exception e) {
       System.err.println("Couldn't list variables.");

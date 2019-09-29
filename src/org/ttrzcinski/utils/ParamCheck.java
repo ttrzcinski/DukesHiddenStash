@@ -68,21 +68,20 @@ public final class ParamCheck {
    * @return true means it's valid, false otherwise
    */
   public static boolean isPathWithTry(final String path) {
-    var result = false;
     if (!isSet(path)) {
-      return result;
+      return false;
     }
     final var fixedPath = path.trim();
     // Check, if it is a home or root
     if (!KNOWN_NIX_PATHS.contains(fixedPath)) {
       try {
         Paths.get(fixedPath);
-        result = true;
+        return true;
       } catch (InvalidPathException | NullPointerException ex) {
-        result = false;
+        return false;
       }
     }
-    return result;
+    return false;
   }
 
   /**
@@ -163,10 +162,10 @@ public final class ParamCheck {
    * @return true means it is, false otherwise
    */
   public static boolean isArgument(final String given) {
-    var result = false;
     if (!isSet(given)) {
-      return result;
+      return false;
     }
+    var result = false;
     final var passedValue = given.trim();
     if (passedValue.startsWith("-")) {
       result = !passedValue.startsWith("---");
