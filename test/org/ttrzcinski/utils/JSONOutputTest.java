@@ -10,6 +10,19 @@ import static org.junit.jupiter.api.Assertions.*;
 class JSONOutputTest {
 
   @Test
+  void toJSON_null() {
+    // Arrange
+    Map<String, String> newMap = null;
+    var expected = "{}";
+
+    // Act
+    var result = JSONOutput.toJSON(newMap);
+
+    // Assert
+    assertEquals(expected, result);
+  }
+
+  @Test
   void toJSON_noElements() {
     // Arrange
     Map<String, String> newMap = new HashMap<>();
