@@ -6,9 +6,18 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Provides stable sort implementation to sort integers.
+ *
+ * Created 31.08.2019 12:06 as a part of project DukesHiddenStash
+ *
+ * @author <a href="mailto:trzcinski.tomasz.1988@gmail.com">Tomasz T.</a>
+ * @version %I% from %G%
+ * @since 1.12
+ */
 public class StableSort {
 
-  public static Comparator<Tuple> tupleComparator = (o1, o2) -> {
+  public static final Comparator<Tuple> tupleComparator = (o1, o2) -> {
     if (o1.sum != o2.sum) {
       return o1.sum > o2.sum ? -1 : 1;
     }
@@ -59,7 +68,16 @@ public class StableSort {
     return given;
   }
 
+  /**
+   * Sorts given lis of items with 'space' delimiter.
+   *
+   * @param line line of items
+   * @return line of sorted items
+   */
   public static String stableSort(String line) {
+    if (!ParamCheck.isSet(line)) {
+      return line;
+    }
     System.out.println(line);
     String[] parts = line.split(" ");
     List<Tuple> results = new ArrayList<>();
@@ -78,6 +96,8 @@ public class StableSort {
     System.out.printf("orderedSet, sum, len\n-----------%n");
     results.stream().map(Tuple::toString).forEach(System.out::println);
 
-    return results.stream().map(x -> x.orderedSet).collect(Collectors.joining(" "));
+    return results.stream()
+        .map(x -> x.orderedSet)
+        .collect(Collectors.joining(" "));
   }
 }
