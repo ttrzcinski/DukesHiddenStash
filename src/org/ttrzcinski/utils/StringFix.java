@@ -52,7 +52,6 @@ public final class StringFix {
       givenFix = given;
       wantedCount = wantedLength - givenFix.length();
     }
-    ;
     return wantedLength < 0 || wantedCount < 0
         ? givenFix
         : String.format("%s%s",
@@ -77,7 +76,6 @@ public final class StringFix {
       givenFix = given;
       wantedCount = wantedLength - givenFix.length();
     }
-    ;
     return wantedLength < 0 || wantedCount < 0
         ? givenFix
         : String.format("%s%s",
