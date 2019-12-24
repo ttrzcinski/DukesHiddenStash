@@ -19,9 +19,9 @@ public class SafeClose {
     }
     try {
       resource.close();
-    } catch (IOException ioex) {
+    } catch (IOException ioe_1) {
       System.err.println("Couldn't close passed resource.");
-      ioex.printStackTrace();
+      ioe_1.printStackTrace();
     }
   }
 }
