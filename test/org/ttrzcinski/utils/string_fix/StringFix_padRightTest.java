@@ -1,10 +1,7 @@
 package org.ttrzcinski.utils.string_fix;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.ttrzcinski.dictionaries.FakerString.EMPTY;
-import static org.ttrzcinski.dictionaries.FakerString.NULL;
 import static org.ttrzcinski.dictionaries.FakerString.SOME;
-import static org.ttrzcinski.dictionaries.FakerString.SOME_TO_LEFT_TRIM;
 import static org.ttrzcinski.dictionaries.FakerString.SOME_TO_RIGHT_TRIM;
 
 import org.junit.jupiter.api.Test;
