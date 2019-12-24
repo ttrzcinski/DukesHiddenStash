@@ -12,6 +12,16 @@ import java.util.List;
 import java.util.stream.Collectors;
 import org.jetbrains.annotations.NotNull;
 
+
+/**
+ * Class generating AAA unit test files.
+ *
+ * Created 31.08.2019 12:06 as a part of project DukesHiddenStash
+ *
+ * @author <a href="mailto:trzcinski.tomasz.1988@gmail.com">Tomasz T.</a>
+ * @version %I% from %G%
+ * @since 1.12
+ */
 public class AAATestGenerator {
 
   /**
