@@ -3,10 +3,16 @@ package org.ttrzcinski.utils;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Objects;
+
 
 /**
  * Enforces initialization in order to assure, that it is not null.
+ *
+ * Created 31.08.2019 12:06 as a part of project DukesHiddenStash
+ *
+ * @author <a href="mailto:trzcinski.tomasz.1988@gmail.com">Tomasz T.</a>
+ * @version %I% from %G%
+ * @since 1.12
  */
 public class Denuller {
 
@@ -17,7 +23,8 @@ public class Denuller {
    * @return initialized object, if need or old value, if it was already initialized
    */
   public static Object fix(Object given) {
-    return Objects.requireNonNullElseGet(given, Object::new);
+
+    return given == null ? new Object() : given;
   }
 
   /**
@@ -27,7 +34,8 @@ public class Denuller {
    * @return initialized object, if need or old value, if it was already initialized
    */
   public static HashMap<?, ?> fix(HashMap<?, ?> given) {
-    return Objects.requireNonNullElseGet(given, HashMap::new);
+
+    return given == null ? new HashMap<>() : given;
   }
 
   /**
@@ -37,6 +45,7 @@ public class Denuller {
    * @return initialized object, if need or old value, if it was already initialized
    */
   public static List<?> fix(List<?> given) {
-    return Objects.requireNonNullElseGet(given, ArrayList::new);
+
+    return given == null ? new ArrayList<>() : given;
   }
 }
