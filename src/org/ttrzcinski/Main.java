@@ -1,6 +1,6 @@
 package org.ttrzcinski;
 
-import org.ttrzcinski.utils.UnitTestGenerator;
+import org.ttrzcinski.utils.StableSort;
 
 /**
  * Entry point to the library.
@@ -16,6 +16,12 @@ public class Main {
 
         System.out.println("Actually You suppose not to run this - it's a library.");
 
+        //String result = ConsoleUtil.cmd("git -?", null);
+        //System.out.println(result);
+        String line = "900 24 8 51 20202 333 1 222 42";
+        String newLine = StableSort.stableSort(line);
+        System.out.println(newLine);
+
         /*try {
             ProcessingSpinner.process(100, "Taking control over the world.");
         } catch (InterruptedException e) {
@@ -24,11 +30,11 @@ public class Main {
         /*String content = String.valueOf(HTTPObtainer.obtainAsListInFuture("http://www.bash.org"));
         System.out.println(content);*/
 
-        new UnitTestGenerator()
+        /*new UnitTestGenerator()
             //.fromIML("C:\\\\Projects\\\\DukesHiddenStash\\\\DukesHiddenStash.iml")
             .fromCurrentProject()
             //.withSource("C:\\Projects\\DukesHiddenStash\\src")
             //.console();
-            .generate();
+            .generate();*/
     }
 }

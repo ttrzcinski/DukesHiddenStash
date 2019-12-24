@@ -44,7 +44,7 @@ public final class StringFix {
    * @return extended string
    */
   public static String padRight(final String given, final int wantedLength) {
-    String givenFix = "";
+    String givenFix;
     int wantedCount = 0;
     if (!ParamCheck.isSet(given)) {
       givenFix = "";
@@ -68,7 +68,7 @@ public final class StringFix {
    * @return extended string
    */
   public static String padLeft(@NotNull final String given, final int wantedLength) {
-    String givenFix = "";
+    String givenFix;
     int wantedCount = 0;
     if (!ParamCheck.isSet(given)) {
       givenFix = "";

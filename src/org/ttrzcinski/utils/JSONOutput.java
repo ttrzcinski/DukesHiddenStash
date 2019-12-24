@@ -36,7 +36,7 @@ public class JSONOutput {
    * @param map given HashMap
    * @return JSON string equivalent
    */
-  public static String toJSON(final Map map) {
+  public static String toJSON(final Map<?, ?> map) {
     return new JSONObject(map).toString();
   }
 }

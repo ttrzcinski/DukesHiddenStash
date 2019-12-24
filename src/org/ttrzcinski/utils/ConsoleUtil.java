@@ -5,14 +5,9 @@ public class ConsoleUtil {
   public static String cmd(String cmd, String args) {
     String result = "";
     Runtime r = Runtime.getRuntime();
-    Process p = null;
-    String[] command = null;
+    Process p;
+    String[] command = new StringHasValue().hasValue(args) ? new String[]{cmd, args} : new String[]{cmd};
     //cmd = "cmd.exe -c " + cmd;
-    if (new StringHasValue().hasValue(args)) {
-      command = new String[]{cmd, args};
-    } else {
-      command = new String[]{cmd};
-    }
 
     try {
       p = r.exec(command);

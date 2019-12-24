@@ -149,7 +149,7 @@ public class AAATestGenerator {
       URL[] urls = new URL[]{url};
       // Loads classes from the directory
       ClassLoader classLoader = new URLClassLoader(urls);
-      Class theClass = classLoader.loadClass(parentPackage);
+      Class<?> theClass = classLoader.loadClass(parentPackage);
       System.out.println(Arrays.toString(theClass.getDeclaredMethods()));
     } catch (MalformedURLException | ClassNotFoundException e) {
       e.printStackTrace();
@@ -166,7 +166,7 @@ public class AAATestGenerator {
     List<String> methodsList = new ArrayList<>();
     try {
       // TODO Take the right one to process
-      Class theClass = AAATestGenerator.class;
+      Class<?> theClass = AAATestGenerator.class;
       methodsList = Arrays
           .stream(theClass.getDeclaredMethods())
           .map(Method::toString)

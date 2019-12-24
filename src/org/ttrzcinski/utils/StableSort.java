@@ -15,7 +15,7 @@ public class StableSort {
     if (o1.len != o2.len) {
       return o1.len > o2.len ? -1 : 1;
     }
-    if (o1.orderedSet != o2.orderedSet) {
+    if (!o1.orderedSet.equals(o2.orderedSet)) {
       return o1.orderedSet.compareToIgnoreCase(o2.orderedSet);
     }
     return 0;
@@ -28,8 +28,8 @@ public class StableSort {
     public final int len;
 
     public Tuple(List<Integer> chars) {
-      orderedSet = chars.stream().map(x -> String.valueOf(x)).collect(Collectors.joining());
-      sum = chars.stream().mapToInt(w -> w.intValue()).sum();
+      orderedSet = chars.stream().map(String::valueOf).collect(Collectors.joining());
+      sum = chars.stream().mapToInt(Integer::intValue).sum();
       len = chars.size();
     }
 
@@ -41,11 +41,10 @@ public class StableSort {
 
   public static List<Tuple> bubbleSort(List<Tuple> given) {
     int i = 0, n = given.size();
-    boolean swapNeeded = true;
-    while (i < n - 1 && swapNeeded) {
-      swapNeeded = false;
+    while (i < n - 1) {
+      boolean swapNeeded = false;
       for (int j = 1; j < n - i; j++) {
-        if (tupleComparator.compare(given.get(j - 1), given.get(j)) == -1) {
+        if (tupleComparator.compare(given.get(j - 1), given.get(j)) < 0) {
           Tuple tmp = given.get(j - 1);
           given.set(j - 1, given.get(j));
           given.set(j, tmp);
@@ -77,9 +76,7 @@ public class StableSort {
 
     // Check to values
     System.out.printf("orderedSet, sum, len\n-----------%n");
-    for (int i = 0; i < results.size(); i++) {
-      System.out.println(results.get(i).toString());
-    }
+    results.stream().map(Tuple::toString).forEach(System.out::println);
 
     return results.stream().map(x -> x.orderedSet).collect(Collectors.joining(" "));
   }

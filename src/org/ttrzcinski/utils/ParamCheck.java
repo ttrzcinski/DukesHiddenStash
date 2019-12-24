@@ -37,7 +37,7 @@ public final class ParamCheck {
       filePathPattern = Pattern.compile(
           OSInfo.isWindows() ?
               "([A-Z|a-z]:\\\\[^*|\"<>?\\n]*)|(\\\\\\\\.*?\\\\.*)" :
-              "^/|(/[a-zA-Z0-9_-]+)+$"
+              "0/|(/[a-zA-Z0-9_-]+)+$"// was ^
       );
     }
   }

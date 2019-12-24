@@ -68,7 +68,7 @@ public class IMLParser {
     final Document document = parseXML(path);
     if (document != null) {
       final String projectsPath = Path.of(path).toFile().getParent();
-      final Map gotten = this.parseXPath(
+      final Map<?, ?> gotten = this.parseXPath(
           document,
           "/module/component/content/sourceFolder",
           List.of("url", "isTestSource")

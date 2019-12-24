@@ -26,7 +26,7 @@ public class Denuller {
    * @param given given object
    * @return initialized object, if need or old value, if it was already initialized
    */
-  public static HashMap fix(HashMap given) {
+  public static HashMap<?, ?> fix(HashMap<?, ?> given) {
     return Objects.requireNonNullElseGet(given, HashMap::new);
   }
 
@@ -36,7 +36,7 @@ public class Denuller {
    * @param given given object
    * @return initialized object, if need or old value, if it was already initialized
    */
-  public static List fix(List given) {
+  public static List<?> fix(List<?> given) {
     return Objects.requireNonNullElseGet(given, ArrayList::new);
   }
 }

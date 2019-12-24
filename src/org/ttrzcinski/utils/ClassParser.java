@@ -58,7 +58,7 @@ public class ClassParser {
    */
   public void listMethods(String classFullName) {
     try {
-      Class thisClass = Class.forName(classFullName);
+      Class<?> thisClass = Class.forName(classFullName);
       Method[] methods = thisClass.getDeclaredMethods();
 
       Arrays.stream(methods)
@@ -77,7 +77,7 @@ public class ClassParser {
   public void listVariables(String classFullName) {
     Field[] fields = new Field[1];
     try {
-      Class classTemp = Class.forName(classFullName);
+      Class<?> classTemp = Class.forName(classFullName);
       fields = classTemp.getDeclaredFields();
       fields = Class
           .forName(classFullName)
