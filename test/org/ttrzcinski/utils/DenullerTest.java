@@ -3,6 +3,7 @@ package org.ttrzcinski.utils;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import org.junit.jupiter.api.Test;
@@ -36,10 +37,10 @@ class DenullerTest {
   @Test
   void fix_hashMap_withNull() {
     // Arrange
-    HashMap testObject = null;
+    HashMap<?, ?> testObject = null;
 
     // Act
-    HashMap result = AbstractDenuller.fix(testObject);
+    HashMap<?, ?> result = AbstractDenuller.fix(testObject);
 
     // Assert
     assertNotNull(result);
@@ -48,10 +49,10 @@ class DenullerTest {
   @Test
   void fix_hashMap_withEmpty() {
     // Arrange
-    HashMap testObject = new HashMap();
+    HashMap<?, ?> testObject = new HashMap();
 
     // Act
-    HashMap result = AbstractDenuller.fix(testObject);
+    HashMap<?, ?> result = AbstractDenuller.fix(testObject);
 
     // Assert
     assertNotNull(result);
@@ -98,7 +99,7 @@ class DenullerTest {
   @Test
   void fix_list_withEmptyList() {
     // Arrange
-    List testObject = new ArrayList();
+    List testObject = Collections.unmodifiableList(new ArrayList());
 
     // Act
     List result = AbstractDenuller.fix(testObject);

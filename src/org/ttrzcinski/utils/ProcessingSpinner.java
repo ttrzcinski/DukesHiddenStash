@@ -5,8 +5,14 @@ package org.ttrzcinski.utils;
  */
 public final class ProcessingSpinner {
 
+  /**
+   * Used timeout to mark thread sleep time.
+   */
   private static final int WORK_TIMEOUT = 200;
 
+  /**
+   * Count of spinning animation phases.
+   */
   private static final int PHASES_COUNT = 4;
 
   /**
@@ -63,19 +69,23 @@ public final class ProcessingSpinner {
    * @return true, if worked, false otherwise
    * @throws InterruptedException if thread pool exploded
    */
-  public boolean runProcess(final int limit, final String message) throws InterruptedException {
+  public boolean runProcess(
+      final int limit, final String message
+  ) throws InterruptedException {
     final ProcessingSpinner processingSpinner = new ProcessingSpinner();
     int i = 0;
-    if (i <= limit) {
-      do {
-        processingSpinner.spin(i, String.format("%d/%d - %s", i, limit, message));
-        // TODO HERE ADD CALL THROUGH REFLECTION TO ACTUAL PROCESSING
-        Thread.sleep(WORK_TIMEOUT);
-        i += 1;
-      } while (i <= limit);
-      return true;
+    if (i > limit) {
+      return false;
     }
-    return false;
+    do {
+      processingSpinner.spin(i,
+          String.format("%d/%d - %s", i, limit, message)
+      );
+      // TODO HERE ADD CALL THROUGH REFLECTION TO ACTUAL PROCESSING
+      Thread.sleep(WORK_TIMEOUT);
+      i += 1;
+    } while (i <= limit);
+    return true;
   }
 
   /**

@@ -5,7 +5,7 @@ import static org.ttrzcinski.dictionaries.FakerString.EMPTY;
 import static org.ttrzcinski.dictionaries.FakerString.EMPTY_TO_TRIM;
 import static org.ttrzcinski.dictionaries.FakerString.NULL;
 import static org.ttrzcinski.dictionaries.FakerString.SOME;
-import static org.ttrzcinski.dictionaries.FakerString.SOME_TO_EMPTY;
+import static org.ttrzcinski.dictionaries.FakerString.SOME_TO_TRIM;
 
 import org.junit.jupiter.api.Test;
 import org.ttrzcinski.utils.StringFix;
@@ -15,7 +15,7 @@ class StringFix_simpleTest {
   @Test
   void simple_someValue() {
     // Arrange
-    String testObject = SOME_TO_EMPTY;
+    String testObject = SOME_TO_TRIM;
     String expected = SOME;
 
     // Act

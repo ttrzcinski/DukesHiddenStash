@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 /**
  * Generated unit test in pointed project.
  */
-public class UnitTestGenerator {
+public final class UnitTestGenerator {
 
   /**
    * Path to code sources.
@@ -29,7 +29,7 @@ public class UnitTestGenerator {
   /**
    * Kept utils to generate AAA Test classes.
    */
-  private AAATestGenerator atg;
+  private final AAATestGenerator atg;
 
   /**
    * Creates new instance of unit test generator.
