@@ -124,12 +124,12 @@ public class ConsoleMenu {
     // Process list of items
     if (!this.items.isEmpty()) {
       List<String> strings = this.items;
-      IntStream.range(0, strings.size()).forEachOrdered(i -> {
+      for (int i = 0; i < strings.size(); i++) {
         String item = strings.get(i);
         if (ParamCheck.isSet(item)) {
           listToShow.add(String.format("%d. %s", i + 1, item.trim()));
         }
-      });
+      }
     }
     return listToShow;
   }
@@ -148,7 +148,7 @@ public class ConsoleMenu {
     for (String item : listToShow) {
       System.out.println(item);
     }
-    String username = this.scanner.nextLine();
-    System.out.printf("Your choice is %s%n", username);
+    String choice = this.scanner.nextLine();
+    System.out.printf("Your choice is %s%n", choice);
   }
 }
