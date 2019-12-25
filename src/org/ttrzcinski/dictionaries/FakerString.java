@@ -3,23 +3,29 @@ package org.ttrzcinski.dictionaries;
 /**
  * Set of default values to use in unit tests with string parameters.
  */
-public class FakerString {
+public final class FakerString {
 
-  public final static String NULL = null;
+  public static final String NULL = null;
 
-  public final static String EMPTY = "";
+  public static final String EMPTY = "";
 
-  public final static String EMPTY_TO_TRIM = "   ";
+  public static final String EMPTY_TO_TRIM = "   ";
 
-  public final static String SOME = "some";
+  public static final String SOME = "some";
 
-  public final static String SOME_TO_RIGHT_TRIM = "some  ";
+  public static final String SOME_TO_RIGHT_TRIM = "some  ";
 
-  public final static String SOME_TO_LEFT_TRIM = "  some";
+  public static final String SOME_TO_LEFT_TRIM = "  some";
 
-  public final static String SOME_TO_EMPTY = "   some  ";
+  public static final String SOME_TO_EMPTY = "   some  ";
 
-  public final static String OTHER = "other";
+  public static final String OTHER = "other";
 
-  public final static String OTHER_TO_EMPTY = "   other  ";
+  public static final String OTHER_TO_EMPTY = "   other  ";
+
+  /**
+   * Hidden constructor.
+   */
+  private FakerString() {
+  }
 }

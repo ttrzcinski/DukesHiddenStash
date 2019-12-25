@@ -10,6 +10,10 @@ import org.jetbrains.annotations.NotNull;
  */
 public final class StringFix {
 
+  private static final String CONCAT_PATTERN = "%s%s";
+
+  private static final String EMPTY_SPACE = " ";
+
   /**
    * Hidden constructor - there is no point to initialize an instance.
    */
@@ -54,9 +58,9 @@ public final class StringFix {
     }
     return wantedLength < 0 || wantedCount < 0
         ? givenFix
-        : String.format("%s%s",
+        : String.format(CONCAT_PATTERN,
             givenFix,
-            " ".repeat(wantedCount)
+            EMPTY_SPACE.repeat(wantedCount)
         );
   }
 
@@ -78,8 +82,8 @@ public final class StringFix {
     }
     return wantedLength < 0 || wantedCount < 0
         ? givenFix
-        : String.format("%s%s",
-            " ".repeat(wantedCount),
+        : String.format(CONCAT_PATTERN,
+            EMPTY_SPACE.repeat(wantedCount),
             givenFix
         );
   }
@@ -91,16 +95,14 @@ public final class StringFix {
    * @param endingLength number of characters to remove
    * @return cut-off string
    */
-  public static String cutLast(final String given, int endingLength) {
-    if (!ParamCheck.isSet(given)) {
+  public static String cutLast(final String given, final int endingLength) {
+    if (!ParamCheck.isSet(given) || endingLength <= 0) {
       return given;
+    } else {
+      return (endingLength >= given.length())
+          ? ""
+          : given.substring(0, given.length() - endingLength);
     }
-    if (endingLength <= 0) {
-      return given;
-    } else if (endingLength >= given.length()) {
-      return "";
-    }
-    return given.substring(0, given.length() - endingLength);
   }
 
   /**
@@ -110,15 +112,13 @@ public final class StringFix {
    * @param startingLength number of characters to remove
    * @return cut-off string
    */
-  public static String cutFirst(final String given, int startingLength) {
-    if (!ParamCheck.isSet(given)) {
+  public static String cutFirst(final String given, final int startingLength) {
+    if (!ParamCheck.isSet(given) || startingLength <= 0) {
       return given;
+    } else {
+      return (startingLength >= given.length())
+          ? ""
+          : given.substring(startingLength);
     }
-    if (startingLength <= 0) {
-      return given;
-    } else if (startingLength >= given.length()) {
-      return "";
-    }
-    return given.substring(startingLength);
   }
 }

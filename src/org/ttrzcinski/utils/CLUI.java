@@ -116,7 +116,6 @@ public class CLUI {
    * @return list of those arguments
    */
   private List<EnvArgument> prepareArguments() {
-    // TODO Change it to use plain text file
     return new ArrayList<>(Arrays.asList(
         new EnvArgument().withAcronym("h").withName("help")
             .withDescription("Present help with possible arguments to use."),

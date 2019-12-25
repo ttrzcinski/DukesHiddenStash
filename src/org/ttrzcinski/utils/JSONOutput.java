@@ -23,11 +23,16 @@ public class JSONOutput {
   private Map<String, String> convertToHashMapStringString(
       final HashMap<String, Path> map
   ) {
-    return (map != null && !map.isEmpty()) ? map.entrySet().stream().collect(
+    // Check, if param contains value
+    if (map == null || map.isEmpty()) {
+      return new HashMap<>();
+    }
+    //
+    return map.entrySet().stream().collect(
         Collectors.toMap(
             Map.Entry::getKey,
             e -> e.getValue().toAbsolutePath().toString()
-        )) : new HashMap<>();
+        ));
   }
 
   /**
@@ -40,3 +45,4 @@ public class JSONOutput {
     return new JSONObject(map).toString();
   }
 }
+

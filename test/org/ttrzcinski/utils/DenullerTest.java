@@ -15,7 +15,7 @@ class DenullerTest {
     Object testObject = null;
 
     // Act
-    Object result = Denuller.fix(testObject);
+    Object result = AbstractDenuller.fix(testObject);
 
     // Assert
     assertNotNull(result);
@@ -27,7 +27,7 @@ class DenullerTest {
     Object testObject = new Object();
 
     // Act
-    Object result = Denuller.fix(testObject);
+    Object result = AbstractDenuller.fix(testObject);
 
     // Assert
     assertNotNull(result);
@@ -39,7 +39,7 @@ class DenullerTest {
     HashMap testObject = null;
 
     // Act
-    HashMap result = Denuller.fix(testObject);
+    HashMap result = AbstractDenuller.fix(testObject);
 
     // Assert
     assertNotNull(result);
@@ -51,7 +51,7 @@ class DenullerTest {
     HashMap testObject = new HashMap();
 
     // Act
-    HashMap result = Denuller.fix(testObject);
+    HashMap result = AbstractDenuller.fix(testObject);
 
     // Assert
     assertNotNull(result);
@@ -64,7 +64,7 @@ class DenullerTest {
     testObject.put("test1", null);
 
     // Act
-    HashMap result = Denuller.fix(testObject);
+    HashMap result = AbstractDenuller.fix(testObject);
 
     // Assert
     assertNotNull(result);
@@ -77,7 +77,7 @@ class DenullerTest {
     testObject.put("test1", "test_val");
 
     // Act
-    HashMap result = Denuller.fix(testObject);
+    HashMap result = AbstractDenuller.fix(testObject);
 
     // Assert
     assertNotNull(result);
@@ -89,7 +89,7 @@ class DenullerTest {
     List testObject = null;
 
     // Act
-    List result = Denuller.fix(testObject);
+    List result = AbstractDenuller.fix(testObject);
 
     // Assert
     assertNotNull(result);
@@ -101,7 +101,7 @@ class DenullerTest {
     List testObject = new ArrayList();
 
     // Act
-    List result = Denuller.fix(testObject);
+    List result = AbstractDenuller.fix(testObject);
 
     // Assert
     assertNotNull(result);
@@ -114,7 +114,7 @@ class DenullerTest {
     testObject.add(null);
 
     // Act
-    List result = Denuller.fix(testObject);
+    List result = AbstractDenuller.fix(testObject);
 
     // Assert
     assertNotNull(result);
@@ -127,7 +127,7 @@ class DenullerTest {
     testObject.add(new Object());
 
     // Act
-    List result = Denuller.fix(testObject);
+    List result = AbstractDenuller.fix(testObject);
 
     // Assert
     assertNotNull(result);
@@ -141,7 +141,7 @@ class DenullerTest {
     testObject.add(new Object());
 
     // Act
-    List result = Denuller.fix(testObject);
+    List result = AbstractDenuller.fix(testObject);
 
     // Assert
     assertNotNull(result);
@@ -155,7 +155,7 @@ class DenullerTest {
     testObject.add(new Object());
 
     // Act
-    List result = Denuller.fix(testObject);
+    List result = AbstractDenuller.fix(testObject);
 
     // Assert
     assertNotNull(result);

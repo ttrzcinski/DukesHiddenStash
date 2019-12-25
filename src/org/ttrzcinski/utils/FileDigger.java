@@ -4,9 +4,9 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Objects;
-import org.ttrzcinski.interfaces.ConsoleOutput;
+import org.ttrzcinski.interfaces.AbstractConsoleOutput;
 
-public class FileDigger extends ConsoleOutput {
+public class FileDigger extends AbstractConsoleOutput {
 
   /**
    * Extracts all the files and catalogs from given path, if path is right.
@@ -16,33 +16,32 @@ public class FileDigger extends ConsoleOutput {
    */
   public File[] digFile(String path) {
     //Check the entry path
-    if (new StringHasValue().hasValue(path)) {
-      //if (path != null && path.trim().length() > 0) {
-      //Check existence of given path
-      final File file = new File(path);
-      if (file.exists()) {
-        File[] files;
-        if (file.isFile()) {
-          files = new File[]{new File(file.getName())};
-        } else {
-          out(String.format("There is a directory: %s..", file.getName()));
-          //TODO LIMIT TO ONE TYPE ONLY
-          final File[] listOfFiles = file.listFiles();
-          final var results = new ArrayList<File>();
-          Arrays.stream(Objects.requireNonNull(listOfFiles))
-              .forEach(processed -> {
-            out("with: " + processed.getName());
-            final File[] foundOnes = this.digFile(processed.getName());
-            if (foundOnes != null && foundOnes.length > 0) {
-              results.addAll(Arrays.asList(foundOnes));
-            }
-          });
-          files = results.toArray(new File[0]);
-        }
-        return files;
-      }
+    if (!ParamCheck.isSet(path)) {
+      return null;
     }
-    //If nothing was found yet, it means, that there is nothing to return
-    return null;
+    // Check existence of given path
+    final File file = new File(path);
+    if (!file.exists()) {
+      // Stop, if file doesn't exist
+      return null;
+    }
+    // If it is a file
+    if (file.isFile()) {
+      return new File[]{new File(file.getName())};
+    }
+
+    out(String.format("There is a directory: %s..", file.getName()));
+    //TODO LIMIT TO ONE TYPE ONLY
+    final File[] listOfFiles = file.listFiles();
+    final var results = new ArrayList<File>();
+    Arrays.stream(Objects.requireNonNull(listOfFiles))
+        .forEach(processed -> {
+          out("with: " + processed.getName());
+          final File[] foundOnes = this.digFile(processed.getName());
+          if (foundOnes != null && foundOnes.length > 0) {
+            results.addAll(Arrays.asList(foundOnes));
+          }
+        });
+    return results.toArray(new File[0]);
   }
 }

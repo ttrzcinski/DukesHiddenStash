@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -14,7 +15,7 @@ import org.jetbrains.annotations.NotNull;
 
 
 /**
- * File (Util Methods) Extension.
+ * File (Util Methods) Extension and processing methods wrapped for simpler use of them.
  *
  * @author <a href="mailto:trzcinski.tomasz.1988@gmail.com">Tomasz T.</a>
  */
@@ -101,6 +102,89 @@ public class FileExt {
   }
 
   /**
+   * Lists all files within given directory.
+   *
+   * @param path path to the directory, f.e.: C:\\Projects
+   * @return List with all files in
+   */
+  public static List<File> allFilesOf(String path) {
+    // Check entered param
+    if (!ParamCheck.isPath(path)) {
+      return new ArrayList<>();
+    }
+    // Prepare result list
+    File directory = new File(path);
+    // get all the files from a directory
+    File[] fList = directory.listFiles();
+    List<File> resultList = new ArrayList<>(
+        Arrays.asList(Objects.requireNonNull(fList))
+    );
+    for (File file : fList) {
+      if (file.isFile()) {
+        resultList.add(file);
+      } else if (file.isDirectory()) {
+        resultList.addAll(allFilesOf(file.getAbsolutePath()));
+      }
+    }
+    return resultList;
+  }
+
+  /**
+   * Converts file names to files array.
+   *
+   * @param names file names
+   * @return file array
+   */
+  public static File[] asFileArray(String[] names) {
+    return Arrays.stream(names)
+        .map(File::new)
+        .toArray(size -> new File[names.length]);
+  }
+
+  /**
+   * Converts files array to absolute file paths array.
+   *
+   * @param files files array
+   * @return array of absolute file paths
+   */
+  public static String[] asFileAbsolutePaths(File[] files) {
+    return Arrays.stream(files)
+        .map(File::getAbsolutePath)
+        .toArray(size -> new String[files.length]);
+  }
+
+  /**
+   * Converts files array to file paths array.
+   *
+   * @param files files array
+   * @return array of file paths
+   */
+  public static String[] asFilesPaths(File[] files) {
+    return Arrays.stream(files)
+        .map(File::getPath)
+        .toArray(size -> new String[files.length]);
+  }
+
+  /**
+   * Lists all file names within given directory.
+   *
+   * @param path path to the directory, f.e.: C:\\Projects
+   * @return List with all file names in
+   */
+  public static List<String> allFileNamesOf(String path) {
+    // Check entered path
+    if (!ParamCheck.isPath(path)) {
+      return new ArrayList<>();
+    }
+    // Read all files with subdirectories from pointed location
+    List<File> files = allFilesOf(path);
+    // Read absolute file paths from actual list of files
+    String[] fileNames = asFileAbsolutePaths(files.toArray(File[]::new));
+    // Convert to list
+    return Arrays.asList(fileNames);
+  }
+
+  /**
    * Creates file on pointed path.
    *
    * @param path pointed path
@@ -174,6 +258,7 @@ public class FileExt {
    * @return handle to created directories
    */
   public static File[] makeDirectories(List<String> directories) {
+
     File[] result = new File[directories.size()];
     // If this is a directory
     int bound = directories.size();
@@ -194,6 +279,7 @@ public class FileExt {
    * @return file, if path is right, null otherwise
    */
   public static File read(@NotNull final Path keptPath) {
+
     return new File(keptPath.toAbsolutePath().toString());
   }
 
@@ -204,6 +290,7 @@ public class FileExt {
    * @return true means it exists, false otherwise
    */
   public static boolean exists(Path path) {
+
     return path != null && exists(path.toFile());
   }
 
@@ -214,6 +301,7 @@ public class FileExt {
    * @return true means it exists, false otherwise
    */
   public static boolean exists(String path) {
+
     return ParamCheck.isSet(path) && exists(Path.of(path));
   }
 
@@ -224,6 +312,7 @@ public class FileExt {
    * @return true means it exists, false otherwise
    */
   public static boolean exists(File file) {
+
     return file != null && file.exists();
   }
 
@@ -244,6 +333,8 @@ public class FileExt {
    * @return removed file
    */
   public static File remove(File file) {
-    return file.exists() && file.delete() ? file : null;
+    return exists(file) && file.delete() ? file : null;
   }
+
+
 }

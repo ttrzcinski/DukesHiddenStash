@@ -14,7 +14,7 @@ import java.util.List;
  * @version %I% from %G%
  * @since 1.12
  */
-public class Denuller {
+public abstract class AbstractDenuller {
 
   /**
    * Initializes object, if given object is null.
@@ -22,7 +22,7 @@ public class Denuller {
    * @param given given object
    * @return initialized object, if need or old value, if it was already initialized
    */
-  public static Object fix(Object given) {
+  public static Object fix(final Object given) {
 
     return given == null ? new Object() : given;
   }
@@ -33,7 +33,7 @@ public class Denuller {
    * @param given given object
    * @return initialized object, if need or old value, if it was already initialized
    */
-  public static HashMap<?, ?> fix(HashMap<?, ?> given) {
+  public static HashMap<?, ?> fix(final HashMap<?, ?> given) {
 
     return given == null ? new HashMap<>() : given;
   }
@@ -44,7 +44,7 @@ public class Denuller {
    * @param given given object
    * @return initialized object, if need or old value, if it was already initialized
    */
-  public static List<?> fix(List<?> given) {
+  public static List<?> fix(final List<?> given) {
 
     return given == null ? new ArrayList<>() : given;
   }

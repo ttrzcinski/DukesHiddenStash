@@ -103,6 +103,7 @@ public class UnitTestGenerator {
    * @return true means all needed parameters are set, false otherwise
    */
   public final boolean validateParameters() {
+
     return this.srcPath != null && this.testPath != null;
   }
 
@@ -114,7 +115,7 @@ public class UnitTestGenerator {
   private HashMap<String, String> prepareSourcesList() {
     var sourcePaths = new HashMap<String, String>();
     this.srcPath.stream()
-        .map(FilesExt::allFileNamesOf)
+        .map(FileExt::allFileNamesOf)
         .flatMap(Collection::stream).forEach(innerFile -> {
       var preparedTestPath = this.srcPath.stream()
           .filter(innerFile::contains)
@@ -134,14 +135,11 @@ public class UnitTestGenerator {
   private HashMap<String, String> prepareSourcesList(boolean omitInfo) {
     var sourcePaths = this.prepareSourcesList();
     if (!omitInfo) {
-      return sourcePaths;
-    }
-    // Remove package-info files
-    var keys = new ArrayList<>(sourcePaths.keySet());
-    for (var key : keys) {
-      if (key.endsWith("package-info.java")) {
-        sourcePaths.remove(key);
-      }
+      // Remove package-info files
+      new ArrayList<>(sourcePaths.keySet())
+          .stream()
+          .filter(key -> key.endsWith("package-info.java"))
+          .forEach(sourcePaths::remove);
     }
     return sourcePaths;
   }
@@ -183,7 +181,9 @@ public class UnitTestGenerator {
    * @param given given map with sources and test paths
    * @return map with only directories
    */
-  private HashMap<String, String> onlySourceFiles(final HashMap<String, String> given) {
+  private HashMap<String, String> onlySourceFiles(
+      final HashMap<String, String> given
+  ) {
     // Check entered map
     if (!ParamCheck.isSet(given)) {
       return new HashMap<>();
@@ -269,9 +269,7 @@ public class UnitTestGenerator {
    */
   public void console() {
     System.out.println("Source directories:");
-    for (String directory : this.srcPath) {
-      System.out.println(directory);
-    }
+    this.srcPath.forEach(System.out::println);
     System.out.println(this.testPath);
   }
 

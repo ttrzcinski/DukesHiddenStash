@@ -2,6 +2,8 @@ package org.ttrzcinski.interfaces;
 
 /**
  * Pattern for creating classes faster with control of it's number.
+ *
+ * @param <T> given type
  */
 public interface IShop<T> {
 
@@ -31,7 +33,7 @@ public interface IShop<T> {
    *
    * @return last known instance
    */
-  T LoadTheNewest();
+  T loadTheNewest();
 
   /**
    * Loads the instance with given name.

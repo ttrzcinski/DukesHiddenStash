@@ -64,7 +64,7 @@ public final class OSInfo {
    * @param path given path
    * @return fixed path
    */
-  public static String fixPath(String path) {
+  public static String fixPath(final String path) {
     // Check given parameter
     if (!ParamCheck.isSet(path)) {
       return path;
