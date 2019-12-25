@@ -12,13 +12,20 @@ import java.util.stream.IntStream;
 public class ConsoleMenu {
 
   /**
+   * Entry with Back to upper menu.
+   */
+  public static final String BACK_ENTRY = "0. ..BACK";
+
+  /**
    * Kept list of items.
    */
   private List<String> items;
+
   /**
    * Marks, if menu should contain "..back" entry.
    */
   private boolean back;
+
   /**
    * Gives brief description or contains a question.
    */
@@ -112,7 +119,7 @@ public class ConsoleMenu {
     }
     // Process back flag
     if (this.back) {
-      listToShow.add("0. ..BACK");
+      listToShow.add(BACK_ENTRY);
     }
     // Process list of items
     if (!this.items.isEmpty()) {
@@ -132,15 +139,15 @@ public class ConsoleMenu {
    */
   public final void show() {
     List<String> listToShow = this.prepare();
-    if (!listToShow.isEmpty()) {
-      for (String item : listToShow) {
-        System.out.println(item);
-      }
-    } else {
-      System.out.println("(MENU HAS NO ITEMS)");
+    if (listToShow.isEmpty()) {
+      listToShow.add("(MENU HAS NO ITEMS)");
     }
-    System.out.println("--------------------------------------------");
-    System.out.println("Press the right key to choose wanted option.");
+    listToShow.add("--------------------------------------------");
+    listToShow.add("Press the right key to choose wanted option.");
+    //
+    for (String item : listToShow) {
+      System.out.println(item);
+    }
     String username = this.scanner.nextLine();
     System.out.printf("Your choice is %s%n", username);
   }
