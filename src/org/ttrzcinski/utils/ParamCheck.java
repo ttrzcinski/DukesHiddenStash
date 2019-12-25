@@ -7,9 +7,16 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 /**
  * Parameter (and argument) validation methods.
+ *
+ * Created 31.08.2019 12:06 as a part of project DukesHiddenStash
+ *
+ * @author <a href="mailto:trzcinski.tomasz.1988@gmail.com">Tomasz T.</a>
+ * @version %I% from %G%
+ * @since 1.12
  */
 public final class ParamCheck {
 
@@ -35,9 +42,9 @@ public final class ParamCheck {
   private static void initFilePathPattern() {
     if (filePathPattern == null) {
       filePathPattern = Pattern.compile(
-          OSInfo.isWindows() ?
-              "([A-Z|a-z]:\\\\[^*|\"<>?\\n]*)|(\\\\\\\\.*?\\\\.*)" :
-              "0/|(/[a-zA-Z0-9_-]+)+$"// was ^
+          OSInfo.isWindows()
+              ? "([A-Z|a-z]:\\\\[^*|\"<>?\\n]*)|(\\\\\\\\.*?\\\\.*)"
+              : "0/|(/[a-zA-Z0-9_-]+)+$"// was ^
       );
     }
   }
@@ -109,7 +116,7 @@ public final class ParamCheck {
    */
   public static boolean isSet(final String[] params) {
     // If there is inside at least one empty item, else it's ok
-    return (params != null && params.length != 0)
+    return (params != null && params.length > 0)
         && Arrays.stream(params).allMatch(ParamCheck::isSet);
   }
 
@@ -131,6 +138,18 @@ public final class ParamCheck {
    */
   public static boolean isSet(final Object param) {
     return param != null;
+  }
+
+  /**
+   * Checks, if given param contains any value.
+   *
+   * @param param given param to check
+   * @return true means is is set, false otherwise
+   */
+  public static boolean isSet(final List<?> param) {
+    // If there is inside at least one empty item, else it's ok
+    return (param != null && param.size() > 0)
+        && param.stream().allMatch(ParamCheck::isSet);
   }
 
   /**
@@ -181,7 +200,13 @@ public final class ParamCheck {
    * @return filtered list of arguments
    */
   public static List<String> filterWithPatterns(List<String> arguments, List<String> patterns) {
-    return filterWithPatterns((String[]) arguments.toArray(), patterns);
+    if (!ParamCheck.isSet(arguments)) {
+      arguments = new ArrayList<>();
+    }
+    if (!ParamCheck.isSet(patterns)) {
+      patterns = new ArrayList<>();
+    }
+    return arguments.stream().filter(patterns::contains).collect(Collectors.toList());
   }
 
   /**
@@ -193,14 +218,11 @@ public final class ParamCheck {
    */
   public static List<String> filterWithPatterns(String[] arguments, List<String> patterns) {
     // TODO Compare given list of arguments and check, if every one of those matches at least one pattern
-    List<String> resultArguments = new ArrayList<>();
-    for (var argument : arguments) {
-      // TODO Add support not only for UNARY ARGUMENTS
-      if (patterns.contains(argument)) {
-        resultArguments.add(argument);
-      }
+    // TODO Add support not only for UNARY ARGUMENTS
+    if (!ParamCheck.isSet(arguments)) {
+      arguments = new String[]{};
     }
-    return resultArguments;
+    List<String> listArguments = Arrays.stream(arguments).collect(Collectors.toList());
+    return filterWithPatterns(listArguments, patterns);
   }
-
 }
