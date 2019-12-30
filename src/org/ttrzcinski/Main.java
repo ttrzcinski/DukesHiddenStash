@@ -1,6 +1,6 @@
 package org.ttrzcinski;
 
-import org.ttrzcinski.utils.ConsoleUtil;
+import org.ttrzcinski.utils.ConsoleMenu;
 
 /**
  * Entry point to the library.
@@ -25,8 +25,13 @@ public final class Main {
     );
 
     //String result = ConsoleUtil.cmd("git -?", null);
-    final String result = ConsoleUtil.cmd("dir", null);
-    System.out.println(result);
+    //final String result = ConsoleUtil.cmd("dir", null);
+    //System.out.println(result);
+
+    //new ConsoleMenu()
+    //    .withItem("info_1")
+    //    .withBack()
+    //    .show();
 
         /*try {
             ProcessingSpinner.process(100, "Taking control over the world.");
