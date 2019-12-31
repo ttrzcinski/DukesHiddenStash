@@ -29,7 +29,7 @@ class SafeCloseTest {
       }
     };
 
-    boolean closed = false;
+    boolean closed;
     try {
       // Act
       SafeClose.close(testObject);
@@ -49,7 +49,7 @@ class SafeCloseTest {
     SafeClose.close(testObject);
 
     // Assert
-    boolean closed = false;
+    boolean closed;
     try {
       // Act
       SafeClose.close(testObject);
