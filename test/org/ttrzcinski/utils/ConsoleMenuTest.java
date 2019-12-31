@@ -364,7 +364,7 @@ class ConsoleMenuTest {
     // Arrange
     ConsoleMenu testObject = new ConsoleMenu();
     List<String> testItems = new ArrayList<>();
-    testItems.add(FakerString.OTHER_TO_EMPTY);
+    testItems.add(FakerString.OTHER_TO_TRIM);
     int expectedLength = 1;
     String expectedItem = FakerString.OTHER;
 
@@ -388,7 +388,7 @@ class ConsoleMenuTest {
     testItems.add(FakerString.SOME_TO_LEFT_TRIM);
     testItems.add(FakerString.SOME_TO_RIGHT_TRIM);
     testItems.add(FakerString.OTHER);
-    testItems.add(FakerString.OTHER_TO_EMPTY);
+    testItems.add(FakerString.OTHER_TO_TRIM);
     int expectedLength = 6;
 
     // Act
