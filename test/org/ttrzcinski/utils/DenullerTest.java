@@ -49,7 +49,7 @@ class DenullerTest {
   @Test
   void fix_hashMap_withEmpty() {
     // Arrange
-    HashMap<?, ?> testObject = new HashMap();
+    HashMap<?, ?> testObject = new HashMap<>();
 
     // Act
     HashMap<?, ?> result = AbstractDenuller.fix(testObject);
@@ -61,11 +61,11 @@ class DenullerTest {
   @Test
   void fix_hashMap_withSomeNullOnlyHashMap() {
     // Arrange
-    HashMap testObject = new HashMap();
+    HashMap<String,?> testObject = new HashMap<>();
     testObject.put("test1", null);
 
     // Act
-    HashMap result = AbstractDenuller.fix(testObject);
+    HashMap<?,?> result = AbstractDenuller.fix(testObject);
 
     // Assert
     assertNotNull(result);
@@ -74,11 +74,11 @@ class DenullerTest {
   @Test
   void fix_hashMap_withSomeHashMap() {
     // Arrange
-    HashMap testObject = new HashMap();
+    HashMap<String,String> testObject = new HashMap<>();
     testObject.put("test1", "test_val");
 
     // Act
-    HashMap result = AbstractDenuller.fix(testObject);
+    HashMap<?,?> result = AbstractDenuller.fix(testObject);
 
     // Assert
     assertNotNull(result);
@@ -87,10 +87,10 @@ class DenullerTest {
   @Test
   void fix_list_withNull() {
     // Arrange
-    List testObject = null;
+    List<?> testObject = null;
 
     // Act
-    List result = AbstractDenuller.fix(testObject);
+    List<?> result = AbstractDenuller.fix(testObject);
 
     // Assert
     assertNotNull(result);
@@ -99,10 +99,10 @@ class DenullerTest {
   @Test
   void fix_list_withEmptyList() {
     // Arrange
-    List testObject = Collections.unmodifiableList(new ArrayList());
+    List<?> testObject = Collections.unmodifiableList(new ArrayList<>());
 
     // Act
-    List result = AbstractDenuller.fix(testObject);
+    List<?> result = AbstractDenuller.fix(testObject);
 
     // Assert
     assertNotNull(result);
@@ -111,11 +111,11 @@ class DenullerTest {
   @Test
   void fix_list_withListHavingOnlyNull() {
     // Arrange
-    List testObject = new ArrayList();
+    List<Object> testObject = new ArrayList<>();
     testObject.add(null);
 
     // Act
-    List result = AbstractDenuller.fix(testObject);
+    List<?> result = AbstractDenuller.fix(testObject);
 
     // Assert
     assertNotNull(result);
@@ -124,11 +124,11 @@ class DenullerTest {
   @Test
   void fix_list_withListHavingSomeItems() {
     // Arrange
-    List testObject = new ArrayList();
+    List<Object> testObject = new ArrayList<>();
     testObject.add(new Object());
 
     // Act
-    List result = AbstractDenuller.fix(testObject);
+    List<?> result = AbstractDenuller.fix(testObject);
 
     // Assert
     assertNotNull(result);
@@ -137,12 +137,12 @@ class DenullerTest {
   @Test
   void fix_list_withListHavingManyMixedItems() {
     // Arrange
-    List testObject = new ArrayList();
+    List<Object> testObject = new ArrayList<>();
     testObject.add(null);
     testObject.add(new Object());
 
     // Act
-    List result = AbstractDenuller.fix(testObject);
+    List<?> result = AbstractDenuller.fix(testObject);
 
     // Assert
     assertNotNull(result);
@@ -151,12 +151,12 @@ class DenullerTest {
   @Test
   void fix_list_withListHavingManyItems() {
     // Arrange
-    List testObject = new ArrayList();
+    List<Object> testObject = new ArrayList<>();
     testObject.add(new Object());
     testObject.add(new Object());
 
     // Act
-    List result = AbstractDenuller.fix(testObject);
+    List<?> result = AbstractDenuller.fix(testObject);
 
     // Assert
     assertNotNull(result);
