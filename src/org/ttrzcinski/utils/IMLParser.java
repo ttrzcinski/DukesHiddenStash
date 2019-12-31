@@ -21,6 +21,8 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import static org.ttrzcinski.utils.ParamCheck.isSet;
+
 /**
  * Parser for IML path.
  */
@@ -130,8 +132,8 @@ public class IMLParser {
     // Prepare list as response
     final var response = new HashMap<String, String>();
     // Check entered parameters
-    if (document == null || !ParamCheck.isSet(expression)
-        || !ParamCheck.isSet(attributes)) {
+    if (document == null || !isSet(expression)
+        || !isSet(attributes)) {
       return response;
     }
     // Create new instance of XPath
@@ -192,7 +194,7 @@ public class IMLParser {
    */
   private boolean parseXMLAttribute_asBool(Node node, String attributeName) {
     // Check entered params
-    if (!ParamCheck.isSet(node) || !ParamCheck.isSet(attributeName)) {
+    if (!isSet(node) || !isSet(attributeName)) {
       return false;
     }
     // Process attribute
@@ -232,9 +234,9 @@ public class IMLParser {
    * @return true means ready, false otherwise
    */
   public boolean isReady() {
-    return ParamCheck.isSet(this.imlPath)
-        && ParamCheck.isSet(this.sourcePath)
-        && ParamCheck.isSet(this.testPath);
+    return isSet(this.imlPath)
+        && isSet(this.sourcePath)
+        && isSet(this.testPath);
   }
 
   /**
