@@ -80,17 +80,17 @@ public class StableSort {
     }
     System.out.println(line);
     String[] parts = line.split(" ");
-    List<Tuple> results = new ArrayList<>();
+    List<Tuple> partResults = new ArrayList<>();
     for (String part : parts) {
       List<Integer> chars = new ArrayList<>();
       for (char c : part.toCharArray()) {
         chars.add(Integer.valueOf(String.valueOf(c)));
       }
       Collections.sort(chars);
-      results.add(new Tuple(chars));
+      partResults.add(new Tuple(chars));
     }
 
-    results = bubbleSort(results);
+    List<Tuple> results = bubbleSort(partResults);
 
     // Check to values
     System.out.printf("orderedSet, sum, len\n-----------%n");
