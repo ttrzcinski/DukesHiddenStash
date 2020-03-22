@@ -1,9 +1,10 @@
 package org.ttrzcinski.utils;
 
+import org.ttrzcinski.utils.MultiOut.Output;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import org.ttrzcinski.utils.MultiOut.Output;
 
 /**
  * Command Line User Interface.
@@ -88,24 +89,17 @@ public class CLUI {
    */
   public boolean checkInPassed(String group) {
     String fixedGroup = group != null ?
-        group.trim().toLowerCase() :
-        "";
-    boolean result;
-    switch (fixedGroup) {
-      case "help":
-        result = passed.contains("-h") && passed.contains("--h")
-            && passed.contains("-help") && passed.contains("--help");
-        break;
-      case "creators":
-        result = passed.contains("-author") && passed.contains("--author")
-            && passed.contains("-authors") && passed.contains("--authors");
-        break;
-      // Checks, if given arguments is passed
-      default:
-        result = passed.contains(String.format("-%s", fixedGroup))
-            && passed.contains(String.format("--%s", fixedGroup));
-        break;
-    }
+            group.trim().toLowerCase() :
+            "";
+    // Checks, if given arguments is passed
+    boolean result = switch (fixedGroup) {
+      case "help" -> passed.contains("-h") && passed.contains("--h")
+              && passed.contains("-help") && passed.contains("--help");
+      case "creators" -> passed.contains("-author") && passed.contains("--author")
+              && passed.contains("-authors") && passed.contains("--authors");
+      default -> passed.contains(String.format("-%s", fixedGroup))
+              && passed.contains(String.format("--%s", fixedGroup));
+    };
 
     return result;
   }
