@@ -1,10 +1,11 @@
 package org.ttrzcinski.utils;
 
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Test;
 
 import java.io.Closeable;
 import java.io.IOException;
-import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Test methods of class org.ttrzcinski.utils.SafeClose.
@@ -37,6 +38,7 @@ class SafeCloseTest {
     } catch (Exception e_1) {
       closed = false;
     }
+    // Assert
     assertTrue(closed);
   }
 
