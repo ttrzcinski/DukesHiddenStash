@@ -5,6 +5,9 @@ package org.ttrzcinski.interfaces;
  */
 public abstract class AbstractConsoleOutput {
 
+  /**
+   * Kept pattern to concatenate two strings.
+   */
   private static final String CONCAT_PATTERN_2 = "%s%s";
 
   /**

@@ -17,7 +17,7 @@ public final class FakerString {
 
   public static final String SOME_TO_LEFT_TRIM = "  some";
 
-  public static final String SOME_TO_EMPTY = "   some  ";
+  public static final String SOME_TO_TRIM = "  some  ";
 
   public static final String OTHER = "other";
 
