@@ -5,5 +5,5 @@ package org.ttrzcinski.utils;
  */
 public enum Argument {
 
-  NO_ARGUMENT, UNARY, BINARY, TRINARY
+  NO_ARGUMENT, UNARY, BINARY, TERNARY
 }

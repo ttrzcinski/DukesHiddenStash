@@ -92,7 +92,8 @@ public class CLUI {
             group.trim().toLowerCase() :
             "";
     // Checks, if given arguments is passed
-    boolean result = switch (fixedGroup) {
+
+    return switch (fixedGroup) {
       case "help" -> passed.contains("-h") && passed.contains("--h")
               && passed.contains("-help") && passed.contains("--help");
       case "creators" -> passed.contains("-author") && passed.contains("--author")
@@ -100,8 +101,6 @@ public class CLUI {
       default -> passed.contains(String.format("-%s", fixedGroup))
               && passed.contains(String.format("--%s", fixedGroup));
     };
-
-    return result;
   }
 
   /**

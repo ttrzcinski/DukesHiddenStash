@@ -12,7 +12,7 @@ import org.ttrzcinski.interfaces.AbstractConsoleOutput;
 public abstract class AbstractFileAssurer extends AbstractConsoleOutput {
 
   /**
-   * Creates new file or directory following the path, if path deosn't exist.
+   * Creates new file or directory following the path, if path doesn't exist.
    *
    * @param path given path
    */
