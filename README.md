@@ -7,6 +7,9 @@ WIP:
 - Provide call to process in runtime with or without output.
 
 Features:
+- Adds uttil classes to limit boiler-plate of Java code.
+- Processes passed apramters in more cosistent way.
+- Contains Faker classes for test data generation.
 - Generate package-info.java in every package from first line of JavaDoc.
 - Generate all combinations of variants based on a passed parameter.
 - Generate all combinations of variants based on a passed parameter's set.
