@@ -30,7 +30,7 @@ class SafeCloseTest {
       }
     };
 
-      boolean closed;
+    boolean closed;
     try {
       // Act
       SafeClose.close(testObject);
