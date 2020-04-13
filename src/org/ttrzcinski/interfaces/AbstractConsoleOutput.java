@@ -34,7 +34,7 @@ public abstract class AbstractConsoleOutput {
    * @param given given phrase
    */
   public final void warn(final String given) {
-    System.out.printf("[WARN]%s%n", given);
+    System.out.printf("[WARN] %s%n", given);
   }
 
   /**
