@@ -1,35 +1,15 @@
 package org.ttrzcinski.utils;
 
+import lombok.experimental.UtilityClass;
+
 import java.io.Closeable;
 import java.io.IOException;
 
 /**
- * Safely closes resource.
+ * Safely closes resources.
  */
+@UtilityClass
 public final class SafeClose {
-
-  /**
-   * Kept instance of class.
-   */
-  private static SafeClose instance;
-
-  /**
-   * Hidden constructor.
-   */
-  private SafeClose() {
-  }
-
-  /**
-   * Returns the only instance of class.
-   *
-   * @return instance of class
-   */
-  public static SafeClose getInstance() {
-    if (instance == null) {
-      instance = new SafeClose();
-    }
-    return instance;
-  }
 
   /**
    * Closes any given resource.
