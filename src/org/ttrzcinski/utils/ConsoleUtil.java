@@ -1,5 +1,7 @@
 package org.ttrzcinski.utils;
 
+import lombok.experimental.UtilityClass;
+
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
@@ -12,29 +14,10 @@ import java.util.concurrent.TimeUnit;
  * @version %I% from %G%
  * @since 1.12
  */
+@UtilityClass
 public final class ConsoleUtil {
 
   private static final int PROCESS_TIMEOUT = 10;
-
-  private static ConsoleUtil instance;
-
-  /**
-   * Hidden constructor.
-   */
-  private ConsoleUtil() {
-  }
-
-  /**
-   * Passes the only instance of ConsoleUtil class.
-   *
-   * @return instance of console util class
-   */
-  public static ConsoleUtil getInstance() {
-    if (instance == null) {
-      instance = new ConsoleUtil();
-    }
-    return instance;
-  }
 
   /**
    * Calls command on default console.
