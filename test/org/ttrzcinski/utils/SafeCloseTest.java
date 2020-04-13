@@ -51,7 +51,7 @@ class SafeCloseTest {
     SafeClose.close(testObject);
 
     // Assert
-      boolean closed;
+    boolean closed;
     try {
       // Act
       SafeClose.close(testObject);
