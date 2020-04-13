@@ -1,6 +1,7 @@
 package org.ttrzcinski.utils;
 
 
+import lombok.experimental.UtilityClass;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -8,17 +9,14 @@ import org.jetbrains.annotations.NotNull;
  *
  * @author <a href="mailto:trzcinski.tomasz.1988@gmail.com">Tomasz T.</a>
  */
+@UtilityClass
 public final class StringFix {
 
   private static final String CONCAT_PATTERN = "%s%s";
 
   private static final String EMPTY_SPACE = " ";
 
-  /**
-   * Hidden constructor - there is no point to initialize an instance.
-   */
-  private StringFix() {
-  }
+  private static final String EMPTY = "";
 
   /**
    * Fixed string to not-null initialized empty string, if is null.
@@ -27,7 +25,7 @@ public final class StringFix {
    * @return fixed string
    */
   public static String toNotNull(final String given) {
-    return given == null || given.trim().length() == 0 ? "" : given.trim();
+    return given != null && given.trim().length() != 0 ? given.trim() : EMPTY;
   }
 
   /**
@@ -51,7 +49,7 @@ public final class StringFix {
     String givenFix;
     int wantedCount = 0;
     if (!ParamCheck.isSet(given)) {
-      givenFix = "";
+      givenFix = EMPTY;
     } else {
       givenFix = given;
       wantedCount = wantedLength - givenFix.length();
@@ -75,7 +73,7 @@ public final class StringFix {
     String givenFix;
     int wantedCount = 0;
     if (!ParamCheck.isSet(given)) {
-      givenFix = "";
+      givenFix = EMPTY;
     } else {
       givenFix = given;
       wantedCount = wantedLength - givenFix.length();
@@ -96,13 +94,10 @@ public final class StringFix {
    * @return cut-off string
    */
   public static String cutLast(final String given, final int endingLength) {
-    if (!ParamCheck.isSet(given) || endingLength <= 0) {
-      return given;
-    } else {
-      return (endingLength >= given.length())
-          ? ""
-          : given.substring(0, given.length() - endingLength);
-    }
+    // Check entered parameters
+    if (!ParamCheck.isSet(given) || endingLength <= 0) return given;
+    // Cut and return wanted part
+    return (endingLength < given.length()) ? given.substring(0, given.length() - endingLength) : EMPTY;
   }
 
   /**
@@ -113,12 +108,9 @@ public final class StringFix {
    * @return cut-off string
    */
   public static String cutFirst(final String given, final int startingLength) {
-    if (!ParamCheck.isSet(given) || startingLength <= 0) {
-      return given;
-    } else {
-      return (startingLength >= given.length())
-          ? ""
-          : given.substring(startingLength);
-    }
+    // Check entered parameters
+    if (!ParamCheck.isSet(given) || startingLength <= 0) return given;
+    // Cut and return wanted part
+    return (startingLength < given.length()) ? given.substring(startingLength) : EMPTY;
   }
 }
