@@ -278,9 +278,9 @@ public class FileExt {
    * @param keptPath given path
    * @return file, if path is right, null otherwise
    */
-  public static File read(@NotNull final Path keptPath) {
+  public static File read(final Path keptPath) {
 
-    return new File(keptPath.toAbsolutePath().toString());
+    return ParamCheck.isSet(keptPath) && exists(keptPath) ? new File(keptPath.toAbsolutePath().toString()) : null;
   }
 
   /**
@@ -335,6 +335,5 @@ public class FileExt {
   public static File remove(File file) {
     return exists(file) && file.delete() ? file : null;
   }
-
 
 }
