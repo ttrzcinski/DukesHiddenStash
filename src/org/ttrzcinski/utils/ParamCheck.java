@@ -116,8 +116,7 @@ public final class ParamCheck {
    */
   public static boolean isSet(final String[] params) {
     // If there is inside at least one empty item, else it's ok
-    return (params != null && params.length > 0)
-        && Arrays.stream(params).allMatch(ParamCheck::isSet);
+    return params != null && params.length > 0 && Arrays.stream(params).allMatch(ParamCheck::isSet);
   }
 
   /**
@@ -148,8 +147,7 @@ public final class ParamCheck {
    */
   public static boolean isSet(final List<?> param) {
     // If there is inside at least one empty item, else it's ok
-    return (param != null && param.size() > 0)
-        && param.stream().allMatch(ParamCheck::isSet);
+    return param != null && param.size() > 0 && param.stream().allMatch(ParamCheck::isSet);
   }
 
   /**
@@ -171,7 +169,7 @@ public final class ParamCheck {
    * @return true means, if is between those two, false otherwise
    */
   public static boolean inBetween(final int given, final int leftLimit, final int rightLimit) {
-    return leftLimit <= given && given <= rightLimit;
+    return leftLimit <= given & given <= rightLimit;
   }
 
   /**
@@ -184,12 +182,8 @@ public final class ParamCheck {
     if (!isSet(given)) {
       return false;
     }
-    var result = false;
     final var passedValue = given.trim();
-    if (passedValue.startsWith("-")) {
-      result = !passedValue.startsWith("---");
-    }
-    return result;
+    return passedValue.startsWith("-") && !passedValue.startsWith("---");
   }
 
   /**
