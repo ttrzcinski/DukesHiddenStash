@@ -10,13 +10,13 @@ import org.jetbrains.annotations.NotNull;
  * @author <a href="mailto:trzcinski.tomasz.1988@gmail.com">Tomasz T.</a>
  */
 @UtilityClass
-public final class StringFix {
+public class StringFix {
 
-  private static final String CONCAT_PATTERN = "%s%s";
+  private final String CONCAT_PATTERN = "%s%s";
 
-  private static final String EMPTY_SPACE = " ";
+  private final String EMPTY_SPACE = " ";
 
-  private static final String EMPTY = "";
+  private final String EMPTY = "";
 
   /**
    * Fixed string to not-null initialized empty string, if is null.
@@ -24,7 +24,7 @@ public final class StringFix {
    * @param given given string to fix
    * @return fixed string
    */
-  public static String toNotNull(final String given) {
+  public String toNotNull(final String given) {
     return given != null && given.trim().length() != 0 ? given.trim() : EMPTY;
   }
 
@@ -34,7 +34,7 @@ public final class StringFix {
    * @param given given string to fix
    * @return fixed string
    */
-  public static String simple(final String given) {
+  public String simple(final String given) {
     return toNotNull(given).toLowerCase();
   }
 
@@ -45,7 +45,7 @@ public final class StringFix {
    * @param wantedLength wanted length
    * @return extended string
    */
-  public static String padRight(final String given, final int wantedLength) {
+  public String padRight(final String given, final int wantedLength) {
     String givenFix;
     int wantedCount = 0;
     if (!ParamCheck.isSet(given)) {
@@ -69,7 +69,7 @@ public final class StringFix {
    * @param wantedLength wanted length
    * @return extended string
    */
-  public static String padLeft(@NotNull final String given, final int wantedLength) {
+  public String padLeft(@NotNull final String given, final int wantedLength) {
     String givenFix;
     int wantedCount = 0;
     if (!ParamCheck.isSet(given)) {
@@ -93,7 +93,7 @@ public final class StringFix {
    * @param endingLength number of characters to remove
    * @return cut-off string
    */
-  public static String cutLast(final String given, final int endingLength) {
+  public String cutLast(final String given, final int endingLength) {
     // Check entered parameters
     if (!ParamCheck.isSet(given) || endingLength <= 0) return given;
     // Cut and return wanted part
@@ -107,7 +107,7 @@ public final class StringFix {
    * @param startingLength number of characters to remove
    * @return cut-off string
    */
-  public static String cutFirst(final String given, final int startingLength) {
+  public String cutFirst(final String given, final int startingLength) {
     // Check entered parameters
     if (!ParamCheck.isSet(given) || startingLength <= 0) return given;
     // Cut and return wanted part
