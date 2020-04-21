@@ -9,14 +9,14 @@ import java.io.IOException;
  * Safely closes resources.
  */
 @UtilityClass
-public final class SafeClose {
+public class SafeClose {
 
   /**
    * Closes any given resource.
    *
    * @param resource closeable resource
    */
-  public static void close(final Closeable resource) {
+  public void close(final Closeable resource) {
     // Check, if resource is null
     if (resource == null) {
       return;
