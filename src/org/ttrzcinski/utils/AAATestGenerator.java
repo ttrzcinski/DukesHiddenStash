@@ -197,8 +197,7 @@ public class AAATestGenerator {
    * @param voidType marks, if method is void or returns a value
    * @return full body of unit test method
    */
-  private String prepareMethod(String className, String methodName,
-      String variant, boolean voidType) {
+  private String prepareMethod(String className, String methodName, String variant, boolean voidType) {
     // TODO CHANGE VOID TYPE TO RETURN TYPE as ENUM OF TYPES
     // Fix passed parameters
     int firstBracket = methodName.indexOf("(");
