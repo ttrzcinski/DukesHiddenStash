@@ -189,18 +189,17 @@ public class IMLParser {
    * Returns boolean value from XML attribute.
    *
    * @param node passed XML node
-   * @param attributeName pointed attribute's name
+   * @param attribute pointed attribute's name
    * @return boolean value
    */
-  private boolean parseXMLAttribute_asBool(Node node, String attributeName) {
+  private boolean parseXMLAttribute_asBool(Node node, String attribute) {
     // Check entered params
-    if (!isSet(node) || !isSet(attributeName)) {
+    if (!isSet(node) || !isSet(attribute)) {
       return false;
     }
     // Process attribute
     final Element element = ((Element) node);
-    return element.hasAttribute(attribute)
-        && StringFix.simple(element.getAttribute(attribute)).equals("true");
+    return element.hasAttribute(attribute) && StringFix.simple(element.getAttribute(attribute)).equals("true");
   }
 
   /**
