@@ -244,11 +244,7 @@ public class FileExt {
    */
   public static File makeDirectory(Path path) {
     var file = new File(path.toString());
-    var result = false;
-    if (!file.exists()) {
-      result = file.mkdir();
-    }
-    return result ? file : null;
+    return !file.exists() && file.mkdir() ? file : null;
   }
 
   /**
