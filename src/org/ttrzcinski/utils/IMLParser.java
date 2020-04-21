@@ -168,20 +168,20 @@ public class IMLParser {
     return response;
   }
 
-  private String parseXMLAttribute_asString(Node node, String attributeName) {
-    return ((Element) node).getAttribute(attributeName);
+  private String parseXMLAttribute_asString(Node node, String attribute) {
+    return ((Element) node).getAttribute(attribute);
   }
 
   /**
    * Returns boolean value from XML attribute.
    *
    * @param node passed XML node
-   * @param attributeName pointed attribute's name
+   * @param attribute pointed attribute's name
    * @return boolean value
    */
-  private int parseXMLAttribute_asInt(Node node, String attributeName) {
+  private int parseXMLAttribute_asInt(Node node, String attribute) {
     return Integer.parseInt(
-        ((Element) node).getAttribute(attributeName)
+        ((Element) node).getAttribute(attribute)
     );
   }
 
@@ -199,8 +199,8 @@ public class IMLParser {
     }
     // Process attribute
     final Element element = ((Element) node);
-    return element.hasAttribute(attributeName)
-        && StringFix.simple(element.getAttribute(attributeName)).equals("true");
+    return element.hasAttribute(attribute)
+        && StringFix.simple(element.getAttribute(attribute)).equals("true");
   }
 
   /**
@@ -234,9 +234,7 @@ public class IMLParser {
    * @return true means ready, false otherwise
    */
   public boolean isReady() {
-    return isSet(this.imlPath)
-        && isSet(this.sourcePath)
-        && isSet(this.testPath);
+    return isSet(this.imlPath) & isSet(this.sourcePath) & isSet(this.testPath);
   }
 
   /**
