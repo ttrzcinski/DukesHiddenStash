@@ -15,9 +15,9 @@ import java.util.concurrent.TimeUnit;
  * @since 1.12
  */
 @UtilityClass
-public final class ConsoleUtil {
+public class ConsoleUtil {
 
-  private static final int PROCESS_TIMEOUT = 10;
+  private final int PROCESS_TIMEOUT = 10;
 
   /**
    * Calls command on default console.
@@ -26,7 +26,7 @@ public final class ConsoleUtil {
    * @param args command's arguments
    * @return output of command
    */
-  public static String cmd(final String cmd, final String args) {
+  public String cmd(final String cmd, final String args) {
     final String result = "";
     final Runtime r = Runtime.getRuntime();
     Process p;
