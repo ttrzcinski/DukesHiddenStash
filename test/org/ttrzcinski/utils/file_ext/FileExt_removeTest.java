@@ -34,7 +34,7 @@ class FileExt_removeTest {
             try {
                 Files.delete(Paths.get(FileExt_removeTest.path));
             } catch (IOException e) {
-                fail(() -> format("Was unable to remove temp file: %s", FileExt_removeTest.path));
+                fail(() -> "Was unable to remove temp file: %s".formatted(FileExt_removeTest.path));
             }
         FileExt_removeTest.path = null;
     }
@@ -42,7 +42,7 @@ class FileExt_removeTest {
     @Test
     void remove_withPath_withMissingFile() {
         // Arrange
-        String testedFullPath = String.format("missing_%s", FileExt_removeTest.path);
+        String testedFullPath = "missing_%s".formatted(FileExt_removeTest.path);
         Path testPath = Paths.get(testedFullPath);
 
         // Act
@@ -62,7 +62,7 @@ class FileExt_removeTest {
             List<String> lines = Arrays.asList("something_1", "something_2", "something_3");
             Files.write(testPath, lines);
         } catch (IOException e) {
-            fail(() -> format("Was unable to create temp file: %s", FileExt_removeTest.path));
+            fail(() -> "Was unable to create temp file: %s".formatted(FileExt_removeTest.path));
         }
 
         // Act
@@ -75,7 +75,7 @@ class FileExt_removeTest {
     @Test
     void remove_withFile_withMissingFile() {
         // Arrange
-        String testPath = String.format("missing_%s", FileExt_removeTest.path);
+        String testPath = "missing_%s".formatted(FileExt_removeTest.path);
         File testFile = new File(testPath);
 
         // Act
@@ -95,7 +95,7 @@ class FileExt_removeTest {
             testFile.createNewFile();
             assertTrue(testFile.exists());
         } catch (IOException e) {
-            fail(() -> format("Was unable to create temp file: %s", testPath));
+            fail(() -> "Was unable to create temp file: %s".formatted(testPath));
         }
 
         // Act
