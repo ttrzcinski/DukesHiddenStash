@@ -1,5 +1,7 @@
 package org.ttrzcinski.utils;
 
+import lombok.experimental.UtilityClass;
+
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.nio.file.Paths;
@@ -9,13 +11,8 @@ import java.nio.file.Paths;
  *
  * @author <a href="mailto:trzcinski.tomasz.1988@gmail.com">Tomasz T.</a>
  */
+@UtilityClass
 public final class OSInfo {
-
-  /**
-   * Hidden constructor - there is not point to initialize an instance.
-   */
-  private OSInfo() {
-  }
 
   /**
    * Checks directory by checking current relative path. "\" - Windows-based "/" - *nux based
@@ -23,12 +20,7 @@ public final class OSInfo {
    * @return "win', if windows, "nix" otherwise
    */
   public static String checkDirectoryBySystem() {
-    if (Paths.get("").toAbsolutePath().toString()
-        .contains("\\")) {
-      return "win";
-    } else {
-      return "nix";
-    }
+    return Paths.get("").toAbsolutePath().toString().contains("\\") ? "win" : "nix";
   }
 
   /**
@@ -70,8 +62,6 @@ public final class OSInfo {
       return path;
     }
     // Process given parameter
-    return isWindows()
-        ? path.replaceAll("/", "\\\\")
-        : path.replaceAll("\\\\", "/");
+    return isWindows() ? path.replaceAll("/", "\\\\") : path.replaceAll("\\\\", "/");
   }
 }
