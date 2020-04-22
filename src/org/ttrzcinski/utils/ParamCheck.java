@@ -1,5 +1,7 @@
 package org.ttrzcinski.utils;
 
+import lombok.experimental.UtilityClass;
+
 import java.nio.file.InvalidPathException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -18,28 +20,23 @@ import java.util.stream.Collectors;
  * @version %I% from %G%
  * @since 1.12
  */
-public final class ParamCheck {
+@UtilityClass
+public class ParamCheck {
 
   /**
    * Known *nix paths, which are OK by default.
    */
-  private static final Set<String> KNOWN_NIX_PATHS = Set.of("~", ".");
+  private final Set<String> KNOWN_NIX_PATHS = Set.of("~", ".");
 
   /**
    * File path pattern to match given string paths.
    */
-  private static Pattern filePathPattern;
-
-  /**
-   * Hidden constructor - there is no point to initialize an instance.
-   */
-  private ParamCheck() {
-  }
+  private Pattern filePathPattern;
 
   /**
    * Initializes a file path's pattern.
    */
-  private static void initFilePathPattern() {
+  private void initFilePathPattern() {
     if (filePathPattern == null) {
       filePathPattern = Pattern.compile(
           OSInfo.isWindows()
@@ -55,7 +52,7 @@ public final class ParamCheck {
    * @param path given path
    * @return true means, if is a right path, false otherwise
    */
-  public static boolean isPath(final String path) {
+  public boolean isPath(final String path) {
     // Check, if entered param has value
     if (!isSet(path)) {
       return false;
@@ -64,8 +61,7 @@ public final class ParamCheck {
     // Initialize pattern matcher
     initFilePathPattern();
     // Check if 2nd check as instance
-    return filePathPattern.matcher(fixedPath).matches()
-        && isPathWithTry(fixedPath);
+    return filePathPattern.matcher(fixedPath).matches() && isPathWithTry(fixedPath);
   }
 
   /**
@@ -74,21 +70,21 @@ public final class ParamCheck {
    * @param path given path
    * @return true means it's valid, false otherwise
    */
-  public static boolean isPathWithTry(final String path) {
+  public boolean isPathWithTry(final String path) {
     if (!isSet(path)) {
       return false;
     }
     final var fixedPath = path.trim();
     // Check, if it is a home or root
     if (!KNOWN_NIX_PATHS.contains(fixedPath)) {
-      try {
-        Paths.get(fixedPath);
-        return true;
-      } catch (InvalidPathException | NullPointerException ex) {
-        return false;
-      }
+      return false;
     }
-    return false;
+    try {
+      Paths.get(fixedPath);
+    } catch (InvalidPathException | NullPointerException ex) {
+      return false;
+    }
+    return true;
   }
 
   /**
@@ -97,7 +93,7 @@ public final class ParamCheck {
    * @param params given param to check
    * @return true means is is set, false otherwise
    */
-  public static boolean isSet(final Object[] params) {
+  public boolean isSet(final Object[] params) {
     // If there is nothing outside to check
     if (params == null || params.length == 0) {
       return false;
@@ -114,7 +110,7 @@ public final class ParamCheck {
    * @param params given param to check
    * @return true means is is set, false otherwise
    */
-  public static boolean isSet(final String[] params) {
+  public boolean isSet(final String[] params) {
     // If there is inside at least one empty item, else it's ok
     return params != null && params.length > 0 && Arrays.stream(params).allMatch(ParamCheck::isSet);
   }
@@ -125,7 +121,7 @@ public final class ParamCheck {
    * @param param given param to check
    * @return true means is is set, false otherwise
    */
-  public static boolean isSet(final String param) {
+  public boolean isSet(final String param) {
     return param != null && param.trim().length() > 0;
   }
 
@@ -135,7 +131,7 @@ public final class ParamCheck {
    * @param param given param to check
    * @return true means is is set, false otherwise
    */
-  public static boolean isSet(final Object param) {
+  public boolean isSet(final Object param) {
     return param != null;
   }
 
@@ -145,7 +141,7 @@ public final class ParamCheck {
    * @param param given param to check
    * @return true means is is set, false otherwise
    */
-  public static boolean isSet(final List<?> param) {
+  public boolean isSet(final List<?> param) {
     // If there is inside at least one empty item, else it's ok
     return param != null && param.size() > 0 && param.stream().allMatch(ParamCheck::isSet);
   }
@@ -156,7 +152,7 @@ public final class ParamCheck {
    * @param given given value
    * @return true means it is, false otherwise
    */
-  public static boolean isPositive(final int given) {
+  public boolean isPositive(final int given) {
     return given > -1;
   }
 
@@ -168,7 +164,7 @@ public final class ParamCheck {
    * @param rightLimit right side limit
    * @return true means, if is between those two, false otherwise
    */
-  public static boolean inBetween(final int given, final int leftLimit, final int rightLimit) {
+  public boolean inBetween(final int given, final int leftLimit, final int rightLimit) {
     return leftLimit <= given & given <= rightLimit;
   }
 
@@ -178,7 +174,7 @@ public final class ParamCheck {
    * @param given given argument
    * @return true means it is, false otherwise
    */
-  public static boolean isArgument(final String given) {
+  public boolean isArgument(final String given) {
     if (!isSet(given)) {
       return false;
     }
@@ -193,7 +189,7 @@ public final class ParamCheck {
    * @param patterns known list of patterns
    * @return filtered list of arguments
    */
-  public static List<String> filterWithPatterns(List<String> arguments, List<String> patterns) {
+  public List<String> filterWithPatterns(List<String> arguments, List<String> patterns) {
     if (!ParamCheck.isSet(arguments)) {
       arguments = new ArrayList<>();
     }
@@ -210,7 +206,7 @@ public final class ParamCheck {
    * @param patterns known list of patterns
    * @return filtered list of arguments
    */
-  public static List<String> filterWithPatterns(String[] arguments, List<String> patterns) {
+  public List<String> filterWithPatterns(String[] arguments, List<String> patterns) {
     // TODO Compare given list of arguments and check, if every one of those matches at least one pattern
     // TODO Add support not only for UNARY ARGUMENTS
     if (!ParamCheck.isSet(arguments)) {
