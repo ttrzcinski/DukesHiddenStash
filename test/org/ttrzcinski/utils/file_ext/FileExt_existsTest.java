@@ -24,7 +24,7 @@ class FileExt_existsTest {
 
     @BeforeAll
     static void beforeAll() {
-        FileExt_existsTest.path = format("test_file_%s.txt", new SimpleDateFormat("HHmmss").format(new Date()));
+        FileExt_existsTest.path = "test_file_%s.txt".formatted(new SimpleDateFormat("HHmmss").format(new Date()));
     }
 
     @AfterAll
@@ -34,7 +34,7 @@ class FileExt_existsTest {
             try {
                 Files.delete(Paths.get(FileExt_existsTest.path));
             } catch (IOException e) {
-                fail(() -> format("Was unable to remove temp file: %s", FileExt_existsTest.path));
+                fail(() -> "Was unable to remove temp file: %s".formatted(FileExt_existsTest.path));
             }
         FileExt_existsTest.path = null;
     }
@@ -42,7 +42,7 @@ class FileExt_existsTest {
     @Test
     void exists_withPath_withMissingFile() {
         // Arrange
-        String testedFullPath = String.format("missing_%s", FileExt_existsTest.path);
+        String testedFullPath = "missing_%s".formatted(FileExt_existsTest.path);
         Path testPath = Paths.get(testedFullPath);
 
         // Act
@@ -63,7 +63,7 @@ class FileExt_existsTest {
             List<String> lines = Arrays.asList("something_1", "something_2", "something_3");
             Files.write(testPath, lines);
         } catch (IOException e) {
-            fail(() -> format("Was unable to create temp file: %s", testedFullPath));
+            fail(() -> "Was unable to create temp file: %s".formatted(testedFullPath));
         }
 
         // Act
@@ -76,7 +76,7 @@ class FileExt_existsTest {
     @Test
     void exists_withString_withMissingFile() {
         // Arrange
-        String testPath = String.format("missing_%s", FileExt_existsTest.path);
+        String testPath = "missing_%s".formatted(FileExt_existsTest.path);
         File testFile = new File(testPath);
 
         // Act
@@ -96,7 +96,7 @@ class FileExt_existsTest {
             testFile.createNewFile();
             assertTrue(testFile.exists());
         } catch (IOException e) {
-            fail(() -> format("Was unable to create temp file: %s", testPath));
+            fail(() -> "Was unable to create temp file: %s".formatted(testPath));
         }
 
         // Act
