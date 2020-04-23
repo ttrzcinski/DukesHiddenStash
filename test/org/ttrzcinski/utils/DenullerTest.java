@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import org.junit.jupiter.api.Test;
+import org.ttrzcinski.utils.AbstractDenuller;
 
 class DenullerTest {
 

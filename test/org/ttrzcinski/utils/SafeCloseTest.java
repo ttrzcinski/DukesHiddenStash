@@ -1,6 +1,7 @@
 package org.ttrzcinski.utils;
 
 import org.junit.jupiter.api.Test;
+import org.ttrzcinski.utils.SafeClose;
 
 import java.io.Closeable;
 import java.io.IOException;

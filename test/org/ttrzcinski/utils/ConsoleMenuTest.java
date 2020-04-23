@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.ttrzcinski.dictionaries.FakerString;
+import org.ttrzcinski.utils.ConsoleMenu;
 
 /**
  * Test methods of class org.ttrzcinski.utils.ConsoleMenu.

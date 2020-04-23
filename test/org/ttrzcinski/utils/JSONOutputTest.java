@@ -1,6 +1,7 @@
 package org.ttrzcinski.utils;
 
 import org.junit.jupiter.api.Test;
+import org.ttrzcinski.utils.JSONOutput;
 
 import java.util.HashMap;
 import java.util.Map;
