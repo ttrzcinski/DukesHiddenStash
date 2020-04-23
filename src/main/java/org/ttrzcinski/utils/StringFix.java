@@ -14,11 +14,11 @@ import org.ttrzcinski.utils.ParamCheck.*;
 @UtilityClass
 public class StringFix {
 
-  private final String CONCAT_PATTERN = "%s%s";
+  private static final String CONCAT_PATTERN = "%s%s";
 
-  private final String EMPTY_SPACE = " ";
+  private static final String EMPTY_SPACE = " ";
 
-  private final String EMPTY = "";
+  private static final String EMPTY = "";
 
   /**
    * Fixed string to not-null initialized empty string, if is null.
@@ -26,7 +26,7 @@ public class StringFix {
    * @param given given string to fix
    * @return fixed string
    */
-  public String toNotNull(final String given) {
+  public static String toNotNull(final String given) {
     return given != null && given.trim().length() != 0 ? given.trim() : EMPTY;
   }
 
@@ -36,8 +36,8 @@ public class StringFix {
    * @param given given string to fix
    * @return fixed string
    */
-  public String simple(final String given) {
-    return toNotNull(given).toLowerCase();
+  public static String simple(final String given) {
+    return StringFix.toNotNull(given).toLowerCase();
   }
 
   /**
@@ -47,7 +47,7 @@ public class StringFix {
    * @param wantedLength wanted length
    * @return extended string
    */
-  public String padRight(final String given, final int wantedLength) {
+  public static String padRight(final String given, final int wantedLength) {
     String givenFix;
     int wantedCount = 0;
     if (!ParamCheck.isSet(given)) {
@@ -71,7 +71,7 @@ public class StringFix {
    * @param wantedLength wanted length
    * @return extended string
    */
-  public String padLeft(@NotNull final String given, final int wantedLength) {
+  public static String padLeft(@NotNull final String given, final int wantedLength) {
     String givenFix;
     int wantedCount = 0;
     if (!ParamCheck.isSet(given)) {
@@ -95,7 +95,7 @@ public class StringFix {
    * @param endingLength number of characters to remove
    * @return cut-off string
    */
-  public String cutLast(final String given, final int endingLength) {
+  public static String cutLast(final String given, final int endingLength) {
     // Check entered parameters
     if (!ParamCheck.isSet(given) || endingLength <= 0) return given;
     // Cut and return wanted part
@@ -109,7 +109,7 @@ public class StringFix {
    * @param startingLength number of characters to remove
    * @return cut-off string
    */
-  public String cutFirst(final String given, final int startingLength) {
+  public static String cutFirst(final String given, final int startingLength) {
     // Check entered parameters
     if (!ParamCheck.isSet(given) || startingLength <= 0) return given;
     // Cut and return wanted part

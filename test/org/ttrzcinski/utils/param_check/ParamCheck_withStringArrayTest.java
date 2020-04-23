@@ -1,4 +1,4 @@
-package test.ttrzcinski.utils.param_check;
+package org.ttrzcinski.utils.param_check;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -7,12 +7,12 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.ttrzcinski.utils.ParamCheck;
 
-class ParamCheck_withListOfStringTest {
+class ParamCheck_withStringArrayTest {
 
   @Test
-  void filterWithPatterns_withListOfString_withNull_withNull() {
+  void filterWithPatterns_withStringArray_withNull_withNull() {
     // Arrange
-    List<String> testArguments = null;
+    String[] testArguments = null;
     List<String> testPatterns = null;
     List<String> expected = new ArrayList<>();
 
@@ -24,9 +24,9 @@ class ParamCheck_withListOfStringTest {
   }
 
   @Test
-  void filterWithPatterns_withListOfString_withEmpty_withNull() {
+  void filterWithPatterns_withStringArray_withEmpty_withNull() {
     // Arrange
-    List<String> testArguments = new ArrayList<>();
+    String[] testArguments = new String[]{};
     List<String> testPatterns = null;
     List<String> expected = new ArrayList<>();
 
@@ -38,9 +38,9 @@ class ParamCheck_withListOfStringTest {
   }
 
   @Test
-  void filterWithPatterns_withListOfString_withEmpty_withEmpty() {
+  void filterWithPatterns_withStringArray_withEmpty_withEmpty() {
     // Arrange
-    List<String> testArguments = new ArrayList<>();
+    String[] testArguments = new String[]{};
     List<String> testPatterns = new ArrayList<>();
     List<String> expected = new ArrayList<>();
 
@@ -52,9 +52,9 @@ class ParamCheck_withListOfStringTest {
   }
 
   @Test
-  void filterWithPatterns_withListOfString_withEmpty_withSome() {
+  void filterWithPatterns_withStringArray_withEmpty_withSome() {
     // Arrange
-    List<String> testArguments = new ArrayList<>();
+    String[] testArguments = new String[]{};
     List<String> testPatterns = new ArrayList<>();
     testPatterns.add("test");
     List<String> expected = new ArrayList<>();
@@ -67,10 +67,9 @@ class ParamCheck_withListOfStringTest {
   }
 
   @Test
-  void filterWithPatterns_withListOfString_withSome_withSomeMatching() {
+  void filterWithPatterns_withStringArray_withSome_withSomeMatching() {
     // Arrange
-    List<String> testArguments = new ArrayList<>();
-    testArguments.add("test1");
+    String[] testArguments = new String[]{"test1"};
     List<String> testPatterns = new ArrayList<>();
     testPatterns.add("test1");
     testPatterns.add("test2");
@@ -85,11 +84,9 @@ class ParamCheck_withListOfStringTest {
   }
 
   @Test
-  void filterWithPatterns_withListOfString_withSome_withOnlyMatching() {
+  void filterWithPatterns_withStringArray_withSome_withOnlyMatching() {
     // Arrange
-    List<String> testArguments = new ArrayList<>();
-    testArguments.add("test1");
-    testArguments.add("test2");
+    String[] testArguments = new String[]{"test1", "test2"};
     List<String> testPatterns = new ArrayList<>();
     testPatterns.add("test1");
     testPatterns.add("test2");
@@ -105,10 +102,9 @@ class ParamCheck_withListOfStringTest {
   }
 
   @Test
-  void filterWithPatterns_withListOfString_withSome_withOnlyUnmatching() {
+  void filterWithPatterns_withStringArray_withSome_withOnlyUnmatching() {
     // Arrange
-    List<String> testArguments = new ArrayList<>();
-    testArguments.add("test1");
+    String[] testArguments = new String[]{"test1"};
     List<String> testPatterns = new ArrayList<>();
     testPatterns.add("test2");
     List<String> expected = new ArrayList<>();

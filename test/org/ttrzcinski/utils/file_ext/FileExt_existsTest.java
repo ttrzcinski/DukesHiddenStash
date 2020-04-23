@@ -1,4 +1,4 @@
-package test.ttrzcinski.utils.file_ext;
+package org.ttrzcinski.utils.file_ext;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;

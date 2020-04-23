@@ -1,4 +1,4 @@
-package test.ttrzcinski.utils;
+package org.ttrzcinski.utils;
 
 import org.junit.jupiter.api.Test;
 import org.ttrzcinski.utils.SafeClose;

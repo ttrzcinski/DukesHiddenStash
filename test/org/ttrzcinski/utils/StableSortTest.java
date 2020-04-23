@@ -1,4 +1,4 @@
-package test.ttrzcinski.utils;
+package org.ttrzcinski.utils;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;

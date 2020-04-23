@@ -10,9 +10,12 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import lombok.experimental.UtilityClass;
 import org.jetbrains.annotations.NotNull;
 
 import static org.ttrzcinski.utils.ParamCheck.*;
+import static org.ttrzcinski.utils.StringFix.*;
 
 /**
  * Class generating AAA unit test files.
@@ -28,27 +31,30 @@ public class AAATestGenerator {
   /**
    * Kept path to sources.
    */
-  private String sourcesPath;
+  private static String sourcesPath;
 
   /**
    * Kept package name.
    */
-  private String packagePath;
+  private static String packagePath;
 
   /**
    * Kept class name without extension.
    */
-  private String className;
+  private static String className;
 
   /**
    * Utils to process classes.
    */
-  private ClassParser classParser;
+  private static ClassParser classParser;
+
+  public AAATestGenerator() {
+  }
 
   /**
    * Initializes class parser, if it was not initialized.
    */
-  private void initClassParser() {
+  private static void initClassParser() {
     if (classParser == null) {
       classParser = new ClassParser();
     }
@@ -103,7 +109,7 @@ public class AAATestGenerator {
    * @return package line
    */
   private String preparePackageLine(final @NotNull File sourceFile) {
-    className = StringFix.cutLast(sourceFile.getName(), 5);
+    className = cutLast(sourceFile.getName(), 5);
     packagePath = sourceFile.getParent()
         .replace(sourcesPath, "")
         .replace("/", ".")
@@ -287,9 +293,9 @@ public class AAATestGenerator {
   /**
    * Sets sources directory to given.
    */
-  public void setSources(String sources) {
+  public static void setSources(String sources) {
     if (ParamCheck.isPath(sources)) {
-      sourcesPath = sources;
+      AAATestGenerator.sourcesPath = sources;
     }
   }
 }

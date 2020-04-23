@@ -20,23 +20,22 @@ import java.util.stream.Collectors;
  * @version %I% from %G%
  * @since 1.12
  */
-@UtilityClass
 public class ParamCheck {
 
   /**
    * Known *nix paths, which are OK by default.
    */
-  private final Set<String> KNOWN_NIX_PATHS = Set.of("~", ".");
+  private static final Set<String> KNOWN_NIX_PATHS = Set.of("~", ".");
 
   /**
    * File path pattern to match given string paths.
    */
-  private Pattern filePathPattern;
+  private static Pattern filePathPattern;
 
   /**
    * Initializes a file path's pattern.
    */
-  private void initFilePathPattern() {
+  private static void initFilePathPattern() {
     if (filePathPattern == null) {
       filePathPattern = Pattern.compile(
           OSInfo.isWindows()
@@ -52,7 +51,7 @@ public class ParamCheck {
    * @param path given path
    * @return true means, if is a right path, false otherwise
    */
-  public boolean isPath(final String path) {
+  public static boolean isPath(final String path) {
     // Check, if entered param has value
     if (!isSet(path)) {
       return false;
@@ -70,14 +69,14 @@ public class ParamCheck {
    * @param path given path
    * @return true means it's valid, false otherwise
    */
-  public boolean isPathWithTry(final String path) {
+  public static boolean isPathWithTry(final String path) {
     if (!isSet(path)) {
       return false;
     }
     final var fixedPath = path.trim();
     // Check, if it is a home or root
-    if (!KNOWN_NIX_PATHS.contains(fixedPath)) {
-      return false;
+    if (KNOWN_NIX_PATHS.stream().anyMatch(x -> path.startsWith(x))) {
+      return true;
     }
     try {
       Paths.get(fixedPath);
@@ -93,7 +92,7 @@ public class ParamCheck {
    * @param params given param to check
    * @return true means is is set, false otherwise
    */
-  public boolean isSet(final Object[] params) {
+  public static boolean isSet(final Object[] params) {
     // If there is nothing outside to check
     if (params == null || params.length == 0) {
       return false;
@@ -110,7 +109,7 @@ public class ParamCheck {
    * @param params given param to check
    * @return true means is is set, false otherwise
    */
-  public boolean isSet(final String[] params) {
+  public static boolean isSet(final String[] params) {
     // If there is inside at least one empty item, else it's ok
     return params != null && params.length > 0 && Arrays.stream(params).allMatch(param -> isSet(param));
   }
@@ -121,7 +120,7 @@ public class ParamCheck {
    * @param param given param to check
    * @return true means is is set, false otherwise
    */
-  public boolean isSet(final String param) {
+  public static boolean isSet(final String param) {
     return param != null && param.trim().length() > 0;
   }
 
@@ -131,7 +130,7 @@ public class ParamCheck {
    * @param param given param to check
    * @return true means is is set, false otherwise
    */
-  public boolean isSet(final Object param) {
+  public static boolean isSet(final Object param) {
     return param != null;
   }
 
@@ -141,7 +140,7 @@ public class ParamCheck {
    * @param param given param to check
    * @return true means is is set, false otherwise
    */
-  public boolean isSet(final List<?> param) {
+  public static boolean isSet(final List<?> param) {
     // If there is inside at least one empty item, else it's ok
     return param != null && param.size() > 0 && param.stream().allMatch(param1 -> isSet(param1));
   }
@@ -152,7 +151,7 @@ public class ParamCheck {
    * @param given given value
    * @return true means it is, false otherwise
    */
-  public boolean isPositive(final int given) {
+  public static boolean isPositive(final int given) {
     return given > -1;
   }
 
@@ -164,7 +163,7 @@ public class ParamCheck {
    * @param rightLimit right side limit
    * @return true means, if is between those two, false otherwise
    */
-  public boolean inBetween(final int given, final int leftLimit, final int rightLimit) {
+  public static boolean inBetween(final int given, final int leftLimit, final int rightLimit) {
     return leftLimit <= given & given <= rightLimit;
   }
 
@@ -174,7 +173,7 @@ public class ParamCheck {
    * @param given given argument
    * @return true means it is, false otherwise
    */
-  public boolean isArgument(final String given) {
+  public static boolean isArgument(final String given) {
     if (!isSet(given)) {
       return false;
     }
@@ -189,7 +188,7 @@ public class ParamCheck {
    * @param patterns known list of patterns
    * @return filtered list of arguments
    */
-  public List<String> filterWithPatterns(List<String> arguments, List<String> patterns) {
+  public static List<String> filterWithPatterns(List<String> arguments, List<String> patterns) {
     if (!isSet(arguments)) {
       arguments = new ArrayList<>();
     }
@@ -207,7 +206,7 @@ public class ParamCheck {
    * @param patterns known list of patterns
    * @return filtered list of arguments
    */
-  public List<String> filterWithPatterns(String[] arguments, List<String> patterns) {
+  public static List<String> filterWithPatterns(String[] arguments, List<String> patterns) {
     // TODO Compare given list of arguments and check, if every one of those matches at least one pattern
     // TODO Add support not only for UNARY ARGUMENTS
     if (!isSet(arguments)) {

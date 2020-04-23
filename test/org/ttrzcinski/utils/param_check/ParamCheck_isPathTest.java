@@ -1,4 +1,4 @@
-package test.ttrzcinski.utils.param_check;
+package org.ttrzcinski.utils.param_check;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;

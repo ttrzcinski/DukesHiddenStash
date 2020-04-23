@@ -1,4 +1,4 @@
-package test.ttrzcinski.utils.param_check;
+package org.ttrzcinski.utils.param_check;
 
 import org.junit.jupiter.api.Test;
 import org.ttrzcinski.utils.ParamCheck;

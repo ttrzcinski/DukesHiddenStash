@@ -1,4 +1,4 @@
-package test.ttrzcinski.utils.string_fix;
+package org.ttrzcinski.utils.string_fix;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.ttrzcinski.dictionaries.FakerString.SOME;

@@ -16,7 +16,7 @@ public class SafeClose {
    *
    * @param resource closeable resource
    */
-  public void close(final Closeable resource) {
+  public static void close(final Closeable resource) {
     // Check, if resource is null
     if (resource == null) {
       return;
