@@ -75,11 +75,11 @@ class DenullerTest {
   @Test
   void fix_hashMap_withSomeHashMap() {
     // Arrange
-      HashMap<String, String> testObject = new HashMap<>();
+    HashMap<String, String> testObject = new HashMap<>();
     testObject.put("test1", "test_val");
 
     // Act
-      HashMap<?, ?> result = AbstractDenuller.fix(testObject);
+    HashMap<?, ?> result = AbstractDenuller.fix(testObject);
 
     // Assert
     assertNotNull(result);
@@ -88,10 +88,10 @@ class DenullerTest {
   @Test
   void fix_list_withNull() {
     // Arrange
-      List<?> testObject = null;
+    List<?> testObject = null;
 
     // Act
-      List<?> result = AbstractDenuller.fix(testObject);
+    List<?> result = AbstractDenuller.fix(testObject);
 
     // Assert
     assertNotNull(result);
@@ -100,10 +100,10 @@ class DenullerTest {
   @Test
   void fix_list_withEmptyList() {
     // Arrange
-      List<?> testObject = Collections.unmodifiableList(new ArrayList<>());
+    List<?> testObject = Collections.unmodifiableList(new ArrayList<>());
 
     // Act
-      List<?> result = AbstractDenuller.fix(testObject);
+    List<?> result = AbstractDenuller.fix(testObject);
 
     // Assert
     assertNotNull(result);

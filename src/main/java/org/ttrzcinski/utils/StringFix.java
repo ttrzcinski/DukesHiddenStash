@@ -111,7 +111,7 @@ public class StringFix {
    */
   public static String cutFirst(final String given, final int startingLength) {
     // Check entered parameters
-    if (!ParamCheck.isSet(given) || startingLength <= 0) return given;
+    if (!ParamCheck.isSet(given) | startingLength <= 0) return given;
     // Cut and return wanted part
     return (startingLength < given.length()) ? given.substring(startingLength) : EMPTY;
   }

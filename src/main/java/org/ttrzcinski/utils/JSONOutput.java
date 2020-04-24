@@ -15,13 +15,13 @@ import java.util.stream.Collectors;
 public class JSONOutput {
 
   /**
-   * Converts HashMap with String and PAth to HashMap with String and String.
+   * Converts HashMap with String and Pqth to HashMap with String and String.
    *
    * @param map given HashMap with string and Path
    * @return HashMap equivalent with String and String
    */
-  private Map<String, String> convertToHashMapStringString(
-      final HashMap<String, Path> map
+  public static Map<String, String> convertToHashMapStringString(
+      final Map<String, Path> map
   ) {
     // Check, if param contains value
     if (map == null || map.isEmpty()) {
