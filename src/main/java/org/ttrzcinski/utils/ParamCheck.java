@@ -1,7 +1,5 @@
 package org.ttrzcinski.utils;
 
-import lombok.experimental.UtilityClass;
-
 import java.nio.file.InvalidPathException;
 import java.nio.file.Paths;
 import java.util.ArrayList;

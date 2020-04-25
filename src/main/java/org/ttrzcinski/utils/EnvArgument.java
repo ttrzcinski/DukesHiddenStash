@@ -1,14 +1,12 @@
 package org.ttrzcinski.utils;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 /**
  * Environment argument works as a structure with<br/> acronym,
  * full name and help description.
  */
-@Getter
-@AllArgsConstructor
+@NoArgsConstructor
 public class EnvArgument {
 
   /**
@@ -30,12 +28,6 @@ public class EnvArgument {
    * Represents whole description of the parameter.
    */
   private String help;
-
-  /**
-   * Hidden constructor.
-   */
-  public EnvArgument() {
-  }
 
   /**
    * Sets acronym (first letters) from argument's name.
