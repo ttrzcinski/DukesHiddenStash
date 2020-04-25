@@ -1,5 +1,7 @@
 package org.ttrzcinski.utils;
 
+import lombok.experimental.UtilityClass;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -14,7 +16,8 @@ import java.util.List;
  * @version %I% from %G%
  * @since 1.12
  */
-public abstract class AbstractDenuller {
+@UtilityClass
+public class Denuller {
 
   /**
    * Initializes object, if given object is null.
