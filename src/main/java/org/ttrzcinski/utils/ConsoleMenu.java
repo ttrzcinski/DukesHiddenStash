@@ -1,8 +1,11 @@
 package org.ttrzcinski.utils;
 
+import lombok.Getter;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.stream.IntStream;
 
 
 /**
@@ -34,6 +37,12 @@ public class ConsoleMenu {
    * Used for input of chosen option from console.
    */
   private final Scanner scanner;
+
+  /**
+   * Used divider line.
+   */
+  @Getter
+  private final String dividerLine = "-".repeat(44);
 
   /**
    * Creates new instance of console menu.
@@ -113,8 +122,7 @@ public class ConsoleMenu {
     List<String> listToShow = new ArrayList<>();
     // Process header
     if (ParamCheck.isSet(this.header)) {
-      listToShow.add(
-          String.format("%s\n---------------------------\n", this.header));
+      listToShow.add("%s%n%s%n".formatted(this.header, this.dividerLine));
     }
     // Process back flag
     if (this.back) {
@@ -123,31 +131,40 @@ public class ConsoleMenu {
     // Process list of items
     if (!this.items.isEmpty()) {
       List<String> strings = this.items;
-      for (int i = 0; i < strings.size(); i++) {
+      IntStream.range(0, strings.size()).forEachOrdered(i -> {
         String item = strings.get(i);
         if (ParamCheck.isSet(item)) {
-          listToShow.add(String.format("%d. %s", i + 1, item.trim()));
+          listToShow.add("%d. %s".formatted(i + 1, item.trim()));
         }
-      }
+      });
     }
     return listToShow;
   }
 
   /**
-   * Shows on standard console prepared menu with list of items.
+   * Shows on standard console prepared menu with list of items and default confirmation.
    */
   public final void show() {
+    this.show(false);
+  }
+
+  /**
+   * Shows on standard console prepared menu with list of items.
+   *
+   * @param userConfirmation marks, if user must confirm
+   */
+  public final void show(boolean userConfirmation) {
     List<String> listToShow = this.prepare();
     if (listToShow.isEmpty()) {
       listToShow.add("(MENU HAS NO ITEMS)");
     }
-    listToShow.add("--------------------------------------------");
-    listToShow.add("Press the right key to choose wanted option.");
+    listToShow.add(this.dividerLine);
     //
-    for (String item : listToShow) {
-      System.out.println(item);
+    listToShow.forEach(System.out::println);
+    if (userConfirmation) {
+      listToShow.add("Press the right key to choose wanted option.");
+      String choice = this.scanner.nextLine();
+      System.out.printf("Your choice is %s.%n", choice);
     }
-    String choice = this.scanner.nextLine();
-    System.out.printf("Your choice is %s%n", choice);
   }
 }

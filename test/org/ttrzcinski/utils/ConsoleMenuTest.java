@@ -2,8 +2,15 @@ package org.ttrzcinski.utils;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.IntStream;
+
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.ttrzcinski.dictionaries.FakerString;
 import org.ttrzcinski.utils.ConsoleMenu;
@@ -14,6 +21,28 @@ import org.ttrzcinski.utils.ConsoleMenu;
  * @see ConsoleMenu
  */
 class ConsoleMenuTest {
+
+  private PrintStream originalErr;
+  private ByteArrayOutputStream outContent;
+
+  @BeforeEach
+  public void startRecordingErrStreams() {
+    this.outContent = new ByteArrayOutputStream();
+    this.originalErr = System.out;
+    System.setOut(new PrintStream(this.outContent));
+  }
+
+  @AfterEach
+  public void stopRecordingErrStream() {
+    System.setErr(this.originalErr);
+  }
+
+  private boolean outputContains(String message) {
+    if (this.outContent != null | message != null) {
+      return this.outContent.toString().contains(message);
+    }
+    return false;
+  }
 
   @Test
   void emptyObject() {
@@ -217,8 +246,7 @@ class ConsoleMenuTest {
   void withItems_withOneNull() {
     // Arrange
     ConsoleMenu testObject = new ConsoleMenu();
-    List<String> testItems = new ArrayList<>();
-    testItems.add(FakerString.NULL);
+    List<String> testItems = Arrays.asList(FakerString.NULL);
     int expectedLength = 0;
 
     // Act
@@ -234,8 +262,7 @@ class ConsoleMenuTest {
   void withItems_withOneEmpty() {
     // Arrange
     ConsoleMenu testObject = new ConsoleMenu();
-    List<String> testItems = new ArrayList<>();
-    testItems.add(FakerString.EMPTY);
+    List<String> testItems = Arrays.asList(FakerString.EMPTY);
     int expectedLength = 0;
 
     // Act
@@ -251,8 +278,7 @@ class ConsoleMenuTest {
   void withItems_withOneEmptyToTrim() {
     // Arrange
     ConsoleMenu testObject = new ConsoleMenu();
-    List<String> testItems = new ArrayList<>();
-    testItems.add(FakerString.EMPTY_TO_TRIM);
+    List<String> testItems = Arrays.asList(FakerString.EMPTY_TO_TRIM);
     int expectedLength = 0;
 
     // Act
@@ -268,10 +294,11 @@ class ConsoleMenuTest {
   void withItems_withOnlyEmptyValues() {
     // Arrange
     ConsoleMenu testObject = new ConsoleMenu();
-    List<String> testItems = new ArrayList<>();
-    testItems.add(FakerString.NULL);
-    testItems.add(FakerString.EMPTY);
-    testItems.add(FakerString.EMPTY_TO_TRIM);
+    List<String> testItems = Arrays.asList(
+            FakerString.NULL,
+            FakerString.EMPTY,
+            FakerString.EMPTY_TO_TRIM
+    );
     int expectedLength = 0;
 
     // Act
@@ -287,11 +314,12 @@ class ConsoleMenuTest {
   void withItems_withMixedValues() {
     // Arrange
     ConsoleMenu testObject = new ConsoleMenu();
-    List<String> testItems = new ArrayList<>();
-    testItems.add(FakerString.NULL);
-    testItems.add(FakerString.EMPTY);
-    testItems.add(FakerString.EMPTY_TO_TRIM);
-    testItems.add(FakerString.SOME_TO_TRIM);
+    List<String> testItems = Arrays.asList(
+            FakerString.NULL,
+            FakerString.EMPTY,
+            FakerString.EMPTY_TO_TRIM,
+            FakerString.SOME_TO_TRIM
+    );
     int expectedLength = 0;
 
     // Act
@@ -307,8 +335,7 @@ class ConsoleMenuTest {
   void withItems_withOneSomeValue() {
     // Arrange
     ConsoleMenu testObject = new ConsoleMenu();
-    List<String> testItems = new ArrayList<>();
-    testItems.add(FakerString.SOME);
+    List<String> testItems = Arrays.asList(FakerString.SOME);
     int expectedLength = 1;
     String expectedItem = FakerString.SOME;
 
@@ -326,8 +353,7 @@ class ConsoleMenuTest {
   void withItems_withOneSomeToTrimValue() {
     // Arrange
     ConsoleMenu testObject = new ConsoleMenu();
-    List<String> testItems = new ArrayList<>();
-    testItems.add(FakerString.SOME_TO_TRIM);
+    List<String> testItems = Arrays.asList(FakerString.SOME_TO_TRIM);
     int expectedLength = 1;
     String expectedItem = FakerString.SOME;
 
@@ -345,8 +371,7 @@ class ConsoleMenuTest {
   void withItems_withOneOtherValue() {
     // Arrange
     ConsoleMenu testObject = new ConsoleMenu();
-    List<String> testItems = new ArrayList<>();
-    testItems.add(FakerString.OTHER);
+    List<String> testItems = Arrays.asList(FakerString.OTHER);
     int expectedLength = 1;
     String expectedItem = FakerString.OTHER;
 
@@ -364,8 +389,7 @@ class ConsoleMenuTest {
   void withItems_withOneOtherToTrimValue() {
     // Arrange
     ConsoleMenu testObject = new ConsoleMenu();
-    List<String> testItems = new ArrayList<>();
-    testItems.add(FakerString.OTHER_TO_TRIM);
+    List<String> testItems = Arrays.asList(FakerString.OTHER_TO_TRIM);
     int expectedLength = 1;
     String expectedItem = FakerString.OTHER;
 
@@ -383,13 +407,14 @@ class ConsoleMenuTest {
   void withItems_withOnlySomeValues() {
     // Arrange
     ConsoleMenu testObject = new ConsoleMenu();
-    List<String> testItems = new ArrayList<>();
-    testItems.add(FakerString.SOME);
-    testItems.add(FakerString.SOME_TO_TRIM);
-    testItems.add(FakerString.SOME_TO_LEFT_TRIM);
-    testItems.add(FakerString.SOME_TO_RIGHT_TRIM);
-    testItems.add(FakerString.OTHER);
-    testItems.add(FakerString.OTHER_TO_TRIM);
+    List<String> testItems = Arrays.asList(
+            FakerString.SOME,
+            FakerString.SOME_TO_TRIM,
+            FakerString.SOME_TO_LEFT_TRIM,
+            FakerString.SOME_TO_RIGHT_TRIM,
+            FakerString.OTHER,
+            FakerString.OTHER_TO_TRIM
+    );
     int expectedLength = 6;
 
     // Act
@@ -398,45 +423,71 @@ class ConsoleMenuTest {
         .prepare();
 
     // Assert
-    assertEquals(expectedLength, result.size());
-    for (int i = 0; i < Math.max(testItems.size(), result.size()); i++) {
-      assertTrue(result.get(i).contains(testItems.get(i).trim()));
-    }
-  }
-
-  /*@Test
-  void withItems() {
-    // Arrange
-    Object testObject = null;
-
-    // Act
-    Object result = withItems(testObject);
-
-    // Assert
-    assertFalse(result);
+    int countMatches = IntStream.range(0, Math.max(testItems.size(), result.size()))
+            .map(i -> result.get(i).contains(testItems.get(i).trim()) ? 1 : 0).sum();
+    assertEquals(expectedLength, countMatches);
   }
 
   @Test
-  void prepare() {
+  void show_withoutConfirmation_hasNoItemsMessage() {
     // Arrange
-    Object testObject = null;
+    ConsoleMenu testObject = new ConsoleMenu();
+    List<String> testItems = new ArrayList<>();
+    testObject.withItems(testItems).prepare();
+    String testErrMsg = "(MENU HAS NO ITEMS)";
 
     // Act
-    Object result = prepare(testObject);
+    testObject.show();
 
     // Assert
-    assertFalse(result);
+    assertTrue(this.outputContains(testErrMsg));
   }
 
   @Test
-  void show() {
+  void show_withoutConfirmation_lacksNoItemsMessage() {
     // Arrange
-    Object testObject = null;
+    ConsoleMenu testObject = new ConsoleMenu();
+    List<String> testItems = Arrays.asList(
+            FakerString.SOME,
+            FakerString.SOME_TO_TRIM,
+            FakerString.SOME_TO_LEFT_TRIM,
+            FakerString.SOME_TO_RIGHT_TRIM,
+            FakerString.OTHER,
+            FakerString.OTHER_TO_TRIM
+    );
+    testObject.withItems(testItems).prepare();
+    String testErrMsg = "(MENU HAS NO ITEMS)";
 
     // Act
-    Object result = show(testObject);
+    testObject.show();
 
     // Assert
-    assertFalse(result);
-  }*/
+    assertFalse(this.outputContains(testErrMsg));
+  }
+  @Test
+  void show_withoutConfirmation_hasLine() {
+    // Arrange
+    ConsoleMenu testObject = new ConsoleMenu();
+    List<String> testItems = new ArrayList<>();
+    testObject.withItems(testItems).prepare();
+    String testDividerLine = testObject.getDividerLine();
+
+    // Act
+    testObject.show();
+
+    // Assert
+    assertTrue(this.outputContains(testDividerLine));
+  }
+
+  void hasDividerLine() {
+    // Arrange
+    ConsoleMenu testObject = new ConsoleMenu();
+    String expectedLine = "-".repeat(44);
+
+    // Act
+    String actualLine = testObject.getDividerLine();
+
+    // Assert
+    assertEquals(expectedLine, actualLine);
+  }
 }
