@@ -1,5 +1,7 @@
 package org.ttrzcinski.utils;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.File;
 import java.lang.reflect.Method;
 import java.net.MalformedURLException;
@@ -11,11 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import lombok.experimental.UtilityClass;
-import org.jetbrains.annotations.NotNull;
-
-import static org.ttrzcinski.utils.ParamCheck.*;
-import static org.ttrzcinski.utils.StringFix.*;
+import static org.ttrzcinski.utils.StringFix.cutLast;
 
 /**
  * Class generating AAA unit test files.
