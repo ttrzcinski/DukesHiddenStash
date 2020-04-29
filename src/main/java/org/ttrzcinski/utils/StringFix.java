@@ -4,8 +4,6 @@ package org.ttrzcinski.utils;
 import lombok.experimental.UtilityClass;
 import org.jetbrains.annotations.NotNull;
 
-import org.ttrzcinski.utils.ParamCheck.*;
-
 /**
  * Keeps methods to fix String to common standard.
  *
