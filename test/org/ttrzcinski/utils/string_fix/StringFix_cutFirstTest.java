@@ -133,4 +133,18 @@ class StringFix_cutFirstTest {
     // Assert
     assertEquals(expected, result);
   }
+
+  @Test
+  void cutFirst_withSome_withSubsFromTheEnd() {
+    // Arrange
+    String testObject = SOME;
+    String expected = "me";
+    int passedLength = SOME.length() - 2;
+
+    // Act
+    String result = StringFix.cutFirst(testObject, passedLength);
+
+    // Assert
+    assertEquals(expected, result);
+  }
 }
