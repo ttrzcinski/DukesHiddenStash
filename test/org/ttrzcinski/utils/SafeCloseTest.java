@@ -8,6 +8,7 @@ import java.io.Closeable;
 import java.io.IOException;
 import java.io.PrintStream;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
@@ -98,8 +99,10 @@ class SafeCloseTest {
     try {
       // Act
       SafeClose.close(testObject);
-    } catch (Exception e_1) {; }
-    // Assert
+      // Assert
+    } catch (Exception e_1) {
+      assertNotNull(e_1);
+    }
     assertTrue(errContent.toString().contains(testErrMsg));
     System.setErr(originalErr);
   }
@@ -128,8 +131,10 @@ class SafeCloseTest {
     try {
       // Act
       SafeClose.close(testObject);
-    } catch (Exception e_1) {;}
-    // Assert
+      // Assert
+    } catch (Exception e_1) {
+      assertNotNull(e_1);
+    }
     assertTrue(errContent.toString().contains(testErrMsg));
     System.setErr(originalErr);
   }
