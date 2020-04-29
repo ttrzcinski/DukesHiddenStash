@@ -1,11 +1,12 @@
 package org.ttrzcinski.utils;
 
+import static java.util.Arrays.asList;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.IntStream;
 
@@ -246,7 +247,7 @@ class ConsoleMenuTest {
   void withItems_withOneNull() {
     // Arrange
     ConsoleMenu testObject = new ConsoleMenu();
-    List<String> testItems = Arrays.asList(FakerString.NULL);
+    List<String> testItems = asList(FakerString.NULL);
     int expectedLength = 0;
 
     // Act
@@ -262,7 +263,7 @@ class ConsoleMenuTest {
   void withItems_withOneEmpty() {
     // Arrange
     ConsoleMenu testObject = new ConsoleMenu();
-    List<String> testItems = Arrays.asList(FakerString.EMPTY);
+    List<String> testItems = asList(FakerString.EMPTY);
     int expectedLength = 0;
 
     // Act
@@ -278,7 +279,7 @@ class ConsoleMenuTest {
   void withItems_withOneEmptyToTrim() {
     // Arrange
     ConsoleMenu testObject = new ConsoleMenu();
-    List<String> testItems = Arrays.asList(FakerString.EMPTY_TO_TRIM);
+    List<String> testItems = asList(FakerString.EMPTY_TO_TRIM);
     int expectedLength = 0;
 
     // Act
@@ -294,7 +295,7 @@ class ConsoleMenuTest {
   void withItems_withOnlyEmptyValues() {
     // Arrange
     ConsoleMenu testObject = new ConsoleMenu();
-    List<String> testItems = Arrays.asList(
+    List<String> testItems = asList(
             FakerString.NULL,
             FakerString.EMPTY,
             FakerString.EMPTY_TO_TRIM
@@ -314,7 +315,7 @@ class ConsoleMenuTest {
   void withItems_withMixedValues() {
     // Arrange
     ConsoleMenu testObject = new ConsoleMenu();
-    List<String> testItems = Arrays.asList(
+    List<String> testItems = asList(
             FakerString.NULL,
             FakerString.EMPTY,
             FakerString.EMPTY_TO_TRIM,
@@ -335,7 +336,7 @@ class ConsoleMenuTest {
   void withItems_withOneSomeValue() {
     // Arrange
     ConsoleMenu testObject = new ConsoleMenu();
-    List<String> testItems = Arrays.asList(FakerString.SOME);
+    List<String> testItems = asList(FakerString.SOME);
     int expectedLength = 1;
     String expectedItem = FakerString.SOME;
 
@@ -353,7 +354,7 @@ class ConsoleMenuTest {
   void withItems_withOneSomeToTrimValue() {
     // Arrange
     ConsoleMenu testObject = new ConsoleMenu();
-    List<String> testItems = Arrays.asList(FakerString.SOME_TO_TRIM);
+    List<String> testItems = asList(FakerString.SOME_TO_TRIM);
     int expectedLength = 1;
     String expectedItem = FakerString.SOME;
 
@@ -371,7 +372,7 @@ class ConsoleMenuTest {
   void withItems_withOneOtherValue() {
     // Arrange
     ConsoleMenu testObject = new ConsoleMenu();
-    List<String> testItems = Arrays.asList(FakerString.OTHER);
+    List<String> testItems = asList(FakerString.OTHER);
     int expectedLength = 1;
     String expectedItem = FakerString.OTHER;
 
@@ -389,7 +390,7 @@ class ConsoleMenuTest {
   void withItems_withOneOtherToTrimValue() {
     // Arrange
     ConsoleMenu testObject = new ConsoleMenu();
-    List<String> testItems = Arrays.asList(FakerString.OTHER_TO_TRIM);
+    List<String> testItems = asList(FakerString.OTHER_TO_TRIM);
     int expectedLength = 1;
     String expectedItem = FakerString.OTHER;
 
@@ -407,14 +408,14 @@ class ConsoleMenuTest {
   void withItems_withOnlySomeValues() {
     // Arrange
     ConsoleMenu testObject = new ConsoleMenu();
-    List<String> testItems = Arrays.asList(
+    List<String> testItems = Collections.unmodifiableList(asList(
             FakerString.SOME,
             FakerString.SOME_TO_TRIM,
             FakerString.SOME_TO_LEFT_TRIM,
             FakerString.SOME_TO_RIGHT_TRIM,
             FakerString.OTHER,
             FakerString.OTHER_TO_TRIM
-    );
+    ));
     int expectedLength = 6;
 
     // Act
@@ -447,7 +448,7 @@ class ConsoleMenuTest {
   void show_withoutConfirmation_lacksNoItemsMessage() {
     // Arrange
     ConsoleMenu testObject = new ConsoleMenu();
-    List<String> testItems = Arrays.asList(
+    List<String> testItems = asList(
             FakerString.SOME,
             FakerString.SOME_TO_TRIM,
             FakerString.SOME_TO_LEFT_TRIM,
@@ -464,6 +465,7 @@ class ConsoleMenuTest {
     // Assert
     assertFalse(this.outputContains(testErrMsg));
   }
+
   @Test
   void show_withoutConfirmation_hasLine() {
     // Arrange
@@ -479,6 +481,7 @@ class ConsoleMenuTest {
     assertTrue(this.outputContains(testDividerLine));
   }
 
+  @Test
   void hasDividerLine() {
     // Arrange
     ConsoleMenu testObject = new ConsoleMenu();
