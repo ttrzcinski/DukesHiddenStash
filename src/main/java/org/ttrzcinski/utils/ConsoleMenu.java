@@ -1,7 +1,5 @@
 package org.ttrzcinski.utils;
 
-import lombok.Getter;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -41,8 +39,7 @@ public class ConsoleMenu {
   /**
    * Used divider line.
    */
-  @Getter
-  private final String dividerLine = "-".repeat(44);
+  private static final String dividerLine = "-".repeat(44);
 
   /**
    * Creates new instance of console menu.
@@ -122,7 +119,7 @@ public class ConsoleMenu {
     List<String> listToShow = new ArrayList<>();
     // Process header
     if (ParamCheck.isSet(this.header)) {
-      listToShow.add("%s%n%s%n".formatted(this.header, this.dividerLine));
+      listToShow.add("%s%n%s%n".formatted(this.header, ConsoleMenu.dividerLine));
     }
     // Process back flag
     if (this.back) {
@@ -158,7 +155,7 @@ public class ConsoleMenu {
     if (listToShow.isEmpty()) {
       listToShow.add("(MENU HAS NO ITEMS)");
     }
-    listToShow.add(this.dividerLine);
+    listToShow.add(ConsoleMenu.dividerLine);
     //
     listToShow.forEach(System.out::println);
     if (userConfirmation) {
@@ -166,5 +163,14 @@ public class ConsoleMenu {
       String choice = this.scanner.nextLine();
       System.out.printf("Your choice is %s.%n", choice);
     }
+  }
+
+  /**
+   * Returns divider line for console.
+   *
+   * @return divider line
+   */
+  public String getDividerLine() {
+    return ConsoleMenu.dividerLine;
   }
 }
