@@ -1,10 +1,9 @@
 package org.ttrzcinski.utils.param_check;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import org.junit.jupiter.api.Test;
 import org.ttrzcinski.utils.ParamCheck;
+
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 class ParamCheck_isPathTest {
 
@@ -65,7 +64,7 @@ class ParamCheck_isPathTest {
     boolean result = ParamCheck.isPath(testObject);
 
     // Assert
-    assertTrue(result);
+    assertFalse(result);
   }
 
   @Test
@@ -89,7 +88,7 @@ class ParamCheck_isPathTest {
     boolean result = ParamCheck.isPath(testObject);
 
     // Assert
-    assertTrue(result);
+    assertFalse(result);
   }
 
   @Test
@@ -101,6 +100,6 @@ class ParamCheck_isPathTest {
     boolean result = ParamCheck.isPath(testObject);
 
     // Assert
-    assertTrue(result);
+    assertFalse(result);
   }
 }

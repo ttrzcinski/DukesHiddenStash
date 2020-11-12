@@ -12,14 +12,15 @@
     <properties>
         <!-- https://maven.apache.org/general.html#encoding-warning -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>14</maven.compiler.source>
-        <maven.compiler.target>14</maven.compiler.target>
+        <java.version>15</java.version>
+        <maven.compiler.source>15</maven.compiler.source>
+        <maven.compiler.target>15</maven.compiler.target>
+        <maven.compiler.release>15</maven.compiler.release>
         <maven.compiler.version>3.8.1</maven.compiler.version>
-        <maven.compiler.release>11</maven.compiler.release>
         <lombok.version>1.18.12</lombok.version>
         <my.junit.version>[5.4.0,)</my.junit.version>
         <pitest.version>1.5.1</pitest.version>
-        <surefire.version>3.0.0-M4</surefire.version>
+        <surefire.version>3.0.0-M5</surefire.version>
         <pitest.junit5.version>0.12</pitest.junit5.version>
         <org.json.version>20190722</org.json.version>
     </properties>
@@ -70,7 +71,7 @@
         <dependency>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-failsafe-plugin</artifactId>
-            <version>3.0.0-M4</version>
+            <version>${surefire.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -82,11 +83,13 @@
             <!-- Run as Java 14 -->
             <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-compiler-plugin -->
             <plugin>
-                <!--<groupId>org.apache.maven.plugins</groupId>-->
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>${maven.compiler.version}</version>
                 <configuration>
-                    <release>14</release>
+                    <source>${maven.compiler.source}</source>
+                    <target>${maven.compiler.target}</target>
+                    <release>${maven.compiler.release}</release>
                     <compilerArgs>
                         --enable-preview
                     </compilerArgs>
@@ -162,6 +165,14 @@
                     </jvmArgs>
                 </configuration>
             </plugin>
+            <!--<plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>${maven.compiler.source}</source>
+                    <target>${maven.compiler.target}</target>
+                </configuration>
+            </plugin>-->
         </plugins>
     </build>
 
