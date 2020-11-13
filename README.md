@@ -2,7 +2,7 @@
 Sum of all java utils developed in other projects.
 
 How 'green-field' is the project:
-- Uses the newest Java 14
+- Uses the newest Java 15
 - Uses the newest Maven
 - Uses the newest JUnit 5
 - Uses the newest SureFire Reports
