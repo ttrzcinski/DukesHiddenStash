@@ -2,11 +2,12 @@
 Sum of all java utils developed in other projects.
 
 How 'green-field' is the project:
-- Uses the newest Java 15
+- Uses the newest Java 15 locally and Java 16 in docker
 - Uses the newest Maven
 - Uses the newest JUnit 5
 - Uses the newest SureFire Reports
 - Uses the newest Pitest for mutation testing
+- Uses in docker the newest openjdk:16-alpine
 
 WIP:
 - Provide choose-menu in console.
