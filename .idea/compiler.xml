@@ -11,7 +11,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="14">
-      <module name="DukesHiddenStash" target="14" />
+      <module name="DukesHiddenStash" target="15" />
     </bytecodeTargetLevel>
   </component>
 </project>
