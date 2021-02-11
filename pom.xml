@@ -23,6 +23,7 @@
         <surefire.version>3.0.0-M5</surefire.version>
         <pitest.junit5.version>0.12</pitest.junit5.version>
         <org.json.version>[20190722,)</org.json.version>
+        <jetbrains.annotations>[13.0,)</jetbrains.annotations>
     </properties>
 
     <dependencies>
@@ -57,7 +58,7 @@
         <dependency>
             <groupId>org.jetbrains</groupId>
             <artifactId>annotations</artifactId>
-            <version>13.0</version>
+            <version>${jetbrains.annotations}</version>
             <scope>compile</scope>
         </dependency>
         <!-- https://mvnrepository.com/artifact/org.pitest/pitest - used for mutation test -->
