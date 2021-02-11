@@ -22,7 +22,7 @@
         <pitest.version>1.5.1</pitest.version>
         <surefire.version>3.0.0-M5</surefire.version>
         <pitest.junit5.version>0.12</pitest.junit5.version>
-        <org.json.version>20190722</org.json.version>
+        <org.json.version>[20190722,)</org.json.version>
     </properties>
 
     <dependencies>
