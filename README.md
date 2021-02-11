@@ -1,23 +1,23 @@
 # DukesHiddenStash
-Sum of all java utils developed in other projects.
+Set of all java utils developed in other projects.
 
 How 'green-field' is the project:
-- Uses the newest Java 15 locally and Java 16 in docker
-- Uses the newest Maven
-- Uses the newest JUnit 5
-- Uses the newest SureFire Reports
-- Uses the newest Pitest for mutation testing
-- Uses in docker the newest openjdk:16-alpine
+- Uses Java 15 locally and Java 16 in docker
+- Uses Maven
+- Uses JUnit 5
+- Uses SureFire Reports
+- Uses Pitest for mutation testing
+- Uses in docker openjdk:16-alpine
 
 WIP:
 - Provide choose-menu in console.
 - Create AAA Unit Test from method's name, params and result
 - Provide call to process in runtime with or without output.
+- Contains Faker classes for test data generation.
 
 Features:
 - Adds uttil classes to limit boiler-plate of Java code.
 - Processes passed apramters in more cosistent way.
-- Contains Faker classes for test data generation.
 - Generate package-info.java in every package from first line of JavaDoc.
 - Generate all combinations of variants based on a passed parameter.
 - Generate all combinations of variants based on a passed parameter's set.
