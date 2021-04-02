@@ -11,13 +11,15 @@ How 'green-field' is the project:
 
 WIP:
 - Provide choose-menu in console.
+  - Add fast constructor of(HashMsp<String, String>) - after choosing option it returns corresponding value
 - Create AAA Unit Test from method's name, params and result
 - Provide call to process in runtime with or without output.
 - Contains Faker classes for test data generation.
 
 Features:
-- Adds uttil classes to limit boiler-plate of Java code.
-- Processes passed apramters in more cosistent way.
+
+- Adds util classes to limit boiler-plate of Java code.
+- Processes passed parameters in more consistent way.
 - Generate package-info.java in every package from first line of JavaDoc.
 - Generate all combinations of variants based on a passed parameter.
 - Generate all combinations of variants based on a passed parameter's set.

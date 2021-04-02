@@ -1,7 +1,9 @@
 package org.ttrzcinski.utils;
 
-import static java.util.Arrays.asList;
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.ttrzcinski.dictionaries.FakerString;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
@@ -10,11 +12,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.IntStream;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.ttrzcinski.dictionaries.FakerString;
-import org.ttrzcinski.utils.ConsoleMenu;
+import static java.util.Arrays.asList;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Test methods of class org.ttrzcinski.utils.ConsoleMenu.
@@ -48,11 +47,11 @@ class ConsoleMenuTest {
   @Test
   void emptyObject() {
     // Arrange
-    ConsoleMenu testObject = new ConsoleMenu();
-    int expectedLength = 0;
+    var testObject = new ConsoleMenu();
+    var expectedLength = 0;
 
     // Act
-    List<String> result = testObject.prepare();
+    var result = testObject.prepare();
 
     // Assert
     assertEquals(expectedLength, result.size());
@@ -61,14 +60,14 @@ class ConsoleMenuTest {
   @Test
   void withHeader() {
     // Arrange
-    ConsoleMenu testObject = new ConsoleMenu();
-    String testHeader = "test_header";
-    int expectedLength = 1;
+    var testObject = new ConsoleMenu();
+    var testHeader = "test_header";
+    var expectedLength = 1;
 
     // Act
-    List<String> result = testObject
-        .withHeader(testHeader)
-        .prepare();
+    var result = testObject
+            .withHeader(testHeader)
+            .prepare();
 
     // Assert
     assertEquals(expectedLength, result.size());
@@ -78,14 +77,14 @@ class ConsoleMenuTest {
   @Test
   void withBack() {
     // Arrange
-    ConsoleMenu testObject = new ConsoleMenu();
-    String testEntry = ConsoleMenu.BACK_ENTRY;
-    int expectedLength = 1;
+    var testObject = new ConsoleMenu();
+    var testEntry = ConsoleMenu.BACK_ENTRY;
+    var expectedLength = 1;
 
     // Act
-    List<String> result = testObject
-        .withBack()
-        .prepare();
+    var result = testObject
+            .withBack()
+            .prepare();
 
     // Assert
     assertEquals(expectedLength, result.size());
@@ -95,14 +94,14 @@ class ConsoleMenuTest {
   @Test
   void withBack_withFalse() {
     // Arrange
-    ConsoleMenu testObject = new ConsoleMenu();
-    boolean testBackStatus = false;
-    int expectedLength = 0;
+    var testObject = new ConsoleMenu();
+    var testBackStatus = false;
+    var expectedLength = 0;
 
     // Act
-    List<String> result = testObject
-        .withBack(testBackStatus)
-        .prepare();
+    var result = testObject
+            .withBack(testBackStatus)
+            .prepare();
 
     // Assert
     assertEquals(expectedLength, result.size());
@@ -111,15 +110,15 @@ class ConsoleMenuTest {
   @Test
   void withBack_withTrue() {
     // Arrange
-    ConsoleMenu testObject = new ConsoleMenu();
-    String testEntry = ConsoleMenu.BACK_ENTRY;
-    boolean testBackStatus = true;
-    int expectedLength = 1;
+    var testObject = new ConsoleMenu();
+    var testEntry = ConsoleMenu.BACK_ENTRY;
+    var testBackStatus = true;
+    var expectedLength = 1;
 
     // Act
-    List<String> result = testObject
-        .withBack(testBackStatus)
-        .prepare();
+    var result = testObject
+            .withBack(testBackStatus)
+            .prepare();
 
     // Assert
     assertEquals(expectedLength, result.size());
@@ -129,14 +128,14 @@ class ConsoleMenuTest {
   @Test
   void withItem_withNull() {
     // Arrange
-    ConsoleMenu testObject = new ConsoleMenu();
-    String testItem = FakerString.NULL;
-    int expectedLength = 0;
+    var testObject = new ConsoleMenu();
+    var testItem = FakerString.NULL;
+    var expectedLength = 0;
 
     // Act
-    List<String> result = testObject
-        .withItem(testItem)
-        .prepare();
+    var result = testObject
+            .withItem(testItem)
+            .prepare();
 
     // Assert
     assertEquals(expectedLength, result.size());
@@ -145,30 +144,31 @@ class ConsoleMenuTest {
   @Test
   void withItem_withEmpty() {
     // Arrange
-    ConsoleMenu testObject = new ConsoleMenu();
-    String testItem = FakerString.EMPTY;
-    int expectedLength = 0;
+    var testObject = new ConsoleMenu();
+    var testItem = FakerString.EMPTY;
+    var expectedLength = 0;
 
     // Act
-    List<String> result = testObject
-        .withItem(testItem)
-        .prepare();
+    var result = testObject
+            .withItem(testItem)
+            .prepare();
 
     // Assert
     assertEquals(expectedLength, result.size());
   }
 
+  // TODO CHANGE TO USAGE OF STREAM PARAMS AS @data
   @Test
   void withItem_withEmptyToTrim() {
     // Arrange
-    ConsoleMenu testObject = new ConsoleMenu();
-    String testItem = FakerString.EMPTY_TO_TRIM;
-    int expectedLength = 0;
+    var testObject = new ConsoleMenu();
+    var testItem = FakerString.EMPTY_TO_TRIM;
+    var expectedLength = 0;
 
     // Act
-    List<String> result = testObject
-        .withItem(testItem)
-        .prepare();
+    var result = testObject
+            .withItem(testItem)
+            .prepare();
 
     // Assert
     assertEquals(expectedLength, result.size());
@@ -177,14 +177,14 @@ class ConsoleMenuTest {
   @Test
   void withItem_withSome() {
     // Arrange
-    ConsoleMenu testObject = new ConsoleMenu();
-    String testItem = FakerString.SOME;
-    int expectedLength = 1;
+    var testObject = new ConsoleMenu();
+    var testItem = FakerString.SOME;
+    var expectedLength = 1;
 
     // Act
-    List<String> result = testObject
-        .withItem(testItem)
-        .prepare();
+    var result = testObject
+            .withItem(testItem)
+            .prepare();
 
     // Assert
     assertEquals(expectedLength, result.size());
@@ -195,15 +195,15 @@ class ConsoleMenuTest {
   @Test
   void withItem_withSomeToTrim() {
     // Arrange
-    ConsoleMenu testObject = new ConsoleMenu();
-    String testItem = FakerString.SOME_TO_TRIM;
-    int expectedLength = 1;
-    String testExpectedItem = FakerString.SOME;
+    var testObject = new ConsoleMenu();
+    var testItem = FakerString.SOME_TO_TRIM;
+    var expectedLength = 1;
+    var testExpectedItem = FakerString.SOME;
 
     // Act
-    List<String> result = testObject
-        .withItem(testItem)
-        .prepare();
+    var result = testObject
+            .withItem(testItem)
+            .prepare();
 
     // Assert
     assertEquals(expectedLength, result.size());
@@ -214,14 +214,14 @@ class ConsoleMenuTest {
   @Test
   void withItems_withNull() {
     // Arrange
-    ConsoleMenu testObject = new ConsoleMenu();
+    var testObject = new ConsoleMenu();
     List<String> testItems = null;
-    int expectedLength = 0;
+    var expectedLength = 0;
 
     // Act
-    List<String> result = testObject
-        .withItems(testItems)
-        .prepare();
+    var result = testObject
+            .withItems(testItems)
+            .prepare();
 
     // Assert
     assertEquals(expectedLength, result.size());
@@ -230,14 +230,14 @@ class ConsoleMenuTest {
   @Test
   void withItems_withEmpty() {
     // Arrange
-    ConsoleMenu testObject = new ConsoleMenu();
+    var testObject = new ConsoleMenu();
     List<String> testItems = new ArrayList<>();
-    int expectedLength = 0;
+    var expectedLength = 0;
 
     // Act
-    List<String> result = testObject
-        .withItems(testItems)
-        .prepare();
+    var result = testObject
+            .withItems(testItems)
+            .prepare();
 
     // Assert
     assertEquals(expectedLength, result.size());
@@ -246,14 +246,14 @@ class ConsoleMenuTest {
   @Test
   void withItems_withOneNull() {
     // Arrange
-    ConsoleMenu testObject = new ConsoleMenu();
-    List<String> testItems = asList(FakerString.NULL);
-    int expectedLength = 0;
+    var testObject = new ConsoleMenu();
+    var testItems = asList(FakerString.NULL);
+    var expectedLength = 0;
 
     // Act
-    List<String> result = testObject
-        .withItems(testItems)
-        .prepare();
+    var result = testObject
+            .withItems(testItems)
+            .prepare();
 
     // Assert
     assertEquals(expectedLength, result.size());
@@ -262,14 +262,14 @@ class ConsoleMenuTest {
   @Test
   void withItems_withOneEmpty() {
     // Arrange
-    ConsoleMenu testObject = new ConsoleMenu();
-    List<String> testItems = asList(FakerString.EMPTY);
-    int expectedLength = 0;
+    var testObject = new ConsoleMenu();
+    var testItems = asList(FakerString.EMPTY);
+    var expectedLength = 0;
 
     // Act
-    List<String> result = testObject
-        .withItems(testItems)
-        .prepare();
+    var result = testObject
+            .withItems(testItems)
+            .prepare();
 
     // Assert
     assertEquals(expectedLength, result.size());
@@ -278,14 +278,14 @@ class ConsoleMenuTest {
   @Test
   void withItems_withOneEmptyToTrim() {
     // Arrange
-    ConsoleMenu testObject = new ConsoleMenu();
-    List<String> testItems = asList(FakerString.EMPTY_TO_TRIM);
-    int expectedLength = 0;
+    var testObject = new ConsoleMenu();
+    var testItems = asList(FakerString.EMPTY_TO_TRIM);
+    var expectedLength = 0;
 
     // Act
-    List<String> result = testObject
-        .withItems(testItems)
-        .prepare();
+    var result = testObject
+            .withItems(testItems)
+            .prepare();
 
     // Assert
     assertEquals(expectedLength, result.size());
@@ -294,18 +294,18 @@ class ConsoleMenuTest {
   @Test
   void withItems_withOnlyEmptyValues() {
     // Arrange
-    ConsoleMenu testObject = new ConsoleMenu();
-    List<String> testItems = asList(
+    var testObject = new ConsoleMenu();
+    var testItems = asList(
             FakerString.NULL,
             FakerString.EMPTY,
             FakerString.EMPTY_TO_TRIM
     );
-    int expectedLength = 0;
+    var expectedLength = 0;
 
     // Act
-    List<String> result = testObject
-        .withItems(testItems)
-        .prepare();
+    var result = testObject
+            .withItems(testItems)
+            .prepare();
 
     // Assert
     assertEquals(expectedLength, result.size());
@@ -314,19 +314,19 @@ class ConsoleMenuTest {
   @Test
   void withItems_withMixedValues() {
     // Arrange
-    ConsoleMenu testObject = new ConsoleMenu();
-    List<String> testItems = asList(
+    var testObject = new ConsoleMenu();
+    var testItems = asList(
             FakerString.NULL,
             FakerString.EMPTY,
             FakerString.EMPTY_TO_TRIM,
             FakerString.SOME_TO_TRIM
     );
-    int expectedLength = 0;
+    var expectedLength = 0;
 
     // Act
-    List<String> result = testObject
-        .withItems(testItems)
-        .prepare();
+    var result = testObject
+            .withItems(testItems)
+            .prepare();
 
     // Assert
     assertEquals(expectedLength, result.size());
@@ -335,15 +335,15 @@ class ConsoleMenuTest {
   @Test
   void withItems_withOneSomeValue() {
     // Arrange
-    ConsoleMenu testObject = new ConsoleMenu();
-    List<String> testItems = asList(FakerString.SOME);
-    int expectedLength = 1;
-    String expectedItem = FakerString.SOME;
+    var testObject = new ConsoleMenu();
+    var testItems = asList(FakerString.SOME);
+    var expectedLength = 1;
+    var expectedItem = FakerString.SOME;
 
     // Act
-    List<String> result = testObject
-        .withItems(testItems)
-        .prepare();
+    var result = testObject
+            .withItems(testItems)
+            .prepare();
 
     // Assert
     assertEquals(expectedLength, result.size());

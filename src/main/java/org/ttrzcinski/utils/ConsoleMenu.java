@@ -1,15 +1,16 @@
 package org.ttrzcinski.utils;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import main.java.org.ttrzcinski.interfaces.IConsoleMenuBuilder;
+import main.java.org.ttrzcinski.interfaces.IConsoleMenuOf;
+
+import java.util.*;
 import java.util.stream.IntStream;
 
 
 /**
  * Keeps list of items from a single menu view.
  */
-public class ConsoleMenu {
+public class ConsoleMenu implements IConsoleMenuBuilder<ConsoleMenu>, IConsoleMenuOf<ConsoleMenu> {
 
   /**
    * Entry with Back to upper menu.
@@ -56,6 +57,7 @@ public class ConsoleMenu {
    * @param header given header
    * @return prepared instance of console menu
    */
+  @Override
   public final ConsoleMenu withHeader(String header) {
     if (ParamCheck.isSet(header)) {
       this.header = header;
@@ -90,6 +92,7 @@ public class ConsoleMenu {
    * @param item given item
    * @return prepared instance of console menu
    */
+  @Override
   public final ConsoleMenu withItem(String item) {
     if (ParamCheck.isSet(item)) {
       this.items.add(item);
@@ -111,12 +114,51 @@ public class ConsoleMenu {
   }
 
   /**
+   * Adds given array of items to menu options.
+   *
+   * @param items given array of items
+   * @return prepared instance of console menu
+   */
+  public final ConsoleMenu withItems(String[] items) {
+    if (ParamCheck.isSet(items)) {
+      this.items.addAll(Arrays.asList(items));
+    }
+    return this;
+  }
+
+  /**
+   * Adds given set of items to menu options.
+   *
+   * @param items given set of items
+   * @return prepared instance of console menu
+   */
+  public final ConsoleMenu withItems(HashSet<String> items) {
+    if (ParamCheck.isSet(items)) {
+      this.items.addAll(items);
+    }
+    return this;
+  }
+
+  @Override
+  public final ConsoleMenu fromLine(String line) {
+    if (ParamCheck.isSet(line)) {
+      Arrays.asList(line.split("\n")).stream().map(this::withItem);
+    }
+    return this;
+  }
+
+  @Override
+  public ConsoleMenu build() {
+    return this;
+  }
+
+  /**
    * Prepare list with indexes to present in wanted output.
    *
    * @return list of items with indexes.
    */
   public final List<String> prepare() {
-    List<String> listToShow = new ArrayList<>();
+    var listToShow = new ArrayList<String>();
     // Process header
     if (ParamCheck.isSet(this.header)) {
       listToShow.add("%s%n%s%n".formatted(this.header, ConsoleMenu.dividerLine));
@@ -151,7 +193,7 @@ public class ConsoleMenu {
    * @param userConfirmation marks, if user must confirm
    */
   public final void show(boolean userConfirmation) {
-    List<String> listToShow = this.prepare();
+    var listToShow = this.prepare();
     if (listToShow.isEmpty()) {
       listToShow.add("(MENU HAS NO ITEMS)");
     }
@@ -160,7 +202,7 @@ public class ConsoleMenu {
     listToShow.forEach(System.out::println);
     if (userConfirmation) {
       listToShow.add("Press the right key to choose wanted option.");
-      String choice = this.scanner.nextLine();
+      var choice = this.scanner.nextLine();
       System.out.printf("Your choice is %s.%n", choice);
     }
   }
@@ -172,5 +214,30 @@ public class ConsoleMenu {
    */
   public String getDividerLine() {
     return ConsoleMenu.dividerLine;
+  }
+
+  @Override
+  public ConsoleMenu of(List<String> items) {
+    return new ConsoleMenu().withItems(items).build();
+  }
+
+  @Override
+  public ConsoleMenu of(String[] items) {
+    return new ConsoleMenu().withItems(items).build();
+  }
+
+  @Override
+  public ConsoleMenu of(String line) {
+    return new ConsoleMenu().fromLine(line).build();
+  }
+
+  @Override
+  public ConsoleMenu of(HashSet<String> items) {
+    return new ConsoleMenu().withItems(items).build();
+  }
+
+  @Override
+  public ConsoleMenu of(HashMap<String, String> items) {
+    return null;
   }
 }
