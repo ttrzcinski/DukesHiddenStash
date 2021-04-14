@@ -7,7 +7,7 @@ RUN mkdir -p /usr/src/app
 # cd /usr/src/app
 WORKDIR /usr/src/app
 # Check, if jar is there
-RUN if [[ -z "$JAR_FILE" ]] ; then echo "[DOCKER] Jar file is missing.";
+RUN if [[ -z "$JAR_FILE" ]] ; then echo "[DOCKER] Jar file is missing."; fi
 # RUN echo $(ls)
 # RUN echo $(pwd)
 COPY * /usr/src/app/
