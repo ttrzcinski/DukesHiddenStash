@@ -27,8 +27,8 @@ jobs:
         run: docker build . --file Dockerfile --tag dukes-hidden-stash:$(date +%s)
       # Print the pretty message to DevOps
       - name: ASCII Art Action
-      # - uses: mscoutermarsh/ascii-art-action@5bc07de66916de6d91223177c49abd531fb1a6e5
-      - uses: mscoutermarsh/ascii-art-action@1.0.1
+        # - uses: mscoutermarsh/ascii-art-action@5bc07de66916de6d91223177c49abd531fb1a6e5
+        uses: mscoutermarsh/ascii-art-action@1.0.1
         with:
         # Text to print with asciify
           text: DONE, ship it.
