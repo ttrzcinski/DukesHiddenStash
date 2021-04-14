@@ -13,7 +13,7 @@ jobs:
       # Check out that repo
       - uses: actions/checkout@v2
       # Set OpenJDK 16
-      - name: Set up JDK 16
+      - name: Set up JDK 15
         uses: actions/setup-java@v2
         with:
           distribution: 'adopt' 
