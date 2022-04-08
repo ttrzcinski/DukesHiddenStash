@@ -1,4 +1,4 @@
-FROM openjdk:16-ea-31
+FROM openjdk:19-jdk-alpine3.15
 # FROM openjdk:16-slim-buster
 ARG JAR_FILE=target/DukesHiddenStash-1.0-SNAPSHOT.jar
 ARG JAR_LIB_FILE=target/lib/
