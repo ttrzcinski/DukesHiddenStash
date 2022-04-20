@@ -9,6 +9,8 @@ import java.util.Set;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+import static org.ttrzcinski.utils.OSInfo.*;
+
 /**
  * Parameter (and argument) validation methods.
  *
@@ -36,7 +38,7 @@ public class ParamCheck {
   private static void initFilePathPattern() {
     if (filePathPattern == null) {
       filePathPattern = Pattern.compile(
-          OSInfo.isWindows()
+          isWindows()
               ? "([A-Z|a-z]:\\\\[^*|\"<>?\\n]*)|(\\\\\\\\.*?\\\\.*)"
               : "0/|(/[a-zA-Z0-9_-]+)+$"// was ^
       );
