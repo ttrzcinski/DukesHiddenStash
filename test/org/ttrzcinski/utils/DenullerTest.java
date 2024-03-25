@@ -1,11 +1,14 @@
 package org.ttrzcinski.utils;
 
-import java.util.*;
-
 import org.junit.jupiter.api.Test;
-import org.ttrzcinski.utils.Denuller;
 
-import static org.junit.jupiter.api.Assertions.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 class DenullerTest {
 
@@ -87,7 +90,7 @@ class DenullerTest {
   void fix_list_withNull() {
     // Arrange
     List<?> testObject = null;
-    List expected = new ArrayList<>();
+      List<String> expected = new ArrayList<>();
 
     // Act
     List<?> result = Denuller.fix(testObject);
@@ -100,7 +103,7 @@ class DenullerTest {
   void fix_list_withEmptyList() {
     // Arrange
     List<?> testObject = Collections.unmodifiableList(new ArrayList<>());
-    List expected = new ArrayList<>();
+      List<String> expected = new ArrayList<>();
 
     // Act
     List<?> result = Denuller.fix(testObject);

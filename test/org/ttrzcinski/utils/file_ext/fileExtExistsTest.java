@@ -18,31 +18,31 @@ import java.util.List;
 import static java.lang.String.format;
 import static org.junit.jupiter.api.Assertions.*;
 
-class FileExt_existsTest {
+class FileExtExistsTest {
 
     private static String path;
 
     @BeforeAll
     static void beforeAll() {
-        FileExt_existsTest.path = "test_file_%s.txt".formatted(new SimpleDateFormat("HHmmss").format(new Date()));
+        FileExtExistsTest.path = "test_file_%s.txt".formatted(new SimpleDateFormat("HHmmss").format(new Date()));
     }
 
     @AfterAll
     static void afterAll() {
         // Remove the file
-        if (Files.exists(Paths.get(FileExt_existsTest.path)))
+        if (Files.exists(Paths.get(FileExtExistsTest.path)))
             try {
-                Files.delete(Paths.get(FileExt_existsTest.path));
+                Files.delete(Paths.get(FileExtExistsTest.path));
             } catch (IOException e) {
-                fail(() -> "Was unable to remove temp file: %s".formatted(FileExt_existsTest.path));
+                fail(() -> "Was unable to remove temp file: %s".formatted(FileExtExistsTest.path));
             }
-        FileExt_existsTest.path = null;
+        FileExtExistsTest.path = null;
     }
 
     @Test
     void exists_withPath_withMissingFile() {
         // Arrange
-        String testedFullPath = "missing_%s".formatted(FileExt_existsTest.path);
+        String testedFullPath = "missing_%s".formatted(FileExtExistsTest.path);
         Path testPath = Paths.get(testedFullPath);
 
         // Act
@@ -55,7 +55,7 @@ class FileExt_existsTest {
     @Test
     void exists_withPath_withSomeFile() {
         // Arrange
-        String testedFullPath = FileExt_existsTest.path;
+        String testedFullPath = FileExtExistsTest.path;
         Path testPath = Paths.get(testedFullPath);
         try {
             Files.createFile(testPath);
@@ -76,7 +76,7 @@ class FileExt_existsTest {
     @Test
     void exists_withString_withMissingFile() {
         // Arrange
-        String testPath = "missing_%s".formatted(FileExt_existsTest.path);
+        String testPath = "missing_%s".formatted(FileExtExistsTest.path);
         File testFile = new File(testPath);
 
         // Act
@@ -89,7 +89,7 @@ class FileExt_existsTest {
     @Test
     void exists_withString_withSomeFile() {
         // Arrange
-        String testPath = FileExt_existsTest.path;
+        String testPath = FileExtExistsTest.path;
         File testFile = null;
         try {
             testFile = new File(testPath);
@@ -109,7 +109,7 @@ class FileExt_existsTest {
     @Test
     void exists_withFile_withMissingFile() {
         // Arrange
-        String testPath = String.format("missing_%s", FileExt_existsTest.path);
+        String testPath = String.format("missing_%s", FileExtExistsTest.path);
         File testFile = new File(testPath);
 
         // Act
@@ -122,7 +122,7 @@ class FileExt_existsTest {
     @Test
     void exists_withFile_withSomeFile() {
         // Arrange
-        String testPath = FileExt_existsTest.path;
+        String testPath = FileExtExistsTest.path;
         File testFile = null;
         try {
             testFile = new File(testPath);

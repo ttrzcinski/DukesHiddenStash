@@ -1,6 +1,8 @@
 package org.ttrzcinski.utils;
 
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -11,7 +13,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
-import org.jetbrains.annotations.NotNull;
 
 
 /**
@@ -69,7 +70,7 @@ public class FileExt {
       @NotNull final String filter) {
     String phrase = StringFix.simple(filter);
     File[] files;
-    if (phrase.length() == 0 || phrase.equals("*.*")) {
+      if (phrase.isEmpty() || phrase.equals("*.*")) {
       files = path.toFile().listFiles(File::exists);
     } else if (phrase.startsWith("*.") && phrase.length() > 2) {
       // filter by extension

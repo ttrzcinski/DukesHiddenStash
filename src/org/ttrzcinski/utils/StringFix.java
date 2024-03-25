@@ -25,7 +25,7 @@ public class StringFix {
    * @return fixed string
    */
   public static String toNotNull(final String given) {
-    return given != null && given.trim().length() != 0 ? given.trim() : EMPTY;
+      return given != null && !given.trim().isEmpty() ? given.trim() : EMPTY;
   }
 
   /**

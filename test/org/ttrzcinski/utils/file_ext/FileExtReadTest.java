@@ -18,31 +18,31 @@ import java.util.List;
 import static java.lang.String.format;
 import static org.junit.jupiter.api.Assertions.*;
 
-class FileExt_readTest {
+class FileExtReadTest {
 
     private static String path;
 
     @BeforeAll
     static void beforeAll() {
-        FileExt_readTest.path = format("test_file_%s.txt", new SimpleDateFormat("HHmmss").format(new Date()));
+        FileExtReadTest.path = format("test_file_%s.txt", new SimpleDateFormat("HHmmss").format(new Date()));
     }
 
     @AfterAll
     static void afterAll() {
         // Remove the file
-        if (Files.exists(Paths.get(FileExt_readTest.path)))
+        if (Files.exists(Paths.get(FileExtReadTest.path)))
             try {
-                Files.delete(Paths.get(FileExt_readTest.path));
+                Files.delete(Paths.get(FileExtReadTest.path));
             } catch (IOException e) {
-                fail(() -> format("Was unable to remove temp file: %s", FileExt_readTest.path));
+                fail(() -> format("Was unable to remove temp file: %s", FileExtReadTest.path));
             }
-        FileExt_readTest.path = null;
+        FileExtReadTest.path = null;
     }
     
     @Test
     void read_withPath_withMissingFile() {
         // Arrange
-        String testedFullPath = String.format("missing_%s", FileExt_readTest.path);
+        String testedFullPath = String.format("missing_%s", FileExtReadTest.path);
         Path testPath = Paths.get(testedFullPath);
 
         // Act
@@ -55,7 +55,7 @@ class FileExt_readTest {
     @Test
     void read_withPath_withSomeFile() {
         // Arrange
-        String testedFullPath = FileExt_readTest.path;
+        String testedFullPath = FileExtReadTest.path;
         Path testPath = Paths.get(testedFullPath);
         try {
             Files.createFile(testPath);

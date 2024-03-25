@@ -2,16 +2,9 @@ package org.ttrzcinski.utils;
 
 import java.io.File;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.Objects;
 import java.util.stream.Collectors;
-
-import org.ttrzcinski.utils.ParamCheck;
 
 /**
  * Generated unit test in pointed project.
@@ -52,7 +45,7 @@ public final class UnitTestGenerator {
       this.srcPath.add(imlParser.getSourcePath());
       this.testPath = imlParser.getTestPath();
       // Pass location to AAA test generator
-      this.atg.setSources(imlParser.getSourcePath());
+        AAATestGenerator.setSources(imlParser.getSourcePath());
     }
     return this;
   }
@@ -70,7 +63,7 @@ public final class UnitTestGenerator {
         .map(File::getAbsolutePath)
         .collect(Collectors.toList());
     // If found, use iml file
-    return imls.size() > 0 ? this.fromIML(imls.get(0)) : this;
+      return !imls.isEmpty() ? this.fromIML(imls.get(0)) : this;
   }
 
   /**
