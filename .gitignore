@@ -25,3 +25,4 @@ hs_err_pid*
 # Ommit output - everyone can generate it
 out
 target
+.idea/libraries/
