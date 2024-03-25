@@ -1,4 +1,4 @@
-package main.java.org.ttrzcinski.interfaces;
+package org.ttrzcinski.interfaces;
 
 import java.util.HashMap;
 import java.util.HashSet;

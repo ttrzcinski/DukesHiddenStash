@@ -1,7 +1,7 @@
 package org.ttrzcinski.utils;
 
-import main.java.org.ttrzcinski.interfaces.IConsoleMenuBuilder;
-import main.java.org.ttrzcinski.interfaces.IConsoleMenuOf;
+import org.ttrzcinski.interfaces.IConsoleMenuBuilder;
+import org.ttrzcinski.interfaces.IConsoleMenuOf;
 
 import java.util.*;
 import java.util.stream.IntStream;
@@ -142,7 +142,8 @@ public class ConsoleMenu implements IConsoleMenuBuilder<ConsoleMenu>, IConsoleMe
   @Override
   public final ConsoleMenu fromLine(String line) {
     if (ParamCheck.isSet(line)) {
-      Arrays.asList(line.split("\n")).stream().map(this::withItem);
+      // TODO ADD THE RESULT TO PRESENTED OUTPUR
+      Arrays.stream(line.split("\n")).map(this::withItem);
     }
     return this;
   }
@@ -173,6 +174,7 @@ public class ConsoleMenu implements IConsoleMenuBuilder<ConsoleMenu>, IConsoleMe
       IntStream.range(0, strings.size()).forEachOrdered(i -> {
         String item = strings.get(i);
         if (ParamCheck.isSet(item)) {
+          // listToShow.add("%d. %s".formatted(i + 1, item.trim()));
           listToShow.add("%d. %s".formatted(i + 1, item.trim()));
         }
       });
@@ -238,6 +240,7 @@ public class ConsoleMenu implements IConsoleMenuBuilder<ConsoleMenu>, IConsoleMe
 
   @Override
   public ConsoleMenu of(HashMap<String, String> items) {
+    // TODO ADD SUPPORT FOR HASHMAP
     return null;
   }
 }

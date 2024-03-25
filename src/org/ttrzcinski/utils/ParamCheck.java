@@ -10,8 +10,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 /**
- * Parameter (and argument) validation methods.
- *
+ * Parameter (and argument) validation methods*
  * Created 31.08.2019 12:06 as a part of project DukesHiddenStash
  *
  * @author <a href="mailto:trzcinski.tomasz.1988@gmail.com">Tomasz T.</a>
@@ -73,7 +72,7 @@ public class ParamCheck {
     }
     final var fixedPath = path.trim();
     // Check, if it is a home or root
-    if (KNOWN_NIX_PATHS.stream().anyMatch(x -> path.startsWith(x))) {
+    if (KNOWN_NIX_PATHS.stream().anyMatch(path::startsWith)) {
       return true;
     }
     try {
@@ -97,7 +96,7 @@ public class ParamCheck {
     }
     // If there is inside at least one empty item, else it's ok
     return (!(params instanceof String[])) ?
-        Arrays.stream(params).allMatch(param -> isSet(param)) :
+            Arrays.stream(params).allMatch(ParamCheck::isSet) :
         isSet((String[]) params);
   }
 
@@ -105,11 +104,11 @@ public class ParamCheck {
    * Checks, if given params string array contains only values.
    *
    * @param params given param to check
-   * @return true means is is set, false otherwise
+   * @return true means it is set, false otherwise
    */
   public static boolean isSet(final String[] params) {
     // If there is inside at least one empty item, else it's ok
-    return params != null && params.length > 0 && Arrays.stream(params).allMatch(param -> isSet(param));
+    return params != null && params.length > 0 && Arrays.stream(params).allMatch(ParamCheck::isSet);
   }
 
   /**
@@ -119,7 +118,7 @@ public class ParamCheck {
    * @return true means is is set, false otherwise
    */
   public static boolean isSet(final String param) {
-    return param != null && param.trim().length() > 0;
+    return param != null && !param.trim().isEmpty();
   }
 
   /**
@@ -140,7 +139,7 @@ public class ParamCheck {
    */
   public static boolean isSet(final List<?> param) {
     // If there is inside at least one empty item, else it's ok
-    return param != null && param.size() > 0 && param.stream().allMatch(param1 -> isSet(param1));
+    return param != null && !param.isEmpty() && param.stream().allMatch(ParamCheck::isSet);
   }
 
   /**
@@ -194,7 +193,7 @@ public class ParamCheck {
       patterns = new ArrayList<>();
     }
     List<String> finalPatterns = patterns;
-    return arguments.stream().filter(o -> finalPatterns.contains(o)).collect(Collectors.toList());
+    return arguments.stream().filter(finalPatterns::contains).collect(Collectors.toList());
   }
 
   /**
@@ -205,12 +204,32 @@ public class ParamCheck {
    * @return filtered list of arguments
    */
   public static List<String> filterWithPatterns(String[] arguments, List<String> patterns) {
-    // TODO Compare given list of arguments and check, if every one of those matches at least one pattern
     // TODO Add support not only for UNARY ARGUMENTS
+    // Check, if those arguments are set
     if (!isSet(arguments)) {
       arguments = new String[]{};
     }
-    List<String> listArguments = Arrays.stream(arguments).collect(Collectors.toList());
-    return filterWithPatterns(listArguments, patterns);
+
+    // Compile those patterns once
+    List<Pattern> compiledPatters = new ArrayList<>();
+    for (String pattern : patterns) {
+      Pattern compiledPattern = Pattern.compile(pattern);
+      compiledPatters.add(compiledPattern);
+    }
+
+    // Check arguments with given patterns
+    List<String> listArguments = new ArrayList<>();
+    for (String argument : arguments) {
+      // Compare argument with all patterns
+      for (Pattern pattern : compiledPatters) {
+        if (pattern.matcher(argument).matches()) {
+          // If an argument doesn't match any of patterns
+          listArguments.add(argument);
+          break;
+        }
+      }
+    }
+    // Actually it is ready to pass
+    return listArguments;
   }
 }

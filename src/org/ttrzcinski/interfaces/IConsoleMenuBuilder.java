@@ -1,4 +1,4 @@
-package main.java.org.ttrzcinski.interfaces;
+package org.ttrzcinski.interfaces;
 
 import java.util.List;
 
@@ -37,9 +37,9 @@ public interface IConsoleMenuBuilder<T> {
     T fromLine(String line);
 
     /**
-     * Builds the menu
+     * Builds the console menu.
      *
-     * @return
+     * @return handle to the menu
      */
     T build();
 }

@@ -12,13 +12,14 @@
     <properties>
         <!-- https://maven.apache.org/general.html#encoding-warning -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <java.version>15</java.version>
-        <maven.compiler.source>15</maven.compiler.source>
-        <maven.compiler.target>15</maven.compiler.target>
-        <maven.compiler.release>15</maven.compiler.release>
+        <java.finally>22</java.finally>
+        <java.version>${java.finally}</java.version>
+        <maven.compiler.source>${java.finally}</maven.compiler.source>
+        <maven.compiler.target>${java.finally}</maven.compiler.target>
+        <maven.compiler.release>${java.finally}</maven.compiler.release>
         <maven.compiler.version>3.8.1</maven.compiler.version>
         <lombok.version>[1.18.12,)</lombok.version>
-        <my.junit.version>[5.4.0,)</my.junit.version>
+        <my.junit.version>[5.10.2,)</my.junit.version>
         <pitest.version>1.5.1</pitest.version>
         <surefire.version>3.0.0-M5</surefire.version>
         <pitest.junit5.version>0.12</pitest.junit5.version>

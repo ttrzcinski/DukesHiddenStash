@@ -1,14 +1,14 @@
 package org.ttrzcinski.utils;
 
 import org.junit.jupiter.api.Test;
-import org.ttrzcinski.utils.JSONOutput;
 
 import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class JSONOutputTest {
 
@@ -74,7 +74,7 @@ class JSONOutputTest {
   void convertToHashMapStringString_null() {
     // Arrange
     Map<String,Path> newMap = null;
-    Map expected = new HashMap<>();
+    Map<String, String> expected = new HashMap<>();
 
     // Act
     var result = JSONOutput.convertToHashMapStringString(newMap);
@@ -87,7 +87,7 @@ class JSONOutputTest {
   void convertToHashMapStringString_empty() {
     // Arrange
     Map<String,Path> newMap = new HashMap<>();
-    Map expected = new HashMap<>();
+    Map<String, String> expected = new HashMap<>();
 
     // Act
     var result = JSONOutput.convertToHashMapStringString(newMap);
