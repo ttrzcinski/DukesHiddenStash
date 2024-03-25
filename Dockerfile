@@ -1,4 +1,4 @@
-FROM openjdk:16-jdk-alpine
+FROM openjdk:16-jdk-alpine3.13
 # FROM openjdk:16-slim-buster
 ARG JAR_FILE=target/DukesHiddenStash-1.0-SNAPSHOT.jar
 ARG JAR_LIB_FILE=target/lib/
@@ -6,6 +6,8 @@ RUN echo $(java --version)
 RUN mkdir -p /usr/src/app
 # cd /usr/src/app
 WORKDIR /usr/src/app
+# Check, if jar is there
+RUN if [[ -z "$JAR_FILE" ]] ; then echo "[DOCKER] Jar file is missing."; fi
 # RUN echo $(ls)
 # RUN echo $(pwd)
 COPY * /usr/src/app/
