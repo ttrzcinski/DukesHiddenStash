@@ -1,15 +1,45 @@
 package org.ttrzcinski.oscar;
 
 import org.ttrzcinski.utils.ParamCheck;
+import org.ttrzcinski.utils.SafeClose;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 
 public class OSCommandArtificialRunner {
+
+    // TODO CHANGE TO SEQ COLL - getLast will be used.
+    /**
+     * List of used commands on local Shell.
+     */
+    private static LinkedList<String> lastCommands;
+
+    /**
+     * Adds given command to list of last used commands.
+     *
+     * @param cmd given command
+     */
+    private static void appendUsedCommand(String cmd) {
+        // Check, if list was initialized
+        if (lastCommands == null) {
+            OSCommandArtificialRunner.lastCommands = new LinkedList<>();
+        }
+        // Keep it for later
+        lastCommands.add(cmd);
+    }
+
+    public static List<String> getUsedCommands() {
+        return OSCommandArtificialRunner.lastCommands.stream().toList();
+    }
+
+    public static String getLast() {
+        return OSCommandArtificialRunner.lastCommands.getLast();
+    }
 
     /**
      * Calls a single command and passes response as lines of output.
@@ -21,39 +51,35 @@ public class OSCommandArtificialRunner {
         // Check enter command
         if (!ParamCheck.isSet(cmd)) {
             System.err.println("Couldn't run empty command.");
-            return Arrays.asList();
+            return List.of();
         }
-        List<String> response = new ArrayList<String>();
+        List<String> response = new ArrayList<>();
 
         ProcessBuilder processBuilder = new ProcessBuilder();
-        boolean nixOS = true; // TODO CHECK THE OS
-        if (nixOS) {
+        if (isNix()) {
             // It is a Unix-bases OS
-            processBuilder.command(Shells.BASH.name(), "-c", cmd);
+            processBuilder.command(Shells.BASH.actualName(), "-c", cmd);
         } else {
             // It is Windows
-            processBuilder.command(Shells.CMD.name(), "/c", cmd);
+            processBuilder.command(Shells.CMD.actualName(), "/c", cmd);
         }
 
+        BufferedReader reader = null;
+        InputStreamReader isr = null;
         try {
+            // Keep it for later
+            appendUsedCommand(cmd);
+            // Start the process
             Process process = processBuilder.start();
             StringBuilder output = new StringBuilder();
-            BufferedReader reader = new BufferedReader(
-                    new InputStreamReader(process.getInputStream())
-            );
+            isr = new InputStreamReader(process.getInputStream());
+            reader = new BufferedReader(isr);
             String line;
             while ((line = reader.readLine()) != null) {
                 output.append(line + "\n");
             }
 
             int exitVal = process.waitFor();
-            /*if (exitVal == 0) {
-                //System.out.println("Success!");
-                //System.out.println(output);
-                //System.exit(0);
-            } else {
-                System.err.println("What?!");
-            }*/
             if (exitVal == 0) {
                 response = Arrays.stream(output.toString().split("\n")).toList();
             }
@@ -61,6 +87,9 @@ public class OSCommandArtificialRunner {
             ioe_1.printStackTrace();
         } catch (Exception exc) {
             exc.printStackTrace();
+        } finally {
+            SafeClose.close(isr);
+            SafeClose.close(reader);
         }
 
         return response;
@@ -71,8 +100,7 @@ public class OSCommandArtificialRunner {
      */
     public static void quit() {
         ProcessBuilder processBuilder = new ProcessBuilder();
-        boolean nixOS = true; // TODO CHECK THE OS
-        if (nixOS) {
+        if (isNix()) {
             // It is a Unix-bases OS
             processBuilder.command("bash", "-c", "exit");
         } else {
@@ -81,10 +109,13 @@ public class OSCommandArtificialRunner {
         }
 
         try {
+            // Keep it for later
+            appendUsedCommand("exit");
+            // Start the process
             Process process = processBuilder.start();
             int exitVal = process.waitFor();
             if (exitVal == 0) {
-                System.out.println("Sayonara.");
+                System.out.println("KILLED the shell.");
                 System.exit(0);
             } else {
                 System.err.println("What?!");
@@ -97,13 +128,33 @@ public class OSCommandArtificialRunner {
     }
 
     /**
+     * Checks, on what system run the application.
+     *
+     * @return true means windows, false other OS
+     */
+    public static boolean isWindows() {
+        return System.getProperty("os.name").startsWith("Windows");
+    }
+
+    /**
+     * Checks, on what system run the application.
+     *
+     * @return true means *nix, false other OS
+     */
+    public static boolean isNix() {
+        String actualResponse = System.getProperty("os.name").toLowerCase();
+        return actualResponse.contains("unix") || actualResponse.contains("linux");
+    }
+
+    /**
      * List of Operating Systems covered.
      */
     public enum OSes {
-        NIX("*nix"),
-        WINDOWS("win*");
+        UNIX("unix"),
+        LINUX("linux"),
+        WINDOWS("windows");
 
-        private OSes(String wanted) {
+        OSes(String wanted) {
         }
 
         /**
@@ -116,6 +167,7 @@ public class OSCommandArtificialRunner {
         }
     }
 
+    // TODO CHANGE TO STATIC LIST AS USER OR SCRIPT CAN ADD/INSTALL SHELLS, WHILE RUNNING APPLICATION
     /**
      * List of OS console shells covered.
      */
@@ -124,7 +176,10 @@ public class OSCommandArtificialRunner {
         CMD("cmd"),
         PS("pswe");
 
-        private Shells(String bash) {
+        private String value;
+
+        Shells(String bash) {
+            value = bash;
         }
 
         /**
@@ -133,7 +188,7 @@ public class OSCommandArtificialRunner {
          * @return Shell's name
          */
         public String actualName() {
-            return this.name();
+            return this.value;
         }
     }
 
