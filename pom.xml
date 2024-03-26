@@ -21,7 +21,7 @@
         <lombok.version>[1.18.12,)</lombok.version>
         <my.junit.version>[5.10.2,)</my.junit.version>
         <pitest.version>1.5.1</pitest.version>
-        <surefire.version>3.0.0-M5</surefire.version>
+        <surefire.version>3.0.0-M5</surefire.version><!-- TODO UPDATE -->
         <pitest.junit5.version>0.12</pitest.junit5.version>
         <org.json.version>[20190722,)</org.json.version>
         <jetbrains.annotations>[13.0,)</jetbrains.annotations>
