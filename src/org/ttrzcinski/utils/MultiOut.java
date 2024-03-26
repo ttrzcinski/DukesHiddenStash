@@ -103,7 +103,7 @@ public final class MultiOut {
       if (!this.lines.isEmpty()) {
       // Standard output
       this.lines.stream()
-          .filter(line -> this.outputs.containsKey(Output.STD_OUTPUT))
+              .filter(_ -> this.outputs.containsKey(Output.STD_OUTPUT))
           .forEach(System.out::println);
       // Remove those lines after passing them to outputs
       this.lines.clear();
