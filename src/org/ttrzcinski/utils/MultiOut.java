@@ -99,7 +99,7 @@ public final class MultiOut {
     if (ParamCheck.isSet(given)) {
       this.lines.add(given);
     }
-    // TODO Consider: use thread pool with passing handle to other threads.
+    // TODO Consider: use virtual thread pool with passing handle to other threads.
       if (!this.lines.isEmpty()) {
       // Standard output
       this.lines.stream()
