@@ -18,31 +18,31 @@ import java.util.List;
 import static java.lang.String.format;
 import static org.junit.jupiter.api.Assertions.*;
 
-class fileExtRemoveTest {
+class FileExtRemoveTest {
 
     private static String path;
 
     @BeforeAll
     static void beforeAll() {
-        fileExtRemoveTest.path = format("test_file_%s.txt", new SimpleDateFormat("HHmmss").format(new Date()));
+        FileExtRemoveTest.path = format("test_file_%s.txt", new SimpleDateFormat("HHmmss").format(new Date()));
     }
 
     @AfterAll
     static void afterAll() {
         // Remove the file
-        if (Files.exists(Paths.get(fileExtRemoveTest.path)))
+        if (Files.exists(Paths.get(FileExtRemoveTest.path)))
             try {
-                Files.delete(Paths.get(fileExtRemoveTest.path));
+                Files.delete(Paths.get(FileExtRemoveTest.path));
             } catch (IOException e) {
-                fail(() -> "Was unable to remove temp file: %s".formatted(fileExtRemoveTest.path));
+                fail(() -> "Was unable to remove temp file: %s".formatted(FileExtRemoveTest.path));
             }
-        fileExtRemoveTest.path = null;
+        FileExtRemoveTest.path = null;
     }
 
     @Test
     void remove_withPath_withMissingFile() {
         // Arrange
-        String testedFullPath = "missing_%s".formatted(fileExtRemoveTest.path);
+        String testedFullPath = "missing_%s".formatted(FileExtRemoveTest.path);
         Path testPath = Paths.get(testedFullPath);
 
         // Act
@@ -55,14 +55,14 @@ class fileExtRemoveTest {
     @Test
     void remove_withPath_withSomeFile() {
         // Arrange
-        Path testPath = Paths.get(fileExtRemoveTest.path);
+        Path testPath = Paths.get(FileExtRemoveTest.path);
         try {
             Files.createFile(testPath);
             assertTrue(Files.exists(testPath));
             List<String> lines = Arrays.asList("something_1", "something_2", "something_3");
             Files.write(testPath, lines);
         } catch (IOException e) {
-            fail(() -> "Was unable to create temp file: %s".formatted(fileExtRemoveTest.path));
+            fail(() -> "Was unable to create temp file: %s".formatted(FileExtRemoveTest.path));
         }
 
         // Act
@@ -75,7 +75,7 @@ class fileExtRemoveTest {
     @Test
     void remove_withFile_withMissingFile() {
         // Arrange
-        String testPath = "missing_%s".formatted(fileExtRemoveTest.path);
+        String testPath = "missing_%s".formatted(FileExtRemoveTest.path);
         File testFile = new File(testPath);
 
         // Act
@@ -88,7 +88,7 @@ class fileExtRemoveTest {
     @Test
     void remove_withFile_withSomeFile() {
         // Arrange
-        String testPath = fileExtRemoveTest.path;
+        String testPath = FileExtRemoveTest.path;
         File testFile = null;
         try {
             testFile = new File(testPath);

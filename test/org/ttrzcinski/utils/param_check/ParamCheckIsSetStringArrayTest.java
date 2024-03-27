@@ -1,12 +1,12 @@
 package org.ttrzcinski.utils.param_check;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import org.junit.jupiter.api.Test;
 import org.ttrzcinski.utils.ParamCheck;
 
-class ParamCheck_isSet_stringArrayTest {
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+class ParamCheckIsSetStringArrayTest {
 
   @Test
   void isSet_stringArray_withNull() {

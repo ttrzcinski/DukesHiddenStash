@@ -1,12 +1,12 @@
 package org.ttrzcinski.utils.param_check;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import org.junit.jupiter.api.Test;
 import org.ttrzcinski.utils.ParamCheck;
 
-class ParamCheck_isSet_objectTest {
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+class ParamCheckIsSetObjectTest {
 
   @Test
   void isSet_object_withNull() {

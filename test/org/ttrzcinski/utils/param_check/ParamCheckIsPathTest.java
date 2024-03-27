@@ -5,7 +5,7 @@ import org.ttrzcinski.utils.ParamCheck;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
-class ParamCheck_isPathTest {
+class ParamCheckIsPathTest {
 
   @Test
   void isPath_null() {

@@ -9,7 +9,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-class ParamCheck_isSet_ListTest {
+class ParamCheckIsSetListTest {
 
     @Test
     void isSet_List_withNull() {

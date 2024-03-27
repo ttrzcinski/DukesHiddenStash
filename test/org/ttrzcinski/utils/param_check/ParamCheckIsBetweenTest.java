@@ -1,12 +1,12 @@
 package org.ttrzcinski.utils.param_check;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import org.junit.jupiter.api.Test;
 import org.ttrzcinski.utils.ParamCheck;
 
-class ParamCheck_isBetweenTest {
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+class ParamCheckIsBetweenTest {
 
   @Test
   void inBetween_outLeft() {

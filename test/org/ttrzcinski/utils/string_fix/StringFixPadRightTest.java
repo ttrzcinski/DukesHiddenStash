@@ -1,11 +1,11 @@
 package org.ttrzcinski.utils.string_fix;
 
+import org.junit.jupiter.api.Test;
+import org.ttrzcinski.utils.StringFix;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.ttrzcinski.dictionaries.FakerString.SOME;
 import static org.ttrzcinski.dictionaries.FakerString.SOME_TO_RIGHT_TRIM;
-
-import org.junit.jupiter.api.Test;
-import org.ttrzcinski.utils.StringFix;
 
 class StringFix_padRightTest {
 
