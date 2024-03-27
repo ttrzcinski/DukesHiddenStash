@@ -35,6 +35,7 @@ public class HTTPObtainer {
     List<String> response = new ArrayList<>();
     BufferedReader in = null;
     try {
+      // TODO UPDATE as it is deprecated
       URL test = new URL(uri);
       URLConnection uc = test.openConnection();
       uc.addRequestProperty("User-Agent", "Mozilla/4.0");
