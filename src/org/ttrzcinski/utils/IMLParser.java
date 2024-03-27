@@ -1,25 +1,21 @@
 package org.ttrzcinski.utils;
 
-import java.io.IOException;
-import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.stream.IntStream;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
+
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
+import java.io.IOException;
+import java.nio.file.Path;
+import java.util.*;
+import java.util.stream.IntStream;
 
 /**
  * Parser for IML path.
@@ -97,7 +93,7 @@ public class IMLParser {
    * @param document passed document
    * @param expression given XPath expression
    * @param attributes set of attributes
-   * @return list of requested values
+   * @return map of requested values
    */
   private Map<String, String> parseXPath(Document document,
       String expression, String[] attributes) {
@@ -110,7 +106,7 @@ public class IMLParser {
    * @param document passed document
    * @param expression given XPath expression
    * @param attributes list of attributes
-   * @return list of requested values
+   * @return map of requested values
    */
   private Map<String, String> parseXPath(Document document,
       String expression, Set<String> attributes) {
@@ -123,7 +119,7 @@ public class IMLParser {
    * @param document passed document
    * @param expression given XPath expression
    * @param attributes list of attributes
-   * @return list of requested values
+   * @return map of requested values
    */
   private Map<String, String> parseXPath(Document document,
       String expression, List<String> attributes) {
