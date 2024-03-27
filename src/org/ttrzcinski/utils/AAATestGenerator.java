@@ -16,8 +16,7 @@ import java.util.stream.Collectors;
 import static org.ttrzcinski.utils.StringFix.cutLast;
 
 /**
- * Class generating AAA unit test files.
- *
+ * Class generating AAA unit test files.<br/>
  * Created 31.08.2019 12:06 as a part of project DukesHiddenStash
  *
  * @author <a href="mailto:trzcinski.tomasz.1988@gmail.com">Tomasz T.</a>

@@ -6,8 +6,7 @@ import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Console class to call processes.
- *
+ * Console class to call processes.<br/>
  * Created 31.08.2019 12:06 as a part of project DukesHiddenStash
  *
  * @author <a href="mailto:trzcinski.tomasz.1988@gmail.com">Tomasz T.</a>
@@ -36,6 +35,7 @@ public class ConsoleUtil {
         : new String[]{newCmd};
 
     try {
+      // TODO MIGRATE TO PROCESSBUILDER
       p = r.exec(command[0]);
       p.waitFor(PROCESS_TIMEOUT, TimeUnit.SECONDS);
       while (p.isAlive()) {

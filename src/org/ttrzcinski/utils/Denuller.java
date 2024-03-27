@@ -8,8 +8,7 @@ import java.util.List;
 
 
 /**
- * Enforces initialization in order to assure, that it is not null.
- *
+ * Enforces initialization in order to assure, that it is not null.<br/>
  * Created 31.08.2019 12:06 as a part of project DukesHiddenStash
  *
  * @author <a href="mailto:trzcinski.tomasz.1988@gmail.com">Tomasz T.</a>

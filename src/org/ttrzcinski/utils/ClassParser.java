@@ -50,8 +50,7 @@ public class ClassParser {
   }
 
   /**
-   * Lists methods of pointed class.
-   *
+   * Lists methods of pointed class.<br/>
    * It looks like:<br/> public static java.lang.String org.ttrzcinski.utils.StringFix.simple(java.lang.String)
    *
    * @param classFullName given class name

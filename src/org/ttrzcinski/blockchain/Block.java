@@ -9,7 +9,6 @@ import org.ttrzcinski.blockchain.exceptions.UnknownOperationException;
 @Getter
 public final class Block {
 
-    // TODO missing JAVADOC
     /**
      * Additional zeros in the final hash in order to make it harder to break.
      */
@@ -45,6 +44,7 @@ public final class Block {
     /**
      * Counted own hash in order not to repeat counting - whole value comes from counting power used.
      */
+    @Getter
     private String ownHash;
 
     /**
@@ -84,7 +84,7 @@ public final class Block {
      * Hidden constructor - initialization of an instance suppose to happen outside in miner.
      */
     private Block() {
-        ;
+
     }
 
     /**
@@ -125,6 +125,10 @@ public final class Block {
         // Rewrite hash
     }
 
+    public String getOwnHash() {
+        return this.ownHash;
+    }
+
     /**
      * Checks, if pointed instance it the same as this.
      *
@@ -134,8 +138,8 @@ public final class Block {
     //@Override
     public boolean equals(Object o) {
         if (o == null) return false;
-        if (!(o instanceof Block)) return false;
-        return (this.ownHash.equals(((Block) o).getOwnHash()));
+        if (!(o instanceof Block oConverted)) return false;
+        return (this.getOwnHash().equals(oConverted.getOwnHash()));
         // TODO MAKE THE LOGIC TO BEHAVE AS SINGLETON FROM POINT OF WHOLE BLOCKCHAIN SPACE AND WALLET
     }
 }
