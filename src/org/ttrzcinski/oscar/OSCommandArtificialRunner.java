@@ -154,7 +154,10 @@ public class OSCommandArtificialRunner {
         LINUX("linux"),
         WINDOWS("windows");
 
+        private final String value;
+
         OSes(String wanted) {
+            this.value = wanted;
         }
 
         /**
@@ -163,7 +166,7 @@ public class OSCommandArtificialRunner {
          * @return OS'es name
          */
         public String actualName() {
-            return this.name();
+            return this.value;
         }
     }
 
@@ -176,7 +179,7 @@ public class OSCommandArtificialRunner {
         CMD("cmd"),
         PS("pswe");
 
-        private String value;
+        private final String value;
 
         Shells(String bash) {
             value = bash;
