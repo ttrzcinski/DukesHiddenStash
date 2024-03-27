@@ -125,7 +125,7 @@ public final class UnitTestGenerator {
    * Prepares processed files list, where key is 'from' and value is 'to'.
    *
    * @param omitInfo marks, if package-info should be skipped
-   * @return list of files without package-info
+   * @return map of files without package-info
    */
   private HashMap<String, String> prepareSourcesList(boolean omitInfo) {
     var sourcePaths = this.prepareSourcesList();
