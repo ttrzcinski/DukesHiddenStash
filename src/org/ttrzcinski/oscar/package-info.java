@@ -5,10 +5,10 @@
  * <p>
  * Featues:</br>
  * - Run command on OS.
- * - Be able to ask, what kind of OS is that.
+ * - Be able to ask what kind of OS is that.
  * * Convert a-like commands between unix->windows and windows->unix, like: ls-dir
  * <p>
- * -OSCommandArtificialRunner - main util with most important methods
+ * -OSCommandArtificialRunner - main util with most important methods, like run command, check OS type and kill OS
  *
  * @author <a href="mailto:trzcinski.tomasz.1988@gmail.com">Tomasz T.</a>
  * @version 1.0
