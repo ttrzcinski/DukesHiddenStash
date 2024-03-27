@@ -7,8 +7,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * Provides stable sort implementation to sort integers.
- *
+ * Provides stable sort implementation to sort integers.<br/>
  * Created 31.08.2019 12:06 as a part of project DukesHiddenStash
  *
  * @author <a href="mailto:trzcinski.tomasz.1988@gmail.com">Tomasz T.</a>
