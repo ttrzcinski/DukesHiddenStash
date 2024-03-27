@@ -21,17 +21,17 @@ public class UberStrongKey {
      */
     private long key;
 
-    /**
+    /*
      * Password part of ket with very long phrase.
      */
     //private final String pass;
 
-    /**
+    /*
      * Given difficulty level to mix the hash.
      */
     //private final long difficultyLevel;
 
-    /**
+    /*
      * Pointed noise to make equasion harder to crack.
      */
     //private final long noise; 
