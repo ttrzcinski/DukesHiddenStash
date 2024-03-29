@@ -25,10 +25,10 @@ public final class Block {
     private long dolm;
 
     /**
-     * Kept hash of the predecesor in order to make "the block-chain"
+     * Kept hash of the predecessor in order to make "the-block-chain"
      */
     // TODO Block generation of getter in lombok
-    private String predecesorsHash;
+    private String predecessorsHash;
 
     /**
      * Kept private key of the owner for further security comparisons.
@@ -40,7 +40,6 @@ public final class Block {
      */
     private StateOfLife currentState;
 
-    // TODO maybe add an annotation forcing it to have property with getter
     /**
      * Counted own hash in order not to repeat counting - whole value comes from counting power used.
      */
@@ -117,16 +116,12 @@ public final class Block {
         // Add any random factors to make it harder to decipher
         int randFactor = new java.util.Random().nextInt();
         // Count new Hash starting with predecessor's hash
-        String newHash = this.predecesorsHash
+        String newHash = this.predecessorsHash
                 // adding some random noise
                 + Block.nonce + Integer.valueOf(randFactor).toString()
                 // and finally counting hash from payload
                 + this.payload.toString().hashCode();
         // Rewrite hash
-    }
-
-    public String getOwnHash() {
-        return this.ownHash;
     }
 
     /**

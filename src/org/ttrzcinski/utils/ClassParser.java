@@ -86,7 +86,7 @@ public class ClassParser {
       e.printStackTrace();
     }
     // Only, if there are some fields
-    if (fields.length <= 0) {
+    if (fields.length == 0) {
       System.out.printf("No fields found in %s:%n", classFullName);
       return;
     }

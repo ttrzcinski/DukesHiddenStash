@@ -20,10 +20,10 @@ public class ConsoleMenu implements IConsoleMenuBuilder<ConsoleMenu>, IConsoleMe
   /**
    * Kept list of items.
    */
-  private List<String> items;
+  private final List<String> items;
 
   /**
-   * Marks, if menu should contain "..back" entry.
+   * Marks, if menu should contain "... back" entry.
    */
   private boolean back;
 
@@ -142,7 +142,7 @@ public class ConsoleMenu implements IConsoleMenuBuilder<ConsoleMenu>, IConsoleMe
   @Override
   public final ConsoleMenu fromLine(String line) {
     if (ParamCheck.isSet(line)) {
-      // TODO ADD THE RESULT TO PRESENTED OUTPUR
+      // TODO ADD THE RESULT TO PRESENTED OUTPUT
       Arrays.stream(line.split("\n")).map(this::withItem);
     }
     return this;
@@ -154,7 +154,7 @@ public class ConsoleMenu implements IConsoleMenuBuilder<ConsoleMenu>, IConsoleMe
   }
 
   /**
-   * Prepare list with indexes to present in wanted output.
+   * Prepare list with indexes to present in output.
    *
    * @return list of items with indexes.
    */
@@ -174,7 +174,6 @@ public class ConsoleMenu implements IConsoleMenuBuilder<ConsoleMenu>, IConsoleMe
       IntStream.range(0, strings.size()).forEachOrdered(i -> {
         String item = strings.get(i);
         if (ParamCheck.isSet(item)) {
-          // listToShow.add("%d. %s".formatted(i + 1, item.trim()));
           listToShow.add("%d. %s".formatted(i + 1, item.trim()));
         }
       });

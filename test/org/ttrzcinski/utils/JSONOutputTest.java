@@ -15,11 +15,10 @@ class JSONOutputTest {
   @Test
   void toJSON_null() {
     // Arrange
-    Map<String, String> newMap = null;
     var expected = "{}";
 
     // Act
-    var result = JSONOutput.toJSON(newMap);
+    var result = JSONOutput.toJSON(null);
 
     // Assert
     assertEquals(expected, result);
@@ -73,11 +72,10 @@ class JSONOutputTest {
   @Test
   void convertToHashMapStringString_null() {
     // Arrange
-    Map<String,Path> newMap = null;
     Map<String, String> expected = new HashMap<>();
 
     // Act
-    var result = JSONOutput.convertToHashMapStringString(newMap);
+    var result = JSONOutput.convertToHashMapStringString(null);
 
     // Assert
     assertEquals(expected, result);

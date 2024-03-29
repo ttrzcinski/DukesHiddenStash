@@ -1,7 +1,7 @@
 package org.ttrzcinski.interfaces;
 
 /**
- * While extending the class, eases the System.out.print("[INTO]" down to out(.
+ * While extending the class, eases the System.out.print("[INTO]" ...) down to out(. ... )
  */
 public abstract class AbstractConsoleOutput {
 

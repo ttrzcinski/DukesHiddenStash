@@ -1,7 +1,6 @@
 package org.ttrzcinski.utils;
 
 import org.junit.jupiter.api.Test;
-import org.ttrzcinski.utils.SafeClose;
 
 import java.io.ByteArrayOutputStream;
 import java.io.Closeable;
@@ -22,15 +21,15 @@ class SafeCloseTest {
   void close_withSomething() {
     // Arrange
     Closeable testObject = new Closeable() {
-      boolean closed = false;
+      private boolean closed = false;
 
       @Override
-      public void close() throws IOException {
-        closed = true;
+      public void close() {
+        this.closed = true;
       }
 
       public boolean isClosed() {
-        return closed;
+        return this.closed;
       }
     };
 
@@ -78,6 +77,7 @@ class SafeCloseTest {
   @Test
   void close_withPrintOutThrow() {
     // Arrange
+    Exception shouldNotHappen = null;
     Closeable testObject = new Closeable() {
       boolean closed = false;
 
@@ -101,7 +101,9 @@ class SafeCloseTest {
       SafeClose.close(testObject);
       // Assert
     } catch (Exception e_1) {
-      assertNotNull(e_1);
+      shouldNotHappen = e_1;
+    } finally {
+      assertNotNull(shouldNotHappen);
     }
     assertTrue(errContent.toString().contains(testErrMsg));
     System.setErr(originalErr);
@@ -124,6 +126,8 @@ class SafeCloseTest {
       }
     };
 
+    Exception thatMustHappen = null;
+
     String testErrMsg = "IOException";
     ByteArrayOutputStream errContent = new ByteArrayOutputStream();
     PrintStream originalErr = System.err;
@@ -131,9 +135,11 @@ class SafeCloseTest {
     try {
       // Act
       SafeClose.close(testObject);
-      // Assert
     } catch (Exception e_1) {
-      assertNotNull(e_1);
+      thatMustHappen = e_1;
+    } finally {
+      // Assert
+      assertNotNull(thatMustHappen);
     }
     assertTrue(errContent.toString().contains(testErrMsg));
     System.setErr(originalErr);
@@ -142,20 +148,15 @@ class SafeCloseTest {
   @Test
   void close_withNull() {
     // Arrange
-    Closeable testObject = null;
-
-    // Act
-    SafeClose.close(testObject);
-
-    // Assert
     boolean closed;
     try {
       // Act
-      SafeClose.close(testObject);
+      SafeClose.close(null);
       closed = true;
     } catch (Exception e_1) {
       closed = false;
     }
+    // Assert
     assertTrue(closed);
   }
 }

@@ -1,11 +1,8 @@
 package org.ttrzcinski.utils;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import org.junit.jupiter.api.Test;
-import org.ttrzcinski.utils.StableSort;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Test methods of class org.ttrzcinski.utils.StableSort.
@@ -16,10 +13,8 @@ class StableSortTest {
 
   @Test
   void stableSort_withNull() {
-    // Arrange
-    String testObject = null;
-
-    String result = StableSort.stableSort(testObject);
+    // Arrange-Act
+    String result = StableSort.stableSort(null);
 
     // Assert
     assertNull(result);

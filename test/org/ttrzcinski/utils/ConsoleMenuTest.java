@@ -38,10 +38,7 @@ class ConsoleMenuTest {
   }
 
   private boolean outputContains(String message) {
-    if (this.outContent != null | message != null) {
-      return this.outContent.toString().contains(message);
-    }
-    return false;
+    return this.outContent != null && message != null && this.outContent.toString().contains(message);
   }
 
   @Test
@@ -71,7 +68,7 @@ class ConsoleMenuTest {
 
     // Assert
     assertEquals(expectedLength, result.size());
-    assertTrue(result.get(0).contains(testHeader));
+    assertTrue(result.getFirst().contains(testHeader));
   }
 
   @Test
@@ -88,7 +85,7 @@ class ConsoleMenuTest {
 
     // Assert
     assertEquals(expectedLength, result.size());
-    assertTrue(result.get(0).contains(testEntry));
+    assertTrue(result.getFirst().contains(testEntry));
   }
 
   @Test
@@ -122,19 +119,17 @@ class ConsoleMenuTest {
 
     // Assert
     assertEquals(expectedLength, result.size());
-    assertTrue(result.get(0).contains(testEntry));
+    assertTrue(result.getFirst().contains(testEntry));
   }
 
   @Test
   void withItem_withNull() {
     // Arrange
-    var testObject = new ConsoleMenu();
-    var testItem = FakerString.NULL;
     var expectedLength = 0;
 
     // Act
-    var result = testObject
-            .withItem(testItem)
+    var result = new ConsoleMenu()
+            .withItem(FakerString.NULL)
             .prepare();
 
     // Assert
@@ -188,8 +183,8 @@ class ConsoleMenuTest {
 
     // Assert
     assertEquals(expectedLength, result.size());
-    assertTrue(result.get(0).contains("1."));
-    assertTrue(result.get(0).contains(testItem));
+    assertTrue(result.getFirst().contains("1."));
+    assertTrue(result.getFirst().contains(testItem));
   }
 
   @Test
@@ -207,8 +202,8 @@ class ConsoleMenuTest {
 
     // Assert
     assertEquals(expectedLength, result.size());
-    assertTrue(result.get(0).contains("1."));
-    assertTrue(result.get(0).contains(testExpectedItem));
+    assertTrue(result.getFirst().contains("1."));
+    assertTrue(result.getFirst().contains(testExpectedItem));
   }
 
   @Test
@@ -247,7 +242,7 @@ class ConsoleMenuTest {
   void withItems_withOneNull() {
     // Arrange
     var testObject = new ConsoleMenu();
-    var testItems = asList(FakerString.NULL);
+    var testItems = Collections.singletonList(FakerString.NULL);
     var expectedLength = 0;
 
     // Act
@@ -263,7 +258,7 @@ class ConsoleMenuTest {
   void withItems_withOneEmpty() {
     // Arrange
     var testObject = new ConsoleMenu();
-    var testItems = asList(FakerString.EMPTY);
+    var testItems = List.of(FakerString.EMPTY);
     var expectedLength = 0;
 
     // Act
@@ -279,7 +274,7 @@ class ConsoleMenuTest {
   void withItems_withOneEmptyToTrim() {
     // Arrange
     var testObject = new ConsoleMenu();
-    var testItems = asList(FakerString.EMPTY_TO_TRIM);
+    var testItems = List.of(FakerString.EMPTY_TO_TRIM);
     var expectedLength = 0;
 
     // Act
@@ -336,7 +331,7 @@ class ConsoleMenuTest {
   void withItems_withOneSomeValue() {
     // Arrange
     var testObject = new ConsoleMenu();
-    var testItems = asList(FakerString.SOME);
+    var testItems = List.of(FakerString.SOME);
     var expectedLength = 1;
     var expectedItem = FakerString.SOME;
 
@@ -347,14 +342,14 @@ class ConsoleMenuTest {
 
     // Assert
     assertEquals(expectedLength, result.size());
-    assertTrue(result.get(0).contains(expectedItem));
+    assertTrue(result.getFirst().contains(expectedItem));
   }
 
   @Test
   void withItems_withOneSomeToTrimValue() {
     // Arrange
     ConsoleMenu testObject = new ConsoleMenu();
-    List<String> testItems = asList(FakerString.SOME_TO_TRIM);
+    List<String> testItems = List.of(FakerString.SOME_TO_TRIM);
     int expectedLength = 1;
     String expectedItem = FakerString.SOME;
 
@@ -365,14 +360,14 @@ class ConsoleMenuTest {
 
     // Assert
     assertEquals(expectedLength, result.size());
-    assertTrue(result.get(0).contains(expectedItem));
+    assertTrue(result.getFirst().contains(expectedItem));
   }
 
   @Test
   void withItems_withOneOtherValue() {
     // Arrange
     ConsoleMenu testObject = new ConsoleMenu();
-    List<String> testItems = asList(FakerString.OTHER);
+    List<String> testItems = List.of(FakerString.OTHER);
     int expectedLength = 1;
     String expectedItem = FakerString.OTHER;
 
@@ -383,14 +378,14 @@ class ConsoleMenuTest {
 
     // Assert
     assertEquals(expectedLength, result.size());
-    assertTrue(result.get(0).contains(expectedItem));
+    assertTrue(result.getFirst().contains(expectedItem));
   }
 
   @Test
   void withItems_withOneOtherToTrimValue() {
     // Arrange
     ConsoleMenu testObject = new ConsoleMenu();
-    List<String> testItems = asList(FakerString.OTHER_TO_TRIM);
+    List<String> testItems = List.of(FakerString.OTHER_TO_TRIM);
     int expectedLength = 1;
     String expectedItem = FakerString.OTHER;
 
@@ -401,21 +396,20 @@ class ConsoleMenuTest {
 
     // Assert
     assertEquals(expectedLength, result.size());
-    assertTrue(result.get(0).contains(expectedItem));
+    assertTrue(result.getFirst().contains(expectedItem));
   }
 
   @Test
   void withItems_withOnlySomeValues() {
     // Arrange
     ConsoleMenu testObject = new ConsoleMenu();
-    List<String> testItems = Collections.unmodifiableList(asList(
+    List<String> testItems = List.of(
             FakerString.SOME,
             FakerString.SOME_TO_TRIM,
             FakerString.SOME_TO_LEFT_TRIM,
             FakerString.SOME_TO_RIGHT_TRIM,
             FakerString.OTHER,
-            FakerString.OTHER_TO_TRIM
-    ));
+            FakerString.OTHER_TO_TRIM);
     int expectedLength = 6;
 
     // Act
