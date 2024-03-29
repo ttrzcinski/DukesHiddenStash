@@ -6,44 +6,38 @@ import org.ttrzcinski.utils.StringFix;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.ttrzcinski.dictionaries.FakerString.*;
 
-class StringFix_simpleTest {
+class StringFixSimpleTest {
 
   @Test
   void simple_someValue() {
     // Arrange
-    String testObject = SOME_TO_TRIM;
-    String expected = SOME;
 
     // Act
-    String result = StringFix.simple(testObject);
+    String result = StringFix.simple(SOME_TO_TRIM);
 
     // Assert
-    assertEquals(expected, result);
+    assertEquals(SOME, result);
   }
 
   @Test
   void simple_empty() {
     // Arrange
-    String testObject = EMPTY_TO_TRIM;
-    String expected = EMPTY;
 
     // Act
-    String result = StringFix.simple(testObject);
+    String result = StringFix.simple(EMPTY_TO_TRIM);
 
     // Assert
-    assertEquals(expected, result);
+    assertEquals(EMPTY, result);
   }
 
   @Test
   void simple_null() {
     // Arrange
-    String testObject = NULL;
-    String expected = EMPTY;
 
     // Act
-    String result = StringFix.simple(testObject);
+    String result = StringFix.simple(NULL);
 
     // Assert
-    assertEquals(expected, result);
+    assertEquals(EMPTY, result);
   }
 }
