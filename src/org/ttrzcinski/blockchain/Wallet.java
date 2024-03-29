@@ -54,11 +54,12 @@ public class Wallet {
 
         // Check initialization of wallet
         if (this.blocks == null) {
-            this.blocks = new HashSet<Block>();
+            this.blocks = new HashSet<>();
         } else {
             // Check, if block is not already there
             if (this.blocks.contains(block)) {
-
+                System.err.println("Block is already in.");
+                throw new InvalidKeyException("Block is already in.");
             }
         }
 

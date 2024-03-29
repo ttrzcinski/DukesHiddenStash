@@ -1,10 +1,11 @@
 package org.ttrzcinski.utils;
 
+import org.ttrzcinski.interfaces.AbstractConsoleOutput;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Objects;
-import org.ttrzcinski.interfaces.AbstractConsoleOutput;
 
 public class FileDigger extends AbstractConsoleOutput {
 
@@ -36,7 +37,7 @@ public class FileDigger extends AbstractConsoleOutput {
     final var results = new ArrayList<File>();
     Arrays.stream(Objects.requireNonNull(listOfFiles))
         .forEach(processed -> {
-          out("with: " + processed.getName());
+            out(String.format("with: {}", processed.getName()));
           final File[] foundOnes = this.digFile(processed.getName());
           if (foundOnes != null && foundOnes.length > 0) {
             results.addAll(Arrays.asList(foundOnes));

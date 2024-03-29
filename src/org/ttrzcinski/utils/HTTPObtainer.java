@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.http.HttpClient;
@@ -25,74 +26,76 @@ import java.util.stream.Collectors;
  */
 public class HTTPObtainer {
 
-  /**
-   * Obtains content of HTTP web page.
-   *
-   * @param uri given uri
-   * @return list of String content of the page
-   */
-  public static List<String> obtainAsList(String uri) {
-    List<String> response = new ArrayList<>();
-    BufferedReader in = null;
-    try {
-      // TODO UPDATE as it is deprecated
-      URL test = new URL(uri);
-      URLConnection uc = test.openConnection();
-      uc.addRequestProperty("User-Agent", "Mozilla/4.0");
-      in = new BufferedReader(new InputStreamReader(uc.getInputStream()));
-      response = in.lines().collect(Collectors.toList());
-    } catch (IOException e) {
-      e.printStackTrace();
-    } finally {
-      SafeClose.close(in);
+    /**
+     * Obtains content of HTTP web page.
+     *
+     * @param uri given uri
+     * @return list of String content of the page
+     */
+    public static List<String> obtainAsList(String uri) {
+        List<String> response = new ArrayList<>();
+        BufferedReader in = null;
+        try {
+            URL test = new URI(uri).toURL();
+            URLConnection uc = test.openConnection();
+            uc.addRequestProperty("User-Agent", "Mozilla/4.0");
+            in = new BufferedReader(new InputStreamReader(uc.getInputStream()));
+            response = in.lines().collect(Collectors.toList());
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (URISyntaxException e) {
+            System.err.println("URI for URL was wrong.");
+            throw new RuntimeException(e);
+        } finally {
+            SafeClose.close(in);
+        }
+        return response;
     }
-    return response;
-  }
 
-  /**
-   * Obtains content of HTTP web page.
-   *
-   * @param uri given uri
-   * @return String content of the page
-   */
-  public static String obtainAsString(String uri) {
-    return String.join("", obtainAsList(uri));
-  }
+    /**
+     * Obtains content of HTTP web page.
+     *
+     * @param uri given uri
+     * @return String content of the page
+     */
+    public static String obtainAsString(String uri) {
+        return String.join("", obtainAsList(uri));
+    }
 
-  /**
-   * Obtains content of HTTP web page.
-   *
-   * @param uri given uri
-   * @return list of String content of the page
-   */
-  public static List<String> obtainAsListInFuture(String uri) {
-    List<String> response = new ArrayList<>();
-    // Building URL request
-    HttpRequest request = HttpRequest.newBuilder()
-        .uri(URI.create(uri))
-        .GET()
-        .build();
-    // Creating response body handler
-    HttpResponse.BodyHandler<String> bodyHandler =
-        HttpResponse.BodyHandlers.ofString();
-    // Receiving response via HttpClient
-    CompletableFuture<HttpResponse<String>> future =
-        HttpClient.newHttpClient()
-            .sendAsync(request, bodyHandler);
-    future.thenApply(HttpResponse::body)
-        .thenAccept(response::add)
-        .join();
-    return response;
-  }
+    /**
+     * Obtains content of HTTP web page.
+     *
+     * @param uri given uri
+     * @return list of String content of the page
+     */
+    public static List<String> obtainAsListInFuture(String uri) {
+        List<String> response = new ArrayList<>();
+        // Building URL request
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(uri))
+                .GET()
+                .build();
+        // Creating response body handler
+        HttpResponse.BodyHandler<String> bodyHandler =
+                HttpResponse.BodyHandlers.ofString();
+        // Receiving response via HttpClient
+        CompletableFuture<HttpResponse<String>> future =
+                HttpClient.newHttpClient()
+                        .sendAsync(request, bodyHandler);
+        future.thenApply(HttpResponse::body)
+                .thenAccept(response::add)
+                .join();
+        return response;
+    }
 
-  /**
-   * Obtains content of HTTP web page.
-   *
-   * @param uri given uri
-   * @return String content of the page
-   */
-  public static String obtainAsStringInFuture(String uri) {
-    return String.join("", obtainAsListInFuture(uri));
-  }
+    /**
+     * Obtains content of HTTP web page.
+     *
+     * @param uri given uri
+     * @return String content of the page
+     */
+    public static String obtainAsStringInFuture(String uri) {
+        return String.join("", obtainAsListInFuture(uri));
+    }
 
 }

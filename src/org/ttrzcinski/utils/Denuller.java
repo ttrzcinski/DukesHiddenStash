@@ -22,7 +22,7 @@ public class Denuller {
    * Initializes object, if given object is null.
    *
    * @param given given object
-   * @return initialized object, if need or old value, if it was already initialized
+   * @return initialized object, if You need or old value, if it was already initialized
    */
   public static Object fix(final Object given) {
 
@@ -33,7 +33,7 @@ public class Denuller {
    * Initializes object, if given object is null.
    *
    * @param given given object
-   * @return initialized object, if need or old value, if it was already initialized
+   * @return initialized object, if You need or old value, if it was already initialized
    */
   public static HashMap<?, ?> fix(final HashMap<?, ?> given) {
 
@@ -44,7 +44,7 @@ public class Denuller {
    * Initializes object, if given object is null.
    *
    * @param given given object
-   * @return initialized object, if need or old value, if it was already initialized
+   * @return initialized object, if You need or old value, if it was already initialized
    */
   public static List<?> fix(final List<?> given) {
 

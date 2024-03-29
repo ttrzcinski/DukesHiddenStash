@@ -49,12 +49,12 @@ public final class MultiOut {
   /**
    * Kept used outputs.
    */
-  private Map<Output, String> outputs;
+  private final Map<Output, String> outputs;
 
   /**
    * Lines to pass to outputs.
    */
-  private List<String> lines;
+  private final List<String> lines;
 
   // Constructors
 

@@ -4,7 +4,6 @@ import org.ttrzcinski.utils.ParamCheck;
 import org.ttrzcinski.utils.SafeClose;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -76,15 +75,13 @@ public class OSCommandArtificialRunner {
             reader = new BufferedReader(isr);
             String line;
             while ((line = reader.readLine()) != null) {
-                output.append(line + "\n");
+                output.append(line).append("\n");
             }
 
             int exitVal = process.waitFor();
             if (exitVal == 0) {
                 response = Arrays.stream(output.toString().split("\n")).toList();
             }
-        } catch (IOException ioe_1) {
-            ioe_1.printStackTrace();
         } catch (Exception exc) {
             exc.printStackTrace();
         } finally {
@@ -120,8 +117,6 @@ public class OSCommandArtificialRunner {
             } else {
                 System.err.println("What?!");
             }
-        } catch (IOException ioe_1) {
-            ioe_1.printStackTrace();
         } catch (Exception exc) {
             exc.printStackTrace();
         }

@@ -1,5 +1,6 @@
 package org.ttrzcinski.utils;
 
+import lombok.Getter;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -29,12 +30,18 @@ public class IMLParser {
 
   /**
    * Parsed source path.
+   * -- GETTER --
+   *  Returns parsed sources directory path.
    */
+  @Getter
   private String sourcePath;
 
   /**
    * Parsed test path.
+   * -- GETTER --
+   *  Returns parsed test directory path.
    */
+  @Getter
   private String testPath;
 
   /**
@@ -230,21 +237,4 @@ public class IMLParser {
     return ParamCheck.isSet(this.imlPath) & ParamCheck.isSet(this.sourcePath) & ParamCheck.isSet(this.testPath);
   }
 
-  /**
-   * Returns parsed sources directory path.
-   *
-   * @return sources path
-   */
-  public String getSourcePath() {
-    return this.sourcePath;
-  }
-
-  /**
-   * Returns parsed test directory path.
-   *
-   * @return test path
-   */
-  public String getTestPath() {
-    return this.testPath;
-  }
 }

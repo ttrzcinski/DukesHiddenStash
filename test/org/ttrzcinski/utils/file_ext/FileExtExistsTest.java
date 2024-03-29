@@ -78,6 +78,7 @@ class FileExtExistsTest {
         // Arrange
         String testPath = "missing_%s".formatted(FileExtExistsTest.path);
         File testFile = new File(testPath);
+        assertNotNull(testFile);
 
         // Act
         boolean result = FileExt.exists(testPath);
@@ -91,13 +92,15 @@ class FileExtExistsTest {
         // Arrange
         String testPath = FileExtExistsTest.path;
         File testFile = null;
+        boolean created = false;
         try {
             testFile = new File(testPath);
-            testFile.createNewFile();
-            assertTrue(testFile.exists());
+            created = testFile.createNewFile();
         } catch (IOException e) {
             fail(() -> "Was unable to create temp file: %s".formatted(testPath));
         }
+        assertTrue(created);
+        assertTrue(testFile.exists());
 
         // Act
         boolean result = FileExt.exists(testFile);
@@ -124,12 +127,17 @@ class FileExtExistsTest {
         // Arrange
         String testPath = FileExtExistsTest.path;
         File testFile = null;
+        boolean flagCreated = false;
+        boolean flagExists = false;
         try {
             testFile = new File(testPath);
-            testFile.createNewFile();
-            assertTrue(testFile.exists());
+            flagCreated = testFile.createNewFile();
+            flagExists = testFile.exists();
         } catch (IOException e) {
             fail(() -> format("Was unable to create temp file: %s", testPath));
+        } finally {
+            assertTrue(flagCreated);
+            assertTrue(flagExists);
         }
 
         // Act

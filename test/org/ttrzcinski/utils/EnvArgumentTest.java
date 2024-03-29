@@ -32,7 +32,7 @@ class EnvArgumentTest {
         var constructors = testObject.getClass().getConstructors();
 
         // Act
-        boolean result = constructors != null && constructors.length > 0;
+        boolean result = constructors.length > 0;
 
         // Assert
         assertTrue(result);
@@ -41,7 +41,7 @@ class EnvArgumentTest {
     @Test
     void hasMethod_withAcronym() {
         // Arrange
-        var methods = new EnvArgument().getClass().getDeclaredMethods();
+        var methods = EnvArgument.class.getDeclaredMethods();
         var expected = "withAcronym";
 
         // Act
@@ -56,7 +56,7 @@ class EnvArgumentTest {
     @Test
     void hasMethod_withName() {
         // Arrange
-        var methods = new EnvArgument().getClass().getDeclaredMethods();
+        var methods = EnvArgument.class.getDeclaredMethods();
         var expected = "withName";
 
         // Act
@@ -71,7 +71,7 @@ class EnvArgumentTest {
     @Test
     void hasMethod_withDescription() {
         // Arrange
-        var methods = new EnvArgument().getClass().getDeclaredMethods();
+        var methods = EnvArgument.class.getDeclaredMethods();
         var expected = "withDescription";
 
         // Act
